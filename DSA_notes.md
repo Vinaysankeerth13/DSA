@@ -658,11 +658,11 @@ Overall, Quicksort is a highly efficient and widely used sorting algorithm, part
 
 ### Easy:
 
-**Largest Element in the Array**
+**1. Largest Element in the Array**
+
+[Largest Element in the array](https://www.naukri.com/code360/problems/largest-element-in-the-array-largest-element-in-the-array_5026279?utm_source=striver&utm_medium=website&utm_campaign=a_zcoursetuf)
 
 Given an array ‘arr’ of size ‘n’ find the largest element in the array.
-
-
 
 Example:
 
@@ -736,7 +736,9 @@ The given implementation is already efficient for finding the largest element in
 
 In general, the given implementation is simple and efficient for finding the largest element in an array, and no significant optimizations are required unless you have specific constraints or requirements, such as parallelization or the need to perform additional operations on the array.
 
-**Second Smallest Number without sorting**
+**2. Second Smallest Number without sorting**
+
+[Second smallest number without sorting](https://www.naukri.com/code360/problems/ninja-and-the-second-order-elements_6581960?utm_source=striver&utm_medium=website&utm_campaign=a_zcoursetuf)
 
 You have been given an array ‘a’ of ‘n’ unique non-negative integers.
 
@@ -839,4 +841,382 @@ The given implementation is already efficient for finding the second maximum and
 3. **Parallelization**: If you have access to multiple processors or cores, you can parallelize the algorithm by dividing the array into smaller chunks and finding the second maximum and second minimum in each chunk concurrently. Then, you can combine the results from each chunk to find the overall second maximum and second minimum elements. This optimization can provide significant performance improvements, especially for large arrays.
 
 In general, the given implementation is simple and efficient for finding the second maximum and second minimum elements in an array, and no significant optimizations are required unless you have specific constraints or requirements, such as parallelization or the need to perform additional operations on the array.
+
+## 27-04-2024
+
+**3. Check Sorted Array**
+
+[Check Sorted Array (CodeStudio)](https://www.naukri.com/code360/problems/ninja-and-the-sorted-check_6581957?utm_source=striver&utm_medium=website&utm_campaign=a_zcoursetuf&leftPanelTabValue=PROBLEM "Check Sorted Array")
+
+Pseudocode with explanations:
+
+```
+IS-SORTED(A, n)
+    for i = 0 to n-2
+        if A[i] > A[i+1]
+            return 0  // Array is not sorted
+    return 1  // Array is sorted
+```
+
+Explanation:
+
+1. `IS-SORTED` is a function that takes an array `A` and its length `n` as input.
+2. The loop iterates from index `0` to `n-2` (since we only need to check up to the second-to-last element).
+3. For each index `i`, the function compares the element `A[i]` with the next element `A[i+1]`.
+4. If `A[i]` is greater than `A[i+1]`, it means the array is not sorted in non-decreasing order, so the function immediately returns `0` (indicating that the array is not sorted).
+5. If the loop completes without finding any pair of adjacent elements in the wrong order, the function returns `1` (indicating that the array is sorted).
+
+Now, let's analyze the given Java code:
+
+```java
+public static int isSorted(int n, int[] a) {
+    for (int i = 0; i < n - 1; i++) {
+        if (a[i] > a[i + 1]) {
+            return 0;
+        }
+    }
+    return 1;
+}
+```
+
+The Java code follows the same logic as the pseudocode, with a few minor differences:
+
+1. The `isSorted` function takes an integer `n` (representing the length of the array) and an integer array `a` as input.
+2. The loop iterates from index `0` to `n-2` (since we only need to check up to the second-to-last element).
+3. For each index `i`, the function compares the element `a[i]` with the next element `a[i+1]`.
+4. If `a[i]` is greater than `a[i+1]`, the function immediately returns `0` (indicating that the array is not sorted).
+5. If the loop completes without finding any pair of adjacent elements in the wrong order, the function returns `1` (indicating that the array is sorted).
+
+Time Complexity:
+- The time complexity of this algorithm is O(n), where n is the length of the input array.
+- This is because the algorithm needs to iterate through the entire array once to check if it is sorted.
+
+Space Complexity:
+- The space complexity is O(1), which means it uses a constant amount of extra space, regardless of the input size.
+- The algorithm only uses a few variables to store temporary values and does not require any additional data structures proportional to the input size.
+
+Optimizations:
+The given implementation is already efficient for checking if an array is sorted in non-decreasing order, with a time complexity of O(n) and a constant space complexity of O(1). However, there are a few potential optimizations that can be considered:
+
+1. **Early Termination**: Instead of checking the entire array, you can terminate the loop early as soon as you find a pair of adjacent elements in the wrong order. This optimization is already implemented in the given code.
+
+2. **Checking for Sorted in Decreasing Order**: If you need to check if the array is sorted in decreasing order as well, you can modify the condition in the loop to `if (a[i] < a[i+1])` instead of `if (a[i] > a[i+1])`.
+
+3. **Checking for Strict Sorting**: If you need to check if the array is strictly sorted (i.e., no adjacent elements are equal), you can modify the condition in the loop to `if (a[i] >= a[i+1])` for non-decreasing order or `if (a[i] <= a[i+1])` for non-increasing order.
+
+4. **Parallelization**: If you have access to multiple processors or cores, you can parallelize the algorithm by dividing the array into smaller chunks and checking if each chunk is sorted concurrently. Then, you can combine the results from each chunk to determine if the entire array is sorted. This optimization can provide significant performance improvements, especially for large arrays.
+
+In general, the given implementation is simple and efficient for checking if an array is sorted in non-decreasing order, and no significant optimizations are required unless you have specific constraints or requirements, such as checking for sorted in decreasing order, strict sorting, or parallelization.
+
+[Check if the array is sorted and rotated (Leetcode)](https://leetcode.com/problems/check-if-array-is-sorted-and-rotated/description/)
+
+Java implementation of a function that checks if an array of integers is a non-decreasing rotated sorted array. A non-decreasing rotated sorted array is an array that has been rotated such that the elements are still in non-decreasing order, but the starting point has changed.
+
+Pseudocode with explanations:
+
+```
+CHECK-ROTATED-SORTED-ARRAY(A, n)
+    count = 0
+    for i = 0 to n-1
+        if A[i] > A[(i+1) % n]
+            count = count + 1
+        if count > 1
+            return false  // More than one transition point found
+    return true  // Array is a non-decreasing rotated sorted array
+```
+
+Explanation:
+
+1. `CHECK-ROTATED-SORTED-ARRAY` is a function that takes an array `A` and its length `n` as input.
+2. The variable `count` is initialized to `0`. It will keep track of the number of transition points in the array.
+3. The loop iterates from index `0` to `n-1`.
+4. For each index `i`, the function compares the element `A[i]` with the next element `A[(i+1) % n]`. The modulus operator `%` is used to wrap around the array when `i` reaches the end.
+5. If `A[i]` is greater than `A[(i+1) % n]`, it means there is a transition point, and `count` is incremented.
+6. If `count` becomes greater than `1`, it means there are more than one transition points, which violates the condition for a non-decreasing rotated sorted array. In this case, the function immediately returns `false`.
+7. If the loop completes without finding more than one transition point, the function returns `true`, indicating that the array is a non-decreasing rotated sorted array.
+
+Now, let's analyze the given Java code:
+
+```java
+public boolean check(int[] nums) {
+    int count = 0;
+    for (int i = 0; i < nums.length; i++) {
+        if (nums[i] > nums[(i + 1) % nums.length]) {
+            count++;
+        }
+        if (count > 1) {
+            return false;
+        }
+    }
+    return true;
+}
+```
+
+The Java code follows the same logic as the pseudocode, with a few minor differences:
+
+1. The `check` function takes an integer array `nums` as input.
+2. The variable `count` is initialized to `0`.
+3. The loop iterates from index `0` to `nums.length-1`.
+4. For each index `i`, the function compares the element `nums[i]` with the next element `nums[(i+1) % nums.length]`. The modulus operator `%` is used to wrap around the array when `i` reaches the end.
+5. If `nums[i]` is greater than `nums[(i+1) % nums.length]`, it means there is a transition point, and `count` is incremented.
+6. If `count` becomes greater than `1`, the function immediately returns `false`.
+7. If the loop completes without finding more than one transition point, the function returns `true`, indicating that the array is a non-decreasing rotated sorted array.
+
+Time Complexity:
+- The time complexity of this algorithm is O(n), where n is the length of the input array.
+- This is because the algorithm needs to iterate through the entire array once to check for transition points.
+
+Space Complexity:
+- The space complexity is O(1), which means it uses a constant amount of extra space, regardless of the input size.
+- The algorithm only uses a few variables to store temporary values and does not require any additional data structures proportional to the input size.
+
+Optimizations:
+The given implementation is already efficient for checking if an array is a non-decreasing rotated sorted array, with a time complexity of O(n) and a constant space complexity of O(1). However, there is one potential optimization that can be considered:
+
+1. **Early Termination**: Instead of checking the entire array, you can terminate the loop early as soon as you find more than one transition point. This optimization is already implemented in the given code.
+
+In general, the given implementation is simple and efficient for checking if an array is a non-decreasing rotated sorted array, and no significant optimizations are required unless you have specific constraints or requirements.
+
+**4. Remove Duplicates from sorted array**
+
+[Remove Duplicates from Sorted Array (CodeStudio)](https://www.naukri.com/code360/problems/remove-duplicates-from-sorted-array_1102307?utm_source=striver&utm_medium=website&utm_campaign=a_zcoursetuf)
+
+[Remove Duplicates from Sorted Array (Leetcode)](https://leetcode.com/problems/remove-duplicates-from-sorted-array/description/)
+
+The given code is a Java implementation of a function that removes duplicate elements from an array and returns the length of the modified array containing only the unique elements.
+
+Here's the pseudocode with explanations:
+
+```
+REMOVE-DUPLICATES(A, n)
+    k = 0  // Index to track the position of the last unique element
+
+    for i = 1 to n-1
+        if A[i] != A[k]
+            k = k + 1
+            A[k] = A[i]  // Move the unique element to the next position
+
+    return k + 1  // Length of the modified array
+```
+
+Explanation:
+
+1. `REMOVE-DUPLICATES` is a function that takes an array `A` and its length `n` as input.
+2. The variable `k` is initialized to `0`. It will keep track of the position of the last unique element in the array.
+3. The loop iterates through the array from the second element (index `1`) to the last element (`n-1`).
+4. For each element `A[i]`, it checks if it is different from the element at `A[k]`.
+5. If `A[i]` is not a duplicate, `k` is incremented, and `A[i]` is assigned to `A[k]`. This effectively moves the unique element to the next available position after the last unique element.
+6. After the loop completes, `k` holds the index of the last unique element in the modified array.
+7. The function returns `k + 1`, which represents the length of the modified array containing only the unique elements.
+
+Now, let's analyze the given Java code:
+
+```java
+public static int removeDuplicates(int[] arr, int n) {
+    int k = 0;
+    for (int i = 1; i < n; i++) {
+        if (arr[i] != arr[k]) {
+            arr[++k] = arr[i];
+        }
+    }
+    return k + 1;
+}
+```
+
+The Java code follows the same logic as the pseudocode, with a few minor differences:
+
+1. The function takes an integer array `arr` and its length `n` as input.
+2. The variable `k` is initialized to `0`.
+3. The loop iterates through the array from the second element (index `1`) to the last element (`n-1`).
+4. For each element `arr[i]`, it checks if it is different from the element at `arr[k]`.
+5. If `arr[i]` is not a duplicate, `arr[++k] = arr[i]` is executed, which first increments `k` and then assigns `arr[i]` to `arr[k]`. This moves the unique element to the next available position after the last unique element.
+6. After the loop completes, `k` holds the index of the last unique element in the modified array.
+7. The function returns `k + 1`, which represents the length of the modified array containing only the unique elements.
+
+Example:
+
+Let's consider the input array `arr = [1, 2, 2, 3, 3, 4, 5, 5]` and `n = 8`.
+
+Initially, `k = 0`.
+
+- Iteration 1: `i = 1`, `arr[i] = 2`, `arr[k] = 1`, they are not equal, so `arr[++k] = arr[i]`, i.e., `arr[1] = 2`, `k = 1`.
+- Iteration 2: `i = 2`, `arr[i] = 2`, `arr[k] = 2`, they are equal, so no assignment is done.
+- Iteration 3: `i = 3`, `arr[i] = 3`, `arr[k] = 2`, they are not equal, so `arr[++k] = arr[i]`, i.e., `arr[2] = 3`, `k = 2`.
+- Iteration 4: `i = 4`, `arr[i] = 3`, `arr[k] = 3`, they are equal, so no assignment is done.
+- Iteration 5: `i = 5`, `arr[i] = 4`, `arr[k] = 3`, they are not equal, so `arr[++k] = arr[i]`, i.e., `arr[3] = 4`, `k = 3`.
+- Iteration 6: `i = 6`, `arr[i] = 5`, `arr[k] = 4`, they are not equal, so `arr[++k] = arr[i]`, i.e., `arr[4] = 5`, `k = 4`.
+- Iteration 7: `i = 7`, `arr[i] = 5`, `arr[k] = 5`, they are equal, so no assignment is done.
+
+After the loop completes, the modified array is `arr = [1, 2, 3, 4, 5]`, and the function returns `k + 1 = 5`, which is the length of the modified array containing only the unique elements.
+
+Time Complexity: O(n), where n is the length of the input array. We iterate through the array once.
+
+Space Complexity: O(1), as we are modifying the input array in-place without using any additional data structures that scale with the input size.
+
+Optimizations:
+
+The given implementation is already quite efficient and concise, as it modifies the input array in-place and avoids unnecessarily setting the remaining elements to a default value. However, one potential optimization could be:
+
+1. **Early Termination**: If you know that the input array is already sorted, you can terminate the loop early as soon as you encounter a duplicate element. This is because all subsequent elements will also be duplicates. However, this optimization assumes that the input array is sorted, which may not always be the case.
+
+In general, the provided implementation is an efficient solution for removing duplicates from an array, with a linear time complexity and constant space complexity.
+
+**5. Left Rotate an Array by One**
+
+Given an array 'arr' containing 'n' elements, rotate this array left once and return it.
+
+Rotating the array left by one means shifting all elements by one place to the left and moving the first element to the last position in the array.
+
+Example:
+Input: 'a' = 5, 'arr' = [1, 2, 3, 4, 5]
+
+Output: [2, 3, 4, 5, 1]
+
+Explanation: We moved the 2nd element to the 1st position, and 3rd element to the 2nd position, and 4th element to the 3rd position, and the 5th element to the 4th position, and move the 1st element to the 5th position.
+
+Sure, let's start by providing the pseudocode for the `rotateArray` method:
+
+```
+rotateArray(arr, n):
+    Create a new array rotatedArr of size n
+    Set k to 0
+    
+    For each index i from 0 to n-1:
+        Calculate the new index k using the formula ((i - 1 + n) % n)
+        Assign the value of arr[i] to rotatedArr[k]
+    
+    Return rotatedArr
+```
+
+Now, let's explain the provided code with an example array `[1, 2, 3, 4, 5]`:
+
+1. Initialize `k` to 0.
+2. Create a new array `rotatedArr` of size `n`, where `n` is the number of elements in the input array.
+3. Iterate over each index `i` from 0 to `n-1`.
+4. Calculate the new index `k` using the formula `((i - 1 + n) % n)`. This formula shifts each index to the left by one position, with the last element wrapping around to the beginning of the array.
+5. Assign the value of `arr[i]` to `rotatedArr[k]`.
+6. Return the rotated array `rotatedArr`.
+
+Let's go through each iteration of the provided code using the input array `[1, 2, 3, 4, 5]`.
+
+Given the input array `[1, 2, 3, 4, 5]` and assuming `n = 5`:
+
+1. **Iteration 1 (i = 0)**:
+   - Calculate the new index `k` using the formula `((0 - 1 + 5) % 5)`, which results in `k = 4`.
+   - Assign the value of `arr[0]` (which is 1) to `rotatedArr[4]`.
+   - Result: `rotatedArr = [0, 0, 0, 0, 1]`
+
+2. **Iteration 2 (i = 1)**:
+   - Calculate the new index `k` using the formula `((1 - 1 + 5) % 5)`, which results in `k = 0`.
+   - Assign the value of `arr[1]` (which is 2) to `rotatedArr[0]`.
+   - Result: `rotatedArr = [2, 0, 0, 0, 1]`
+
+3. **Iteration 3 (i = 2)**:
+   - Calculate the new index `k` using the formula `((2 - 1 + 5) % 5)`, which results in `k = 1`.
+   - Assign the value of `arr[2]` (which is 3) to `rotatedArr[1]`.
+   - Result: `rotatedArr = [2, 3, 0, 0, 1]`
+
+4. **Iteration 4 (i = 3)**:
+   - Calculate the new index `k` using the formula `((3 - 1 + 5) % 5)`, which results in `k = 2`.
+   - Assign the value of `arr[3]` (which is 4) to `rotatedArr[2]`.
+   - Result: `rotatedArr = [2, 3, 4, 0, 1]`
+
+5. **Iteration 5 (i = 4)**:
+   - Calculate the new index `k` using the formula `((4 - 1 + 5) % 5)`, which results in `k = 3`.
+   - Assign the value of `arr[4]` (which is 5) to `rotatedArr[3]`.
+   - Result: `rotatedArr = [2, 3, 4, 5, 1]`
+
+After all iterations, the `rotatedArr` becomes `[2, 3, 4, 5, 1]`, which represents the input array rotated to the left by one position. Each element of the original array is shifted one position to the left, and the last element wraps around to the beginning of the array.
+
+Time Complexity:
+- The time complexity of this implementation is O(n) because it iterates over each element of the input array once.
+
+Space Complexity:
+- The space complexity is also O(n) because it creates a new array of size `n` to store the rotated elements.
+
+Optimization:
+- The code can be optimized by removing the need for the `k` variable and calculating the new index directly within the assignment statement. Here's the optimized version:
+
+```java
+static int[] rotateArray(int[] arr, int n) {
+    int[] rotatedArr = new int[n];
+    for (int i = 0; i < n; i++) {
+        rotatedArr[(i - 1 + n) % n] = arr[i];
+    }
+    return rotatedArr;
+}
+```
+
+This optimization eliminates the need for the `k` variable, making the code cleaner and more concise.
+
+[Rotate Array (Leetcode)](https://leetcode.com/problems/rotate-array/submissions/1243067790/)
+
+Given an integer array nums, rotate the array to the right by k steps, where k is non-negative.
+
+Here's the pseudocode for the provided `rotate` method:
+
+```sql
+rotate(nums, k):
+    Calculate the effective rotation count k = k % length of nums
+    Calculate the index d where the array will be divided into two parts: d = length of nums - k
+    
+    Reverse the first part of the array from index 0 to d-1
+    Reverse the second part of the array from index d to the end of the array
+    Reverse the entire array
+    
+    The array nums is now rotated to the right by k positions
+```
+
+Java Code: 
+
+```java
+class Solution {
+    public static void rev(int[] arr,int start,int end){
+        while(start<end){
+            int temp=arr[start];
+            arr[start]=arr[end];
+            arr[end]=temp;
+            start++;
+            end--;
+        }
+    }
+    public void rotate(int[] nums, int k) {
+        k=k%nums.length;
+        int d=nums.length-k;
+        rev(nums,0,d-1);
+        rev(nums,d,nums.length-1);
+        rev(nums,0,nums.length-1);
+        
+    }
+}
+```
+
+Let's now go through the provided code with an example array `[1, 2, 3, 4, 5]`:
+
+Given the input array `[1, 2, 3, 4, 5]` and assuming `k = 2`:
+
+1. Calculate `k = 2 % 5 = 2` and `d = 5 - 2 = 3`.
+
+2. Reverse the first part of the array from index 0 to d-1 (0 to 2):
+   - Original: `[1, 2, 3, 4, 5]`
+   - Reversed: `[3, 2, 1, 4, 5]`
+
+3. Reverse the second part of the array from index d to the end of the array (3 to 4):
+   - Original: `[3, 2, 1, 4, 5]`
+   - Reversed: `[3, 2, 1, 5, 4]`
+
+4. Reverse the entire array:
+   - Original: `[3, 2, 1, 5, 4]`
+   - Reversed: `[4, 5, 1, 2, 3]`
+
+The array `[1, 2, 3, 4, 5]` is now rotated to the right by 2 positions, resulting in `[4, 5, 1, 2, 3]`.
+
+Time Complexity:
+- The time complexity of the `rotate` method is O(n), where n is the length of the input array `nums`. This is because the method performs three passes over the array, each of which takes linear time.
+
+Space Complexity:
+- The space complexity is O(1) because the method only uses a constant amount of extra space regardless of the size of the input array.
+
+Optimization:
+- The provided code is already optimized and performs the rotation efficiently in O(n) time with O(1) space complexity. Further optimization is not necessary for this problem.
 
