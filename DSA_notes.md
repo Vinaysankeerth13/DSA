@@ -1220,3 +1220,159 @@ Space Complexity:
 Optimization:
 - The provided code is already optimized and performs the rotation efficiently in O(n) time with O(1) space complexity. Further optimization is not necessary for this problem.
 
+**6. Left rotate the array by D places** 
+
+Let's break down the provided code, first with pseudocode and then with an example.
+
+Pseudocode:
+
+```
+rotateArray(arr, k):
+    Iterate k times:
+        Remove the first element from the ArrayList and store it in a variable first
+        Add the removed element to the end of the ArrayList
+    Return the modified ArrayList
+```
+
+Java Code:
+
+```java
+public class Solution {
+	public static ArrayList<Integer> rotateArray(ArrayList<Integer> arr, int k) 
+    {
+        for(int i=0;i<k;i++)
+        {
+            int first = arr.remove(0);
+            arr.add(first);
+        }
+       return arr; 
+    }
+}
+```
+
+Explanation with Example:
+
+Consider the input ArrayList `arr = [1, 2, 3, 4, 5]` and `k = 2`.
+
+1. **Iteration 1**:
+   - Remove the first element (`1`) from the ArrayList.
+   - Add the removed element (`1`) to the end of the ArrayList.
+   - ArrayList after Iteration 1: `[2, 3, 4, 5, 1]`
+
+2. **Iteration 2**:
+   - Remove the first element (`2`) from the ArrayList.
+   - Add the removed element (`2`) to the end of the ArrayList.
+   - ArrayList after Iteration 2: `[3, 4, 5, 1, 2]`
+
+The final ArrayList is `[3, 4, 5, 1, 2]`, which represents the input ArrayList `[1, 2, 3, 4, 5]` rotated to the left by 2 places.
+
+**Time Complexity**: The time complexity of this code is O(k * n), where n is the size of the ArrayList. This is because the loop runs k times, and each iteration involves removing an element from the beginning of the ArrayList, which takes O(n) time due to shifting elements.
+
+**Space Complexity**: The space complexity is O(1) because the code modifies the input ArrayList in place without using any additional space proportional to the size of the input.
+
+**Optimization**:
+- The current implementation has a time complexity of O(k * n), which can be inefficient for large values of k or large ArrayLists. To optimize, we can use the `%` operator to reduce the number of iterations in case k is larger than the size of the ArrayList. Additionally, we can use the `Collections.rotate()` method to achieve the same rotation in a single step, which may be more efficient.
+
+Here's the optimized code using the `%` operator:
+
+```java
+public static ArrayList<Integer> rotateArray(ArrayList<Integer> arr, int k) {
+    int n = arr.size();
+    k = k % n; // Reduce k to the range [0, n)
+    for (int i = 0; i < k; i++) {
+        int first = arr.remove(0);
+        arr.add(first);
+    }
+    return arr;
+}
+```
+
+**7. Move Zeros to end**
+
+[Move Zeros to the end (CodeStudio)](https://www.naukri.com/code360/problems/ninja-and-the-zero-s_6581958?utm_source=striver&utm_medium=website&utm_campaign=a_zcoursetuf)
+
+[Move Zeros to the end (LeetCode)](https://leetcode.com/problems/move-zeroes/description/)
+
+Given an integer array nums, move all 0's to the end of it while maintaining the relative order of the non-zero elements.
+
+Note that you must do this in-place without making a copy of the array.
+
+Example 1:
+Input: nums = [0,1,0,3,12]
+Output: [1,3,12,0,0]
+
+This code is a solution to the problem of moving all zeros to the end of an array while preserving the relative order of non-zero elements.
+
+Pseudocode:
+
+```
+function moveZeroes(nums):
+    nonZero = 0  // Index for storing non-zero elements
+
+    // Move all non-zero elements to the front
+    for i from 0 to length of nums:
+        if nums[i] is not zero:
+            nums[nonZero] = nums[i]
+            nonZero += 1
+
+    // Fill the remaining elements with zeros
+    while nonZero is less than length of nums:
+        nums[nonZero] = 0
+        nonZero += 1
+```
+
+Time Complexity: O(n), where n is the length of the input array. The algorithm iterates through the array once to move the non-zero elements and then again to fill the remaining positions with zeros.
+
+Space Complexity: O(1), as the algorithm operates in-place on the input array without using any additional data structures that scale with the input size.
+
+Example:
+
+Let's consider the example `nums = [0, 1, 0, 3, 12]`.
+
+Iteration 1 (i = 0):
+- `nums[i]` is 0, so no action is taken.
+
+Iteration 2 (i = 1):
+- `nums[i]` is 1, a non-zero element.
+- `nums[nonZero] = nums[i]`, so `nums[0] = 1`.
+- `nonZero` is incremented to 1.
+
+Iteration 3 (i = 2):
+- `nums[i]` is 0, so no action is taken.
+
+Iteration 4 (i = 3):
+- `nums[i]` is 3, a non-zero element.
+- `nums[nonZero] = nums[i]`, so `nums[1] = 3`.
+- `nonZero` is incremented to 2.
+
+Iteration 5 (i = 4):
+- `nums[i]` is 12, a non-zero element.
+- `nums[nonZero] = nums[i]`, so `nums[2] = 12`.
+- `nonZero` is incremented to 3.
+
+After the first loop, the array is `[1, 3, 12, 0, 0]`.
+
+The `while` loop then fills the remaining positions with zeros:
+- `nums[3] = 0` and `nums[4] = 0`.
+
+The final array is `[1, 3, 12, 0, 0]`.
+
+Optimizations:
+
+This solution is already optimal in terms of time and space complexity. However, there is a minor optimization that can be made to reduce the number of write operations:
+
+```java
+int lastNonZero = 0;
+for (int i = 0; i < nums.length; i++) {
+    if (nums[i] != 0) {
+        int temp = nums[lastNonZero];
+        nums[lastNonZero] = nums[i];
+        nums[i] = temp;
+        lastNonZero++;
+    }
+}
+```
+
+Instead of overwriting the elements one by one, this approach swaps the non-zero elements with the elements at the `lastNonZero` index. This way, each non-zero element is written to the array only once, reducing the number of write operations.
+
+However, this optimization does not improve the overall time or space complexity of the algorithm, as it still requires iterating through the entire array once.
