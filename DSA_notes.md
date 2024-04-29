@@ -1287,6 +1287,8 @@ public static ArrayList<Integer> rotateArray(ArrayList<Integer> arr, int k) {
 }
 ```
 
+## 28-04-2024
+
 **7. Move Zeros to end**
 
 [Move Zeros to the end (CodeStudio)](https://www.naukri.com/code360/problems/ninja-and-the-zero-s_6581958?utm_source=striver&utm_medium=website&utm_campaign=a_zcoursetuf)
@@ -1376,3 +1378,551 @@ for (int i = 0; i < nums.length; i++) {
 Instead of overwriting the elements one by one, this approach swaps the non-zero elements with the elements at the `lastNonZero` index. This way, each non-zero element is written to the array only once, reducing the number of write operations.
 
 However, this optimization does not improve the overall time or space complexity of the algorithm, as it still requires iterating through the entire array once.
+
+## 29-04-2024
+
+**8. Linear search**
+
+[Linear Search (CodeStudio)](https://www.naukri.com/code360/problems/linear-search_6922070?utm_source=striver&utm_medium=website&utm_campaign=a_zcoursetuf)
+
+You are given an array ‘arr’ containing ‘n’ integers. You are also given an integer ‘num’, and your task is to find whether ‘num’ is present in the array or not.
+
+If ‘num’ is present in the array, return the 0-based index of the first occurrence of ‘num’. Else, return -1.
+
+Example:
+Input: ‘n’ = 5, ‘num’ = 4 
+'arr' =  [6,7,8,4,1] 
+
+Output: 3
+
+Explanation:
+4 is present at the 3rd index.
+
+Pseudocode:
+
+```
+function linearSearch(n, num, arr):
+    sol = -1  // Initialize solution index to -1 (not found)
+
+    // Iterate through the array
+    for i from 0 to n-1:
+        if arr[i] is equal to num:
+            sol = i  // Found the element, update the solution index
+            break    // Exit the loop since the element is found
+
+    return sol  // Return the solution index
+```
+
+Time Complexity: O(n), where n is the size of the input array. In the worst case scenario, the algorithm will have to traverse the entire array to find the target element or determine that it is not present.
+
+Space Complexity: O(1), as the algorithm uses a constant amount of extra space, regardless of the input size.
+
+Example:
+
+Let's consider the example where `n = 5`, `num = 3`, and `arr = [1, 5, 3, 7, 9]`.
+
+Iteration 1 (i = 0):
+- `arr[i]` is 1, which is not equal to `num` (3), so no action is taken.
+
+Iteration 2 (i = 1):
+- `arr[i]` is 5, which is not equal to `num` (3), so no action is taken.
+
+Iteration 3 (i = 2):
+- `arr[i]` is 3, which is equal to `num` (3).
+- `sol` is updated to 2 (the index of the found element).
+- The `break` statement is executed, and the loop terminates.
+
+The function returns `sol = 2`, which is the index of the element 3 in the array.
+
+Optimizations:
+
+The Linear Search algorithm is already optimal for an unsorted array. However, if the array is sorted, you can use the Binary Search algorithm, which has a better time complexity of O(log n) on average. Binary Search works by repeatedly dividing the search interval in half until the target element is found or the remaining interval is empty.
+
+Another optimization that can be applied in some cases is to stop the search if the target element is known to be absent. For example, if you're searching for an element in a sorted array, and the current element is greater than the target, you can stop the search immediately since the remaining elements will also be greater than the target.
+
+Here's an optimized version of the Linear Search for a sorted array:
+
+```java
+public static int linearSearchSorted(int n, int num, int[] arr) {
+    for (int i = 0; i < n; i++) {
+        if (arr[i] == num) {
+            return i;  // Element found
+        } else if (arr[i] > num) {
+            return -1; // Element not found (array is sorted)
+        }
+    }
+    return -1; // Element not found
+}
+```
+
+In this optimized version, the loop breaks as soon as an element greater than the target is encountered, since the array is sorted, and the remaining elements will also be greater than the target.
+
+**9. Find the union**
+
+[Merge Two Sorted Arrays (CodeStudio)](https://www.naukri.com/code360/problems/sorted-array_6613259?utm_source=striver&utm_medium=website&utm_campaign=a_zcoursetuf)
+
+Given two sorted arrays, ‘a’ and ‘b’, of size ‘n’ and ‘m’, respectively, return the union of the arrays.
+
+The union of two sorted arrays can be defined as an array consisting of the common and the distinct elements of the two arrays. The final array should be sorted in ascending order.
+
+Note: 'a' and 'b' may contain duplicate elements, but the union array must contain unique elements.
+
+Example:
+Input: ‘n’ = 5 ‘m’ = 3
+‘a’ = [1, 2, 3, 4, 6]
+‘b’ = [2, 3, 5]
+
+Output: [1, 2, 3, 4, 5, 6]
+
+Explanation: 
+Common elements in ‘a’ and ‘b’ are: [2, 3]
+Distinct elements in ‘a’ are: [1, 4, 6]
+Distinct elements in ‘b’ are: [5]
+Union of ‘a’ and ‘b’ is: [1, 2, 3, 4, 5, 6]
+
+Pseudocode:
+
+```
+function sortedArray(a, b):
+    sol = empty list
+    m = length of a
+    n = length of b
+    i = 0  // Index for array a
+    j = 0  // Index for array b
+
+    // Merge elements from both arrays into sol
+    while i is less than m and j is less than n:
+        if a[i] is less than b[j]:
+            if sol is empty or the last element in sol is not equal to a[i]:
+                add a[i] to sol
+            increment i
+        else if a[i] is greater than b[j]:
+            if sol is empty or the last element in sol is not equal to b[j]:
+                add b[j] to sol
+            increment j
+        else:  // a[i] is equal to b[j]
+            if sol is empty or the last element in sol is not equal to a[i]:
+                add a[i] to sol
+            increment i and j
+
+    // Add remaining elements from array a to sol
+    while i is less than m:
+        if sol is empty or the last element in sol is not equal to a[i]:
+            add a[i] to sol
+        increment i
+
+    // Add remaining elements from array b to sol
+    while j is less than n:
+        if sol is empty or the last element in sol is not equal to b[j]:
+            add b[j] to sol
+        increment j
+
+    return sol
+```
+
+Time Complexity: O(m + n), where m and n are the lengths of the input arrays `a` and `b`, respectively. The algorithm iterates through both arrays once, performing a constant amount of work for each element.
+
+Space Complexity: O(m + n), as the resulting list `sol` can contain up to `m + n` elements in the worst case when all elements are distinct.
+
+Example:
+
+Let's consider the example where `a = [1, 2, 3, 4, 5]` and `b = [3, 4, 5, 6, 7]`.
+
+Iteration 1 (i = 0, j = 0):
+- `a[i]` (1) is less than `b[j]` (3).
+- `sol` is empty, so 1 is added to `sol`.
+- `i` is incremented to 1.
+
+Iteration 2 (i = 1, j = 0):
+- `a[i]` (2) is less than `b[j]` (3).
+- The last element in `sol` (1) is not equal to `a[i]` (2), so 2 is added to `sol`.
+- `i` is incremented to 2.
+
+Iteration 3 (i = 2, j = 0):
+- `a[i]` (3) is equal to `b[j]` (3).
+- The last element in `sol` (2) is not equal to `a[i]` (3), so 3 is added to `sol`.
+- `i` and `j` are incremented to 3 and 1, respectively.
+
+Iteration 4 (i = 3, j = 1):
+- `a[i]` (4) is less than `b[j]` (4).
+- The last element in `sol` (3) is not equal to `a[i]` (4), so 4 is added to `sol`.
+- `i` is incremented to 4.
+
+Iteration 5 (i = 4, j = 1):
+- `a[i]` (5) is greater than `b[j]` (4).
+- The last element in `sol` (4) is not equal to `b[j]` (4), so 4 is added to `sol`.
+- `j` is incremented to 2.
+
+Iteration 6 (i = 4, j = 2):
+- `a[i]` (5) is equal to `b[j]` (5).
+- The last element in `sol` (4) is not equal to `a[i]` (5), so 5 is added to `sol`.
+- `i` and `j` are incremented to 5 and 3, respectively.
+
+After the `while` loops, no more elements are left in `a` or `b`, so the final list `sol` is [1, 2, 3, 4, 5, 6, 7].
+
+Optimizations:
+
+This implementation is already optimized for time complexity, as it iterates through both input arrays only once. However, there is a potential optimization for space complexity.
+
+Instead of creating a new list and adding elements to it, you can modify the input arrays in-place and then copy the distinct elements to a new array or list. This approach would reduce the space complexity to O(1) in the average case, where the number of distinct elements is much smaller than the total number of elements in the input arrays.
+
+Here's an optimized version of the code that modifies the input arrays in-place:
+
+```java
+public static int[] sortedArray(int[] a, int[] b) {
+    int m = a.length;
+    int n = b.length;
+    int i = 0, j = 0, k = 0;
+
+    // Merge elements from both arrays into a
+    while (i < m && j < n) {
+        if (a[i] < b[j]) {
+            a[k++] = a[i++];
+        } else if (a[i] > b[j]) {
+            a[k++] = b[j++];
+        } else {
+            a[k++] = a[i++];
+            j++;
+        }
+    }
+
+    // Add remaining elements from array a
+    while (i < m) {
+        a[k++] = a[i++];
+    }
+
+    // Add remaining elements from array b
+    while (j < n) {
+        a[k++] = b[j++];
+    }
+
+    // Create a new array with distinct elements
+    int[] sol = new int[k];
+    int prev = -1;
+    int index = 0;
+    for (int x : a) {
+        if (x != prev) {
+            sol[index++] = x;
+            prev = x;
+        }
+    }
+
+    return sol;
+}
+```
+
+In this optimized version, the elements from both input arrays are merged into the `a` array in-place. Then, a new array `sol` is created with the distinct elements from `a`. The space complexity of this approach is O(1) in the average case when the number of distinct elements is much smaller than the total number of elements in the input arrays.
+
+**10. Missing Number**
+
+[Missing Number (Leetcode)](https://leetcode.com/problems/missing-number/description/)
+
+Given an array nums containing n distinct numbers in the range [0, n], return the only number in the range that is missing from the array.
+
+Example 1:
+
+Input: nums = [3,0,1]
+Output: 2
+Explanation: n = 3 since there are 3 numbers, so all numbers are in the range [0,3]. 2 is the missing number in the range since it does not appear in nums.
+Example 2:
+
+Input: nums = [0,1]
+Output: 2
+Explanation: n = 2 since there are 2 numbers, so all numbers are in the range [0,2]. 2 is the missing number in the range since it does not appear in nums.
+Example 3:
+
+Input: nums = [9,6,4,2,3,5,7,0,1]
+Output: 8
+Explanation: n = 9 since there are 9 numbers, so all numbers are in the range [0,9]. 8 is the missing number in the range since it does not appear in nums.
+
+Pseudocode:
+
+```
+function missingNumber(nums):
+    n = length of nums
+    expectedSum = (n * (n + 1)) / 2  // Calculate the expected sum using the formula for the sum of the first n natural numbers
+    actualSum = 0
+
+    // Calculate the sum of all elements in the array
+    for i from 0 to n - 1:
+        actualSum += nums[i]
+
+    solution = expectedSum - actualSum  // The missing number is the difference between the expected sum and the actual sum
+
+    return solution
+```
+
+Time Complexity: O(n), where n is the length of the input array `nums`. The algorithm iterates through the array once to calculate the actual sum.
+
+Space Complexity: O(1), as the algorithm uses a constant amount of extra space, regardless of the input size.
+
+Example:
+
+Let's consider the example where `nums = [3, 0, 1]`.
+
+First, we calculate the length of the array:
+```
+n = 3
+```
+
+Then, we calculate the expected sum using the formula for the sum of the first n natural numbers:
+```
+expectedSum = (n * (n + 1)) / 2
+            = (3 * (3 + 1)) / 2
+            = 12 / 2
+            = 6
+```
+
+Next, we initialize `actualSum` to 0 and iterate through the array to calculate the sum of its elements:
+
+Iteration 1 (i = 0):
+- `actualSum += nums[i]` => `actualSum = 0 + 3 = 3`
+
+Iteration 2 (i = 1):
+- `actualSum += nums[i]` => `actualSum = 3 + 0 = 3`
+
+Iteration 3 (i = 2):
+- `actualSum += nums[i]` => `actualSum = 3 + 1 = 4`
+
+After the loop, `actualSum` is 4.
+
+Finally, we calculate the missing number as the difference between the expected sum and the actual sum:
+```
+solution = expectedSum - actualSum
+         = 6 - 4
+         = 2
+```
+
+The missing number in the array `[3, 0, 1]` is 2.
+
+Optimizations:
+
+This solution is already optimal in terms of time complexity, as it iterates through the array only once. However, there is an alternative approach using the XOR operation that can achieve the same time complexity without using the formula for the sum of the first n natural numbers.
+
+Here's the optimized version using XOR:
+
+```java
+public int missingNumber(int[] nums) {
+    int n = nums.length;
+    int xor = 0;
+
+    // Calculate the XOR of all numbers from 0 to n
+    for (int i = 0; i <= n; i++) {
+        xor ^= i;
+    }
+
+    // Calculate the XOR of all numbers in the array
+    for (int num : nums) {
+        xor ^= num;
+    }
+
+    return xor;
+}
+```
+
+In this approach, we use the XOR operation to cancel out the numbers that are present in both the range `[0, n]` and the input array `nums`. The remaining number after performing the XOR operation will be the missing number.
+
+The time complexity of this approach is still O(n), as it iterates through the array once and performs a constant amount of work for each element. However, it avoids the use of the formula for the sum of the first n natural numbers, which may be more efficient in some cases.
+
+**11. Maximum Consecutive Ones**
+
+[Maximum Consecutive Ones (CodeStudio)](https://www.naukri.com/code360/problems/traffic_6682625?utm_source=striver&utm_medium=website&utm_campaign=a_zcoursetuf)
+
+
+Pseudocode:
+
+```
+function traffic(n, m, vehicle):
+    maxConsecutive = 0  // Initialize the maximum consecutive vehicles count
+    zerosCount = 0  // Initialize the count of consecutive zeros
+    left = 0  // Initialize the left pointer of the sliding window
+
+    // Iterate through the vehicle array using a sliding window
+    for right from 0 to n - 1:
+        if vehicle[right] is 0:
+            zerosCount += 1  // Increment the consecutive zeros count
+
+        // Shrink the window if the number of zeros exceeds m
+        while zerosCount > m:
+            if vehicle[left] is 0:
+                zerosCount -= 1  // Decrement the consecutive zeros count
+            left += 1  // Move the left pointer to shrink the window
+
+        // Update the maximum consecutive vehicles count
+        maxConsecutive = max(maxConsecutive, right - left + 1)
+
+    return maxConsecutive
+```
+
+Time Complexity: O(n), where n is the length of the input array `vehicle`. The algorithm iterates through the array once using a sliding window approach.
+
+Space Complexity: O(1), as the algorithm uses a constant amount of extra space, regardless of the input size.
+
+Example:
+
+Let's consider the example where `n = 6`, `m = 2`, and `vehicle = [1, 1, 0, 0, 1, 0]`.
+
+Iteration 1 (right = 0):
+- `vehicle[right]` is 1, so no action is taken.
+- `maxConsecutive` is updated to 1 (right - left + 1 = 0 - 0 + 1 = 1).
+
+Iteration 2 (right = 1):
+- `vehicle[right]` is 1, so no action is taken.
+- `maxConsecutive` is updated to 2 (right - left + 1 = 1 - 0 + 1 = 2).
+
+Iteration 3 (right = 2):
+- `vehicle[right]` is 0, so `zerosCount` is incremented to 1.
+- `maxConsecutive` is updated to 3 (right - left + 1 = 2 - 0 + 1 = 3).
+
+Iteration 4 (right = 3):
+- `vehicle[right]` is 0, so `zerosCount` is incremented to 2.
+- Since `zerosCount` is now equal to `m` (2), no shrinking of the window is needed.
+- `maxConsecutive` is updated to 4 (right - left + 1 = 3 - 0 + 1 = 4).
+
+Iteration 5 (right = 4):
+- `vehicle[right]` is 1, so no action is taken.
+- `maxConsecutive` is updated to 5 (right - left + 1 = 4 - 0 + 1 = 5).
+
+Iteration 6 (right = 5):
+- `vehicle[right]` is 0, so `zerosCount` is incremented to 3.
+- Since `zerosCount` is now greater than `m` (2), the window needs to be shrunk.
+- `vehicle[left]` is 1, so no decrement of `zerosCount` is needed.
+- `left` is incremented to 1.
+- `maxConsecutive` is updated to 4 (right - left + 1 = 5 - 1 + 1 = 5).
+
+After the loop, the function returns `maxConsecutive = 5`, which is the maximum number of consecutive vehicles that can pass through the toll bridge.
+
+Optimizations:
+
+This implementation is already optimized for both time and space complexity. However, there is a minor optimization that can be made to avoid unnecessary updates to `maxConsecutive` when the window size decreases.
+
+Here's the optimized version:
+
+```java
+public static int traffic(int n, int m, int[] vehicle) {
+    int maxConsecutive = 0;
+    int zerosCount = 0;
+    int left = 0;
+    int windowSize = 0;  // Keep track of the current window size
+
+    for (int right = 0; right < n; right++) {
+        if (vehicle[right] == 0) {
+            zerosCount++;
+        }
+
+        // Shrink the window if the number of zeros exceeds m
+        while (zerosCount > m) {
+            if (vehicle[left] == 0) {
+                zerosCount--;
+            }
+            left++;
+            windowSize--;  // Decrement the window size
+        }
+
+        windowSize++;  // Increment the window size
+        maxConsecutive = Math.max(maxConsecutive, windowSize);
+    }
+
+    return maxConsecutive;
+}
+```
+
+In this optimized version, we keep track of the current window size using the `windowSize` variable. We increment `windowSize` when the right pointer moves forward, and decrement it when the left pointer moves forward. We update `maxConsecutive` only when `windowSize` is greater than the current value of `maxConsecutive`.
+
+This optimization avoids unnecessary updates to `maxConsecutive` when the window size decreases, potentially improving the performance for certain input cases.
+
+[Max Consecutive Ones (Leetcode)](https://leetcode.com/problems/max-consecutive-ones/description/)
+
+Given a binary array nums, return the maximum number of consecutive 1's in the array.
+
+Example 1:
+Input: nums = [1,1,0,1,1,1]
+Output: 3
+Explanation: The first two digits or the last three digits are consecutive 1s. The maximum number of consecutive 1s is 3.
+
+Example 2:
+Input: nums = [1,0,1,1,0,1]
+Output: 2
+
+Pseudocode:
+
+```
+function findMaxConsecutiveOnes(nums):
+    maxCount = 0  // Initialize the maximum count of consecutive 1's
+    currentCount = 0  // Initialize the current count of consecutive 1's
+    currentElement = -1  // Initialize the current element to a value different from 0 and 1
+
+    for each num in nums:
+        if num is equal to currentElement:
+            currentCount += 1  // Increment the current count of consecutive 1's
+        else:
+            maxCount = max(maxCount, currentCount)  // Update the maximum count
+            currentCount = 1  // Reset the current count
+            currentElement = num  // Update the current element
+
+    maxCount = max(maxCount, currentCount)  // Update the maximum count one last time
+
+    return maxCount
+```
+
+Time Complexity: O(n), where n is the length of the input array `nums`. The algorithm iterates through the array once.
+
+Space Complexity: O(1), as the algorithm uses a constant amount of extra space, regardless of the input size.
+
+Example:
+
+Let's consider the example where `nums = [1, 1, 0, 1, 1, 1]`.
+
+Iteration 1 (num = 1):
+- `num` (1) is not equal to `currentElement` (-1), so `currentCount` is set to 1, and `currentElement` is updated to 1.
+- `maxCount` remains 0.
+
+Iteration 2 (num = 1):
+- `num` (1) is equal to `currentElement` (1), so `currentCount` is incremented to 2.
+- `maxCount` remains 0.
+
+Iteration 3 (num = 0):
+- `num` (0) is not equal to `currentElement` (1), so `maxCount` is updated to 2 (the maximum of 0 and 2).
+- `currentCount` is reset to 1, and `currentElement` is updated to 0.
+
+Iteration 4 (num = 1):
+- `num` (1) is not equal to `currentElement` (0), so `currentCount` is set to 1, and `currentElement` is updated to 1.
+- `maxCount` remains 2.
+
+Iteration 5 (num = 1):
+- `num` (1) is equal to `currentElement` (1), so `currentCount` is incremented to 2.
+- `maxCount` remains 2.
+
+Iteration 6 (num = 1):
+- `num` (1) is equal to `currentElement` (1), so `currentCount` is incremented to 3.
+- `maxCount` remains 2.
+
+After the loop, `maxCount` is updated to 3 (the maximum of 2 and 3).
+
+The function returns `maxCount = 3`, which is the maximum count of consecutive 1's in the array `[1, 1, 0, 1, 1, 1]`.
+
+Optimizations:
+
+This implementation is already optimized for both time and space complexity. However, there is a minor optimization that can be made to simplify the code and make it more readable:
+
+```java
+public int findMaxConsecutiveOnes(int[] nums) {
+    int maxCount = 0;
+    int currentCount = 0;
+
+    for (int num : nums) {
+        if (num == 1) {
+            currentCount++;
+            maxCount = Math.max(maxCount, currentCount);
+        } else {
+            currentCount = 0;
+        }
+    }
+
+    return maxCount;
+}
+```
+
+In this optimized version, we don't need to keep track of the `currentElement` variable. Instead, we reset `currentCount` to 0 whenever we encounter a 0 in the array. This simplifies the code and makes it more readable without changing the time or space complexity.
+
+Another potential optimization is to use bit manipulation instead of iterating through the array. However, this optimization is only suitable when the input array is large and dense (contains many consecutive 1's), and it may not be more efficient for small or sparse arrays.
