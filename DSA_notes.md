@@ -1,5 +1,8 @@
 # Data Structures and Algorithms
 
+## Note :
+The optimisation code for each problem is given by AI, so there might be a possibility that they're not an exact fit for the problem you're solving. Please bear that in mind and modify the code implementing the concepts that are provided for optimisation.
+
 ## 25-04-2024
 ### Selection Sort
 
@@ -1359,6 +1362,29 @@ The `while` loop then fills the remaining positions with zeros:
 
 The final array is `[1, 3, 12, 0, 0]`.
 
+Java Code:
+
+```java
+public class Solution {
+        public static int[] moveZeros(int n, int []a) 
+        {
+            int nonZero =0;
+            for(int i=0;i<n;i++)
+            {
+                if(a[i] != 0)
+                {
+                   a[nonZero++] = a[i];
+                }
+            }
+            while(nonZero < n)
+            {
+                a[nonZero++] = 0;
+            }
+            return a;
+        }
+}
+```
+
 Optimizations:
 
 This solution is already optimal in terms of time and space complexity. However, there is a minor optimization that can be made to reduce the number of write operations:
@@ -1433,6 +1459,27 @@ Iteration 3 (i = 2):
 - The `break` statement is executed, and the loop terminates.
 
 The function returns `sol = 2`, which is the index of the element 3 in the array.
+
+Java Code:
+
+```java
+import java.util.*;
+public class Solution {
+    public static int linearSearch(int n, int num, int []arr)
+    {
+        int sol = -1;
+        for(int i=0;i<n;i++)
+        {
+            if(arr[i]==num)
+            {
+                sol = i;
+                break;
+            }
+        }
+        return sol;
+    }
+}
+```
 
 Optimizations:
 
@@ -1559,6 +1606,56 @@ Iteration 6 (i = 4, j = 2):
 - `i` and `j` are incremented to 5 and 3, respectively.
 
 After the `while` loops, no more elements are left in `a` or `b`, so the final list `sol` is [1, 2, 3, 4, 5, 6, 7].
+
+```java
+import java.util.*;
+public class Solution {
+    public static List<Integer> sortedArray(int[] a, int[] b) {
+        List<Integer> sol = new ArrayList<>();
+        int m = a.length;
+        int n = b.length;
+        int i = 0, j = 0;
+
+        while (i < m && j < n) {
+            if (a[i] < b[j]) {
+                if (sol.isEmpty() || sol.get(sol.size() - 1) != a[i]) {
+                    sol.add(a[i]);
+                }
+                i++;
+            } else if (a[i] > b[j]) {
+                if (sol.isEmpty() || sol.get(sol.size() - 1) != b[j]) {
+                    sol.add(b[j]);
+                }
+                j++;
+            } else {
+                if (sol.isEmpty() || sol.get(sol.size() - 1) != a[i]) {
+                    sol.add(a[i]);
+                }
+                i++;
+                j++;
+            }
+        }
+
+        // Add remaining elements from array a
+        while (i < m) {
+            if (sol.isEmpty() || sol.get(sol.size() - 1) != a[i]) {
+                sol.add(a[i]);
+            }
+            i++;
+        }
+
+        // Add remaining elements from array b
+        while (j < n) {
+            if (sol.isEmpty() || sol.get(sol.size() - 1) != b[j]) {
+                sol.add(b[j]);
+            }
+            j++;
+        }
+
+        return sol;
+    }
+}
+```
 
 Optimizations:
 
@@ -1695,6 +1792,25 @@ solution = expectedSum - actualSum
 
 The missing number in the array `[3, 0, 1]` is 2.
 
+Java code:
+
+```java
+class Solution {
+    public int missingNumber(int[] nums) 
+    {
+        int n = nums.length;
+        int expectedeSum = (n*(n+1)/2);
+        int actualSum = 0;
+        for(int i=0;i<n;i++)
+        {
+            actualSum += nums[i];
+        }
+        int solution = expectedeSum-actualSum;
+        return solution;
+    }
+}
+```
+
 Optimizations:
 
 This solution is already optimal in terms of time complexity, as it iterates through the array only once. However, there is an alternative approach using the XOR operation that can achieve the same time complexity without using the formula for the sum of the first n natural numbers.
@@ -1792,6 +1908,39 @@ Iteration 6 (right = 5):
 
 After the loop, the function returns `maxConsecutive = 5`, which is the maximum number of consecutive vehicles that can pass through the toll bridge.
 
+Java code:
+
+```java
+public class Solution {
+    public static int traffic(int n, int m, int []vehicle) 
+    {
+        int maxConsecutive = 0;
+        int zerosCount = 0;
+        int left = 0;
+        
+        for (int right = 0; right < n; right++) {
+            
+            if (vehicle[right] == 0) {
+                zerosCount++;
+            }
+            
+            // Shrink the window if the number of zeros exceeds M
+            while (zerosCount > m) {
+                if (vehicle[left] == 0) {
+                    zerosCount--;
+                }
+                left++;
+            }
+            
+            // Update the maximum consecutive vehicles count
+            maxConsecutive = Math.max(maxConsecutive, right - left + 1);
+        }
+        
+        return maxConsecutive;
+    }
+}
+```
+
 Optimizations:
 
 This implementation is already optimized for both time and space complexity. However, there is a minor optimization that can be made to avoid unnecessary updates to `maxConsecutive` when the window size decreases.
@@ -1849,20 +1998,22 @@ Pseudocode:
 ```
 function findMaxConsecutiveOnes(nums):
     maxCount = 0  // Initialize the maximum count of consecutive 1's
-    currentCount = 0  // Initialize the current count of consecutive 1's
-    currentElement = -1  // Initialize the current element to a value different from 0 and 1
+    curCount = 0  // Initialize the current count of consecutive 1's
 
-    for each num in nums:
-        if num is equal to currentElement:
-            currentCount += 1  // Increment the current count of consecutive 1's
+    // Iterate through each element in the array
+    for each element in nums:
+        if element is 0:
+            // Update the maxCount if the current count is greater
+            maxCount = max(maxCount, curCount)
+            // Reset the current count to 0
+            curCount = 0
         else:
-            maxCount = max(maxCount, currentCount)  // Update the maximum count
-            currentCount = 1  // Reset the current count
-            currentElement = num  // Update the current element
+            // Increment the current count
+            curCount += 1
 
-    maxCount = max(maxCount, currentCount)  // Update the maximum count one last time
-
-    return maxCount
+    // After the loop, compare the final current count with the maximum count
+    // and return the larger value
+    return max(maxCount, curCount)
 ```
 
 Time Complexity: O(n), where n is the length of the input array `nums`. The algorithm iterates through the array once.
@@ -1873,37 +2024,67 @@ Example:
 
 Let's consider the example where `nums = [1, 1, 0, 1, 1, 1]`.
 
-Iteration 1 (num = 1):
-- `num` (1) is not equal to `currentElement` (-1), so `currentCount` is set to 1, and `currentElement` is updated to 1.
+Iteration 1 (element = 1):
+- `element` (1) is not 0, so `curCount` is incremented to 1.
 - `maxCount` remains 0.
 
-Iteration 2 (num = 1):
-- `num` (1) is equal to `currentElement` (1), so `currentCount` is incremented to 2.
+Iteration 2 (element = 1):
+- `element` (1) is not 0, so `curCount` is incremented to 2.
 - `maxCount` remains 0.
 
-Iteration 3 (num = 0):
-- `num` (0) is not equal to `currentElement` (1), so `maxCount` is updated to 2 (the maximum of 0 and 2).
-- `currentCount` is reset to 1, and `currentElement` is updated to 0.
+Iteration 3 (element = 0):
+- `element` is 0, so `maxCount` is updated to 2 (the maximum of 0 and 2).
+- `curCount` is reset to 0.
 
-Iteration 4 (num = 1):
-- `num` (1) is not equal to `currentElement` (0), so `currentCount` is set to 1, and `currentElement` is updated to 1.
+Iteration 4 (element = 1):
+- `element` (1) is not 0, so `curCount` is incremented to 1.
 - `maxCount` remains 2.
 
-Iteration 5 (num = 1):
-- `num` (1) is equal to `currentElement` (1), so `currentCount` is incremented to 2.
+Iteration 5 (element = 1):
+- `element` (1) is not 0, so `curCount` is incremented to 2.
 - `maxCount` remains 2.
 
-Iteration 6 (num = 1):
-- `num` (1) is equal to `currentElement` (1), so `currentCount` is incremented to 3.
+Iteration 6 (element = 1):
+- `element` (1) is not 0, so `curCount` is incremented to 3.
 - `maxCount` remains 2.
 
-After the loop, `maxCount` is updated to 3 (the maximum of 2 and 3).
+After the loop, `maxCount` is compared with the final `curCount` (3), and the maximum value (3) is returned.
 
-The function returns `maxCount = 3`, which is the maximum count of consecutive 1's in the array `[1, 1, 0, 1, 1, 1]`.
+The function returns `3`, which is the maximum count of consecutive 1's in the array `[1, 1, 0, 1, 1, 1]`.
+
+Java Code:
+
+```java
+class Solution {
+    public int findMaxConsecutiveOnes(int[] nums)
+    {
+        // Initialize variables to track the maximum count and current count of consecutive 1s
+        int maxCount=0;
+        int curCount=0;
+
+        // Iterate through each element in the array
+        for(int element: nums){
+            if(element==0){
+        //reset curCount and maxCount whenever 0 is encountered.
+                if(maxCount<curCount){
+                    maxCount=curCount;
+                }
+                curCount=0;                
+            }
+            else{
+                curCount++;
+            }
+        }
+        // After the loop, compare the final current count with the maximum count and return the larger value
+        return maxCount>curCount? maxCount:curCount;
+        
+    }
+}
+```
 
 Optimizations:
 
-This implementation is already optimized for both time and space complexity. However, there is a minor optimization that can be made to simplify the code and make it more readable:
+This implementation is already optimized for both time and space complexity. However, there is a potential optimization that can be made to simplify the code and make it more readable:
 
 ```java
 public int findMaxConsecutiveOnes(int[] nums) {
@@ -1923,6 +2104,369 @@ public int findMaxConsecutiveOnes(int[] nums) {
 }
 ```
 
-In this optimized version, we don't need to keep track of the `currentElement` variable. Instead, we reset `currentCount` to 0 whenever we encounter a 0 in the array. This simplifies the code and makes it more readable without changing the time or space complexity.
+In this optimized version, we don't need to update `maxCount` inside the loop when we encounter a 0. Instead, we reset `currentCount` to 0 whenever we encounter a 0 in the array, and update `maxCount` only when we encounter a 1. This simplifies the code and makes it more readable without changing the time or space complexity.
 
 Another potential optimization is to use bit manipulation instead of iterating through the array. However, this optimization is only suitable when the input array is large and dense (contains many consecutive 1's), and it may not be more efficient for small or sparse arrays.
+
+## 30-04-2024
+
+**12. Find the number that appears once, and other numbers twice**
+
+[Find the number that appears once, and other numbers twice (CodeStudio)](https://www.naukri.com/code360/problems/find-the-single-element_6680465?utm_source=striver&utm_medium=website&utm_campaign=a_zcoursetuf)
+
+[Find the number that appears once, and other numbers twice(Leetcode)](https://leetcode.com/problems/single-number/)
+
+You are given a sorted array 'arr' of positive integers of size 'n'.
+
+It contains each number exactly twice except for one number, which occurs exactly once.
+
+Find the number that occurs exactly once.
+
+Example :
+Input: ‘arr’ = {1, 1, 2, 3, 3, 4, 4}.
+Output: 2
+
+Explanation: 1, 3, and 4 occur exactly twice. 2 occurs exactly once. Hence the answer is 2.
+
+Pseudocode:
+
+```
+function getSingleElement(arr):
+    sol = 0  // Initialize the solution variable
+
+    // Iterate through the array
+    for each element in arr:
+        sol = sol XOR element  // Apply the XOR operation
+
+    return sol
+```
+
+Time Complexity: O(n), where n is the length of the input array `arr`. The algorithm iterates through the array once.
+
+Space Complexity: O(1), as the algorithm uses a constant amount of extra space, regardless of the input size.
+
+Explanation with an example:
+
+Let's consider the example where `arr = [1, 2, 2, 3, 1]`.
+
+Iteration 1 (i = 0):
+- `sol = 0 ^ 1 = 1`
+
+Iteration 2 (i = 1):
+- `sol = 1 ^ 2 = 3`
+
+Iteration 3 (i = 2):
+- `sol = 3 ^ 2 = 1`
+
+Iteration 4 (i = 3):
+- `sol = 1 ^ 3 = 2`
+
+Iteration 5 (i = 4):
+- `sol = 2 ^ 1 = 3`
+
+After the loop, `sol` contains the value 3, which is the single element in the array `[1, 2, 2, 3, 1]`.
+
+The XOR operation has the following properties:
+
+1. `x ^ 0 = x` (Identity property)
+2. `x ^ x = 0` (Idempotent property)
+3. `x ^ y = y ^ x` (Commutative property)
+
+In this solution, we use the XOR operation to cancel out the duplicates in the array. When we XOR a number with itself, the result is 0 (due to the idempotent property). Since all elements except one appear twice, their XOR operations will cancel out, leaving us with the single element.
+
+Optimizations:
+
+This implementation is already optimized for both time and space complexity. However, there is a potential optimization that can be made if the input array is sorted.
+
+If the array is sorted, we can skip the XOR operation for consecutive duplicate elements, as their XOR will always be 0. This optimization can potentially improve the performance for certain input cases.
+
+Here's the optimized version for a sorted array:
+
+```java
+public static int getSingleElement(int[] arr) {
+    int sol = 0;
+    int i = 0;
+
+    while (i < arr.length) {
+        sol ^= arr[i];
+        i += 1;  // Skip the next element if it's a duplicate
+    }
+
+    return sol;
+}
+```
+
+In this optimized version, we iterate through the array using a `while` loop instead of a `for` loop. We XOR the current element with `sol` and then increment the index `i` by 2 if the next element is a duplicate (which is guaranteed by the sorted nature of the array).
+
+This optimization can potentially improve the performance for input arrays with large consecutive duplicates, as it reduces the number of XOR operations performed.
+
+However, it's important to note that this optimization assumes that the input array is sorted. If the array is not sorted, this optimization may not provide any performance benefits and could even degrade the performance due to the additional checks required.
+
+**13. Longest subarray with given sum K (positives)**
+
+You are given an array 'a' of size 'n' and an integer 'k'.
+
+Find the length of the longest subarray of 'a' whose sum is equal to 'k'.
+
+Example :
+Input: ‘n’ = 7 ‘k’ = 3
+‘a’ = [1, 2, 3, 1, 1, 1, 1]
+
+Output: 3
+
+Explanation: Subarrays whose sum = ‘3’ are:
+
+[1, 2], [3], [1, 1, 1] and [1, 1, 1]
+
+Here, the length of the longest subarray is 3, which is our final answer.
+
+Pseudocode:
+
+```
+function longestSubarrayWithSumK(a, k):
+    left = 0  // Initialize the left pointer
+    right = 0  // Initialize the right pointer
+    max = 0  // Initialize the maximum length of the subarray
+    sum = 0  // Initialize the running sum
+
+    // Iterate through the array using the two-pointer technique
+    while right is less than the length of a:
+        sum += a[right]  // Add the current element to the running sum
+        right += 1  // Move the right pointer forward
+
+        // Shrink the subarray from the left side until the sum is less than or equal to k
+        while sum > k:
+            sum -= a[left]  // Subtract the leftmost element from the running sum
+            left += 1  // Move the left pointer forward
+
+        // If the sum is equal to k, update the maximum length
+        if sum is equal to k:
+            max = max(max, right - left)
+
+    return max
+```
+
+Time Complexity: O(n), where n is the length of the input array `a`. The algorithm iterates through the array once using the two-pointer technique.
+
+Space Complexity: O(1), as the algorithm uses a constant amount of extra space, regardless of the input size.
+
+Example:
+
+Let's consider the example where `a = [1, 2, 3, 4, 5]` and `k = 9`.
+
+Iteration 1 (left = 0, right = 0):
+- `sum = 0 + a[0] = 1`
+- Since `sum` (1) is not greater than `k` (9), no shrinking of the subarray is needed.
+- `max` remains 0.
+
+Iteration 2 (left = 0, right = 1):
+- `sum = 1 + a[1] = 3`
+- Since `sum` (3) is not greater than `k` (9), no shrinking of the subarray is needed.
+- `max` remains 0.
+
+Iteration 3 (left = 0, right = 2):
+- `sum = 3 + a[2] = 6`
+- Since `sum` (6) is not greater than `k` (9), no shrinking of the subarray is needed.
+- `max` remains 0.
+
+Iteration 4 (left = 0, right = 3):
+- `sum = 6 + a[3] = 10`
+- Since `sum` (10) is greater than `k` (9), the subarray needs to be shrunk from the left side.
+- `sum = 10 - a[0] = 9`
+- Since `sum` (9) is equal to `k` (9), `max` is updated to 3 (right - left = 3 - 0 = 3).
+
+Iteration 5 (left = 1, right = 4):
+- `sum = 9 + a[4] = 14`
+- Since `sum` (14) is greater than `k` (9), the subarray needs to be shrunk from the left side.
+- `sum = 14 - a[1] = 12`
+- Since `sum` (12) is greater than `k` (9), the subarray needs to be shrunk again from the left side.
+- `sum = 12 - a[2] = 9`
+- Since `sum` (9) is equal to `k` (9), `max` is updated to 3 (right - left = 4 - 2 = 2), but the previous value of 3 is larger, so `max` remains 3.
+
+After the loop, the function returns `max = 3`, which is the length of the longest subarray whose sum is equal to `k` (9).
+
+```java
+public class Solution {
+    public static int longestSubarrayWithSumK(int []a, long k) {
+        int left = 0, right = 0, max = 0;
+        long sum = 0;
+        while(right < a.length){
+            sum += a[right++];
+            while(sum > k){
+                sum -= a[left++];
+            }
+            if(sum == k) max = Math.max(max, right - left);
+        }
+        return max;
+    }
+}
+```
+
+Optimizations:
+
+This implementation is already optimized for both time and space complexity. However, there is a potential optimization that can be made using a hash table (or a dictionary in Python) to store the cumulative sums seen so far. This optimization can improve the time complexity for certain input cases.
+
+Here's the optimized version using a hash table:
+
+```java
+public static int longestSubarrayWithSumK(int[] a, long k) {
+    int max = 0;
+    long sum = 0;
+    Map<Long, Integer> sumToIndex = new HashMap<>();
+    sumToIndex.put(0, -1); // Initialize the hash table with 0 sum at index -1
+
+    for (int i = 0; i < a.length; i++) {
+        sum += a[i];
+
+        // If the current sum is equal to k, update the maximum length
+        if (sum == k) {
+            max = Math.max(max, i + 1);
+        } else {
+            // Check if (sum - k) exists in the hash table
+            long remaining = sum - k;
+            if (sumToIndex.containsKey(remaining)) {
+                max = Math.max(max, i - sumToIndex.get(remaining));
+            }
+        }
+
+        // Store the current sum and its index in the hash table
+        if (!sumToIndex.containsKey(sum)) {
+            sumToIndex.put(sum, i);
+        }
+    }
+
+    return max;
+}
+```
+
+In this optimized version, we use a hash table `sumToIndex` to store the cumulative sums seen so far and their indices. We initialize the hash table with a sum of 0 at index -1, which allows us to handle the case where the target sum `k` itself is present as a subarray.
+
+For each element in the array, we update the running sum `sum` and check if it is equal to `k`. If it is, we update the maximum length. Otherwise, we check if `(sum - k)` exists in the hash table, which means that the subarray starting from the index corresponding to `(sum - k)` and ending at the current index has a sum equal to `k`. If `(sum - k)` exists in the hash table, we update the maximum length accordingly.
+
+Finally, we store the current sum and its index in the hash table for future use.
+
+The time complexity of this optimized solution is O(n), where n is the length of the input array `a`, as we iterate through the array once. However, the additional operations involving the hash table may add some overhead, making this optimization more effective for larger input arrays or arrays with many subarrays that satisfy the target sum condition.
+
+The space complexity of this optimized solution is O(n) in the worst case, where all the elements in the array are distinct, and we need to store all the cumulative sums in the hash table.
+
+But there seems to be a problem with the optimsed code. 
+
+**14. Longest subarray with sum K (Positives + Negatives)**
+
+[Longest subarray with sum K (Positives + Negatives)](https://www.naukri.com/code360/problems/longest-subarray-with-sum-k_5713505?utm_source=striver&utm_medium=website&utm_campaign=a_zcoursetuf&leftPanelTabValue=SUBMISSION)
+
+Ninja and his friend are playing a game of subarrays. They have an array ‘NUMS’ of length ‘N’. Ninja’s friend gives him an arbitrary integer ‘K’ and asks him to find the length of the longest subarray in which the sum of elements is equal to ‘K’.
+
+Ninjas asks for your help to win this game. Find the length of the longest subarray in which the sum of elements is equal to ‘K’.
+
+If there is no subarray whose sum is ‘K’ then you should return 0.
+
+Example:
+Input: ‘N’ = 5,  ‘K’ = 4, ‘NUMS’ = [ 1, 2, 1, 0, 1 ]
+
+Output: 4
+
+There are two subarrays with sum = 4, [1, 2, 1] and [2, 1, 0, 1]. Hence the length of the longest subarray with sum = 4 is 4.
+
+Pseudocode:
+
+```
+function getLongestSubarray(nums, k):
+    map = new HashMap  // Create an empty hash map
+    map.put(0, -1)  // Initialize the hash map with sum 0 at index -1
+
+    sum = 0  // Initialize the running sum
+    max = 0  // Initialize the maximum length of the subarray
+
+    // Iterate through the array
+    for i from 0 to length of nums:
+        sum += nums[i]  // Update the running sum
+
+        // If (sum - k) exists in the hash map, update the maximum length
+        if map contains (sum - k):
+            max = max(max, i - map.get(sum - k))
+
+        // Store the current sum and its index in the hash map
+        if map does not contain sum:
+            map.put(sum, i)
+
+    return max
+```
+
+Time Complexity: O(n), where n is the length of the input array `nums`. The algorithm iterates through the array once, and the operations on the hash map take constant time on average.
+
+Space Complexity: O(n), in the worst case where all the elements in the array are distinct, and we need to store all the cumulative sums in the hash map.
+
+Example:
+
+Let's consider the example where `nums = [1, 2, 3, 4, 5]` and `k = 9`.
+
+Iteration 1 (i = 0):
+- `sum = 0 + nums[0] = 1`
+- `map` does not contain `(sum - k) = 1 - 9 = -8`, so no update to `max`.
+- `map` does not contain `sum = 1`, so `map.put(1, 0)` is executed.
+
+Iteration 2 (i = 1):
+- `sum = 1 + nums[1] = 3`
+- `map` does not contain `(sum - k) = 3 - 9 = -6`, so no update to `max`.
+- `map` does not contain `sum = 3`, so `map.put(3, 1)` is executed.
+
+Iteration 3 (i = 2):
+- `sum = 3 + nums[2] = 6`
+- `map` does not contain `(sum - k) = 6 - 9 = -3`, so no update to `max`.
+- `map` does not contain `sum = 6`, so `map.put(6, 2)` is executed.
+
+Iteration 4 (i = 3):
+- `sum = 6 + nums[3] = 10`
+- `map` contains `(sum - k) = 10 - 9 = 1`, so `max` is updated to 3 (i - map.get(1) = 3 - 0 = 3).
+- `map` does not contain `sum = 10`, so `map.put(10, 3)` is executed.
+
+Iteration 5 (i = 4):
+- `sum = 10 + nums[4] = 15`
+- `map` does not contain `(sum - k) = 15 - 9 = 6`, so no update to `max`.
+- `map` does not contain `sum = 15`, so `map.put(15, 4)` is executed.
+
+After the loop, the function returns `max = 3`, which is the length of the longest subarray whose sum is equal to `k` (9).
+
+Optimizations:
+
+This implementation is already optimized for time and space complexity by using a hash map to store the cumulative sums and their indices. However, there is a potential optimization that can be made to handle negative values in the input array more efficiently.
+
+If the input array contains negative values, the cumulative sum can become negative, which means we need to store negative keys in the hash map. However, hash maps in Java (and most programming languages) do not handle negative keys efficiently, as they are typically implemented using arrays or other data structures that require non-negative indices.
+
+To handle negative values more efficiently, we can use a technique called "remapping" or "offset mapping." The idea is to add a constant offset to all the cumulative sums, making them non-negative, and then store these remapped sums in the hash map.
+
+Here's the optimized version with remapping:
+
+```java
+public static int getLongestSubarray(int[] nums, int k) {
+    int max = 0;
+    int sum = 0;
+    int minSum = 0; // Keep track of the minimum cumulative sum
+    HashMap<Integer, Integer> map = new HashMap<>();
+    map.put(0, -1); // Initialize the hash map with sum 0 at index -1
+
+    for (int i = 0; i < nums.length; i++) {
+        sum += nums[i];
+        int remappedSum = sum - minSum; // Remap the cumulative sum by subtracting the minimum sum
+
+        if (map.containsKey(remappedSum - k)) {
+            max = Math.max(max, i - map.get(remappedSum - k));
+        }
+
+        if (!map.containsKey(remappedSum)) {
+            map.put(remappedSum, i);
+        }
+
+        minSum = Math.min(minSum, sum); // Update the minimum cumulative sum
+    }
+
+    return max;
+}
+```
+
+In this optimized version, we keep track of the minimum cumulative sum `minSum` seen so far. Before storing the cumulative sum in the hash map or checking for `(sum - k)`, we remap the cumulative sum by subtracting `minSum` from it. This remapping ensures that all the keys in the hash map are non-negative, even if the input array contains negative values.
+
+The time complexity of this optimized solution remains O(n), where n is the length of the input array `nums`. The space complexity is also O(n) in the worst case, where all the elements in the array are distinct, and we need to store all the remapped cumulative sums in the hash map.
+
+This optimization can improve the performance of the algorithm, especially when the input array contains negative values and the cumulative sums have a wide range.
