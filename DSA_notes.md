@@ -2470,3 +2470,236 @@ In this optimized version, we keep track of the minimum cumulative sum `minSum` 
 The time complexity of this optimized solution remains O(n), where n is the length of the input array `nums`. The space complexity is also O(n) in the worst case, where all the elements in the array are distinct, and we need to store all the remapped cumulative sums in the hash map.
 
 This optimization can improve the performance of the algorithm, especially when the input array contains negative values and the cumulative sums have a wide range.
+
+**15. Two Sum**
+
+[Two Sum (CodeStudio)](https://www.naukri.com/code360/problems/reading_6845742?utm_source=striver&utm_medium=website&utm_campaign=a_zcoursetuf&leftPanelTabValue=PROBLEM)
+
+Sam want to read exactly ‘TARGET’ number of pages.
+
+He has an array ‘BOOK’ containing the number of pages for ‘N’ books.
+
+Return YES/NO, if it is possible for him to read any 2 books and he can meet his ‘TARGET’ number of pages.
+
+Example:
+Input: ‘N’ = 5, ‘TARGET’ = 5
+‘BOOK’ = [4, 1, 2, 3, 1] 
+
+Output: YES
+Explanation:
+Sam can buy 4 pages book and 1 page book.
+
+This code is a Java implementation to check if there exists a pair of numbers in the given array `book` whose sum is equal to the target value `target`.
+
+Pseudocode:
+
+```
+function read(n, book, target):
+    a = "NO"  // Initialize the result string to "NO"
+
+    // Iterate through all possible pairs in the array
+    for i from 0 to n-2:
+        for j from i+1 to n-1:
+            // Check if the sum of the current pair is equal to the target
+            if book[i] + book[j] is equal to target:
+                a = "YES"  // If a pair is found, update the result string to "YES"
+
+    return a
+```
+
+Time Complexity: O(n^2), where n is the length of the input array `book`. The algorithm uses nested loops to iterate through all possible pairs of elements, resulting in a quadratic time complexity.
+
+Space Complexity: O(1), as the algorithm uses a constant amount of extra space, regardless of the input size.
+
+Example:
+
+Let's consider the example where `n = 4`, `book = [1, 2, 3, 4]`, and `target = 5`.
+
+Iteration 1 (i = 0, j = 1):
+- `book[i] + book[j]` is `1 + 2 = 3`, which is not equal to `target` (5).
+
+Iteration 2 (i = 0, j = 2):
+- `book[i] + book[j]` is `1 + 3 = 4`, which is not equal to `target` (5).
+
+Iteration 3 (i = 0, j = 3):
+- `book[i] + book[j]` is `1 + 4 = 5`, which is equal to `target` (5).
+- `a` is updated to "YES".
+
+Since a pair (1, 4) is found whose sum is equal to the target, the function will return "YES" without completing the remaining iterations.
+
+```java
+public class Solution {
+    public static String read(int n, int []book, int target)
+    {
+        String a = "NO";
+        for (int i=0;i<n-1;i++)
+        {
+            for(int j=1;j<n;j++)
+            {
+                if(book[i]+book[j]== target)
+                {
+                    a = "YES";
+                }
+            }
+        } 
+       return a;
+    }
+}
+```
+
+Optimizations:
+
+This implementation has a quadratic time complexity, which can be inefficient for large input arrays. We can optimize the solution by using a more efficient algorithm, such as the two-pointer technique or a hash table-based approach.
+
+Here's an optimized version using the two-pointer technique:
+
+```java
+public static String read(int n, int[] book, int target) {
+    Arrays.sort(book); // Sort the array in ascending order
+    int left = 0;
+    int right = n - 1;
+
+    while (left < right) {
+        int sum = book[left] + book[right];
+        if (sum == target) {
+            return "YES";
+        } else if (sum < target) {
+            left++;
+        } else {
+            right--;
+        }
+    }
+
+    return "NO";
+}
+```
+
+In this optimized version, we first sort the input array `book` in ascending order. Then, we use two pointers, `left` and `right`, to iteratively check if the sum of the elements at the two pointers is equal to the target.
+
+If the sum is equal to the target, we return "YES" immediately.
+If the sum is less than the target, we increment the `left` pointer to increase the sum.
+If the sum is greater than the target, we decrement the `right` pointer to decrease the sum.
+We repeat these steps until the `left` pointer crosses the `right` pointer, at which point all possible pairs have been checked.
+
+The time complexity of this optimized solution is O(n log n) due to the sorting step, where n is the length of the input array `book`. The sorting step takes O(n log n) time, and the two-pointer iteration takes O(n) time in the average case.
+
+The space complexity of this optimized solution is O(1), as it uses a constant amount of extra space, regardless of the input size.
+
+This optimization significantly improves the time complexity compared to the original solution, especially for large input arrays.
+
+[Two Sum (Leetcode)](https://leetcode.com/problems/two-sum/description/)
+
+Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.
+
+You may assume that each input would have exactly one solution, and you may not use the same element twice.
+
+You can return the answer in any order.
+
+Example 1:
+
+Input: 
+
+nums = [2,7,11,15], target = 9
+
+Output: [0,1]
+
+Explanation: Because nums[0] + nums[1] == 9, we return [0, 1].
+
+Example 2:
+
+Input: nums = [3,2,4], target = 6
+
+Output: [1,2]
+
+Example 3:
+
+Input: nums = [3,3], target = 6
+
+Output: [0,1]
+
+This code is a Java implementation of the "Two Sum" problem, which aims to find two numbers in an array that add up to a given target value, and return their indices.
+
+Pseudocode:
+
+```
+function twoSum(nums, target):
+    for i from 0 to length of nums - 1:
+        for j from i + 1 to length of nums - 1:
+            if nums[i] + nums[j] is equal to target:
+                return [i, j]  // Return the indices of the two numbers
+
+    return []  // If no two numbers sum up to the target, return an empty array
+```
+
+Time Complexity: O(n^2), where n is the length of the input array `nums`. The algorithm uses nested loops, resulting in a quadratic time complexity.
+
+Space Complexity: O(1), as the algorithm uses a constant amount of extra space, regardless of the input size.
+
+Example:
+
+Let's consider the example where `nums = [2, 7, 11, 15]` and `target = 9`.
+
+Iteration 1 (i = 0, j = 1):
+- `nums[i] + nums[j]` is `2 + 7 = 9`, which is equal to `target` (9).
+- The function returns `[0, 1]`, which are the indices of the two numbers (2 and 7).
+
+Since a pair of numbers (2 and 7) is found whose sum is equal to the target, the function will return `[0, 1]` without completing the remaining iterations.
+
+```java
+class Solution {
+    public int[] twoSum(int[] nums, int target) 
+    {
+        for (int i=0 ; i < nums.length ; i++)
+        {
+            for (int j=i+1 ; j < nums.length ; j++)
+            {
+                if (nums[i] + nums[j] == target)
+                {
+                    return new int[]{i,j};
+                }
+                
+            }
+        }
+        return new int[]{};
+    }
+}
+```
+
+Optimizations:
+
+This implementation has a quadratic time complexity, which can be inefficient for large input arrays. We can optimize the solution by using a hash table (or dictionary in Python) to achieve a time complexity of O(n).
+
+Here's the optimized code:
+
+```java
+class Solution {
+    public int[] twoSum(int[] nums, int target) {
+        Map<Integer, Integer> numMap = new HashMap<>();
+
+        // Iterate through the array
+        for (int i = 0; i < nums.length; i++) {
+            int complement = target - nums[i];
+
+            // Check if the complement exists in the map
+            if (numMap.containsKey(complement)) {
+                // Return the indices of the two numbers
+                return new int[] { numMap.get(complement), i };
+            }
+
+            // Store the current number and its index in the map
+            numMap.put(nums[i], i);
+        }
+
+        // No two sum solution found
+        return new int[] {};
+    }
+}
+```
+
+In this optimized version, we use a hash map `numMap` to store the numbers and their indices. We iterate through the array `nums` and for each element `nums[i]`, we calculate the complement `complement = target - nums[i]`. If the complement exists in the `numMap`, it means we have found a pair of numbers whose sum is equal to the target, and we return their indices. Otherwise, we store the current number `nums[i]` and its index `i` in the `numMap`.
+
+The time complexity of this optimized solution is O(n), where n is the length of the input array `nums`. This is because we iterate through the array once, and the operations on the hash map (insertion and lookup) take constant time on average.
+
+The space complexity is O(n) in the worst case, where all the elements in the array are distinct, and we need to store all of them in the hash map.
+
+The optimized solution is more efficient than the brute force approach, especially for large input arrays, as it avoids the nested loop and performs better time-wise.
