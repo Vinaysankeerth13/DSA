@@ -2703,3 +2703,455 @@ The time complexity of this optimized solution is O(n), where n is the length of
 The space complexity is O(n) in the worst case, where all the elements in the array are distinct, and we need to store all of them in the hash map.
 
 The optimized solution is more efficient than the brute force approach, especially for large input arrays, as it avoids the nested loop and performs better time-wise.
+
+## 1-05-2024
+
+**16. Sort An Array of 0s, 1s and 2s**
+
+[Sort An Array of 0s, 1s and 2s (CodeStudio)](https://www.naukri.com/code360/problems/sort-an-array-of-0s-1s-and-2s_892977?utm_source=striver&utm_medium=website&utm_campaign=a_zcoursetuf&leftPanelTabValue=PROBLEM)
+
+[Sort Colors (Leetcode)](https://leetcode.com/problems/sort-colors/description/)
+
+You have been given an array/list 'arr' consisting of 'n' elements.
+
+Each element in the array is either 0, 1 or 2.
+
+Sort this array/list in increasing order.
+
+Do not make a new array/list. Make changes in the given array/list.
+
+Example :
+Input: 'arr' = [2, 2, 2, 2, 0, 0, 1, 0]
+
+Output: Final 'arr' = [0, 0, 0, 1, 2, 2, 2, 2]
+
+Explanation: The array is sorted in increasing order.
+
+Pseudocode:
+
+```
+function sortArray(arr, n):
+    mid = 0  // Initialize the mid pointer
+    low = 0  // Initialize the low pointer
+    high = n - 1  // Initialize the high pointer
+
+    for i from 0 to n - 1:
+        if arr[mid] is 0:
+            swap arr[mid] with arr[low]
+            increment mid and low
+
+        else if arr[mid] is 1:
+            increment mid
+
+        else:  // arr[mid] is 2
+            swap arr[mid] with arr[high]
+            decrement high
+```
+
+Time Complexity: O(n), where n is the length of the input array `arr`. The algorithm iterates through the array once.
+
+Space Complexity: O(1), as the algorithm uses a constant amount of extra space, regardless of the input size.
+
+Example:
+
+Let's consider the example where `arr = [0, 1, 2, 0, 1, 2]` and `n = 6`.
+
+Iteration 1 (i = 0, mid = 0, low = 0, high = 5):
+- `arr[mid]` is 0.
+- Swap `arr[mid]` (0) with `arr[low]` (0), so no actual swap is performed.
+- Increment `mid` to 1 and `low` to 1.
+
+Iteration 2 (i = 1, mid = 1, low = 1, high = 5):
+- `arr[mid]` is 1.
+- Increment `mid` to 2.
+
+Iteration 3 (i = 2, mid = 2, low = 1, high = 5):
+- `arr[mid]` is 2.
+- Swap `arr[mid]` (2) with `arr[high]` (2), so no actual swap is performed.
+- Decrement `high` to 4.
+
+Iteration 4 (i = 3, mid = 3, low = 1, high = 4):
+- `arr[mid]` is 0.
+- Swap `arr[mid]` (0) with `arr[low]` (1), so the array becomes `[0, 1, 2, 1, 2, 0]`.
+- Increment `mid` to 4 and `low` to 2.
+
+Iteration 5 (i = 4, mid = 4, low = 2, high = 4):
+- `arr[mid]` is 1.
+- Increment `mid` to 5.
+
+Iteration 6 (i = 5, mid = 5, low = 2, high = 4):
+- `arr[mid]` is 2.
+- Swap `arr[mid]` (2) with `arr[high]` (2), so no actual swap is performed.
+- Decrement `high` to 3.
+
+After the loop, the array `arr` is sorted as `[0, 0, 1, 1, 2, 2]`.
+
+Java Code:
+
+```java
+import java.util.* ;
+import java.io.*;
+public class Solution {
+public static void sortArray(ArrayList<Integer> arr, int n) {
+int mid=0;
+int low=0;
+int high=n-1;
+int temp=0;
+for(int i=0;i<n;i++)
+{
+    if (arr.get(mid)==0)
+    {
+        temp=arr.get(mid);
+        arr.set(mid,arr.get(low));
+        arr.set(low,temp);
+        mid++;
+        low++;
+    }
+    else if(arr.get(mid)==1)
+    {
+        mid++;
+    }
+    else
+    {
+        temp=arr.get(mid);
+        arr.set(mid,arr.get(high));
+        arr.set(high,temp);
+        high--;
+    }
+}
+}
+}
+```
+
+Optimizations:
+
+This implementation is already optimized for both time and space complexity. However, there is a potential optimization that can be made to avoid unnecessary swaps when the elements at the `low` and `mid` pointers, or the `mid` and `high` pointers, are equal.
+
+Here's the optimized version:
+
+```java
+public static void sortArray(ArrayList<Integer> arr, int n) {
+    int mid = 0;
+    int low = 0;
+    int high = n - 1;
+
+    while (mid <= high) {
+        if (arr.get(mid) == 0) {
+            swap(arr, mid, low);
+            mid++;
+            low++;
+        } else if (arr.get(mid) == 1) {
+            mid++;
+        } else {
+            swap(arr, mid, high);
+            high--;
+        }
+    }
+}
+
+private static void swap(ArrayList<Integer> arr, int i, int j) {
+    if (arr.get(i) != arr.get(j)) {
+        int temp = arr.get(i);
+        arr.set(i, arr.get(j));
+        arr.set(j, temp);
+    }
+}
+```
+
+In this optimized version, we have introduced a separate `swap` function that checks if the elements at the given indices are different before performing the swap. This avoids unnecessary swaps when the elements are already in the correct position, potentially improving the performance for certain input cases.
+
+The time complexity of this optimized solution remains O(n), where n is the length of the input array `arr`. The space complexity is still O(1), as the algorithm uses a constant amount of extra space.
+
+**17. Majority Element**
+
+[Majority Element](https://www.naukri.com/code360/problems/majority-element_6783241?utm_source=striver&utm_medium=website&utm_campaign=a_zcoursetuf&leftPanelTabValue=PROBLEM)
+
+You are given an array 'a' of 'n' integers.
+
+A majority element in the array ‘a’ is an element that appears more than 'n' / 2 times.
+
+Find the majority element of the array.
+
+It is guaranteed that the array 'a' always has a majority element.
+
+Example:
+Input: ‘n’ = 9, ‘a’ = [2, 2, 1, 3, 1, 1, 3, 1, 1]
+
+Output: 1
+
+Explanation: The frequency of ‘1’ is 5, which is greater than 9 / 2.
+Hence ‘1’ is the majority element.
+
+This code is a Java implementation of the Boyer-Moore Majority Vote Algorithm, which is used to find the majority element in an array (if it exists). A majority element is an element that appears more than ⌊n/2⌋ times in an array of size n.
+
+Pseudocode:
+
+```
+function majorityElement(v):
+    n = length of v
+    ele = v[0]  // Initialize the candidate for majority element
+    count = 0  // Initialize the count of the candidate
+
+    // Find the candidate for majority element
+    for i from 0 to n - 1:
+        if count is 0:
+            ele = v[i]  // Reset the candidate
+
+        if v[i] is equal to ele:
+            increment count
+        else:
+            decrement count
+
+    // Check if the candidate is indeed the majority element
+    count = 0
+    for i from 0 to n - 1:
+        if v[i] is equal to ele:
+            increment count
+
+    if count > n / 2:
+        return ele
+    else:
+        return -1  // No majority element found
+```
+
+Time Complexity: O(n), where n is the length of the input array `v`. The algorithm iterates through the array twice: once to find the candidate for the majority element, and once to validate if the candidate is indeed the majority element.
+
+Space Complexity: O(1), as the algorithm uses a constant amount of extra space, regardless of the input size.
+
+Example:
+
+Let's consider the example where `v = [2, 2, 1, 1, 1, 2, 2]`.
+
+Iteration 1 (i = 0):
+- `ele` is initialized to `v[0]` (2).
+- `count` is initialized to 0.
+- `v[i]` (2) is equal to `ele` (2), so `count` is incremented to 1.
+
+Iteration 2 (i = 1):
+- `v[i]` (2) is equal to `ele` (2), so `count` is incremented to 2.
+
+Iteration 3 (i = 2):
+- `v[i]` (1) is not equal to `ele` (2), so `count` is decremented to 1.
+
+Iteration 4 (i = 3):
+- `v[i]` (1) is not equal to `ele` (2), so `count` is decremented to 0.
+
+Iteration 5 (i = 4):
+- `count` is 0, so `ele` is reset to `v[i]` (1).
+- `v[i]` (1) is equal to `ele` (1), so `count` is incremented to 1.
+
+Iteration 6 (i = 5):
+- `v[i]` (2) is not equal to `ele` (1), so `count` is decremented to 0.
+
+Iteration 7 (i = 6):
+- `count` is 0, so `ele` is reset to `v[i]` (2).
+- `v[i]` (2) is equal to `ele` (2), so `count` is incremented to 1.
+
+After the first loop, `ele` is 2, which is the candidate for the majority element.
+
+In the second loop (not shown in the code), the count of the candidate element 2 is computed, and since it appears 4 times (which is greater than ⌊n/2⌋ = ⌊7/2⌋ = 3), the function returns 2 as the majority element.
+
+Java Code:
+
+```java
+public class Solution {
+    public static int majorityElement(int []v) {
+        int n=v.length;
+        int ele=v[0];
+        int count=0;
+        for(int i=0;i<n;i++){
+            if(count==0)
+            ele=v[i];
+            if(v[i]==ele){
+                count++;
+            }
+            else{
+                count--;
+            }
+        }
+        return ele;
+    }
+}
+```
+
+Optimizations:
+
+This implementation is already optimized for both time and space complexity. However, there is a potential optimization that can be made if the input array is sorted.
+
+If the array is sorted, we can use a linear-time algorithm to find the majority element (if it exists) by keeping track of the current element and its count. We iterate through the array, and whenever the current element changes, we decrement the count. If the count becomes zero, we reset the current element and its count.
+
+Here's the optimized version for a sorted array:
+
+```java
+public static int majorityElement(int[] v) {
+    int n = v.length;
+    int currentElement = v[0];
+    int count = 1;
+
+    for (int i = 1; i < n; i++) {
+        if (v[i] == currentElement) {
+            count++;
+        } else {
+            count--;
+        }
+
+        if (count == 0) {
+            currentElement = v[i];
+            count = 1;
+        }
+    }
+
+    // Check if the candidate is indeed the majority element
+    count = 0;
+    for (int num : v) {
+        if (num == currentElement) {
+            count++;
+        }
+    }
+
+    if (count > n / 2) {
+        return currentElement;
+    } else {
+        return -1;  // No majority element found
+    }
+}
+```
+
+In this optimized version, we iterate through the sorted array once, keeping track of the current element and its count. Whenever the count becomes zero, we reset the current element and its count to the current element in the array.
+
+After the loop, we validate if the candidate element is indeed the majority element by counting its occurrences and checking if the count is greater than ⌊n/2⌋.
+
+The time complexity of this optimized solution is O(n), where n is the length of the input array `v`. The space complexity is still O(1), as the algorithm uses a constant amount of extra space.
+
+This optimization can improve the performance of the algorithm when the input array is already sorted, as it avoids the need for the first loop to find the candidate element.
+
+**18. Maximum subarray**
+
+[Maximum Subarray (CodeStudio)](https://www.naukri.com/code360/problems/maximum-subarray-sum_630526?utm_source=striver&utm_medium=website&utm_campaign=a_zcoursetuf&leftPanelTabValue=SUBMISSION)
+
+[Maximum Subarray (Leetcode)](https://leetcode.com/problems/maximum-subarray/)
+
+Given an integer array nums, find the subarray
+with the largest sum, and return its sum.
+
+Example 1:
+
+Input: nums = [-2,1,-3,4,-1,2,1,-5,4]
+Output: 6
+Explanation: The subarray [4,-1,2,1] has the largest sum 6.
+Example 2:
+
+Input: nums = [1]
+Output: 1
+Explanation: The subarray [1] has the largest sum 1.
+Example 3:
+
+Input: nums = [5,4,-1,7,8]
+Output: 23
+Explanation: The subarray [5,4,-1,7,8] has the largest sum 23.
+
+This code is a Java implementation of Kadane's Algorithm, which is used to find the maximum subarray sum in an array of integers. It efficiently solves the problem by iterating through the array only once and keeping track of two variables: `maxEndingHere` and `maxSoFar`.
+
+Pseudocode:
+
+```
+function maxSubArray(nums):
+    maxEndingHere = nums[0]  // Initialize maxEndingHere with the first element
+    maxSoFar = nums[0]  // Initialize maxSoFar with the first element
+
+    // Iterate through the array
+    for i from 1 to length of nums - 1:
+        maxEndingHere = max(nums[i], maxEndingHere + nums[i])  // Update maxEndingHere
+        maxSoFar = max(maxSoFar, maxEndingHere)  // Update maxSoFar
+
+    return maxSoFar
+```
+
+Time Complexity: O(n), where n is the length of the input array `nums`. The algorithm iterates through the array once.
+
+Space Complexity: O(1), as the algorithm uses a constant amount of extra space, regardless of the input size.
+
+Example:
+
+Let's consider the example where `nums = [-2, 1, -3, 4, -1, 2, 1, -5, 4]`.
+
+Iteration 1 (i = 1):
+- `maxEndingHere = max(-2, -2 + 1) = max(-2, -1) = -1`
+- `maxSoFar = max(-2, -1) = -1`
+
+Iteration 2 (i = 2):
+- `maxEndingHere = max(-3, -1 + (-3)) = max(-3, -4) = -3`
+- `maxSoFar = max(-1, -3) = -1`
+
+Iteration 3 (i = 3):
+- `maxEndingHere = max(4, -3 + 4) = max(4, 1) = 4`
+- `maxSoFar = max(-1, 4) = 4`
+
+Iteration 4 (i = 4):
+- `maxEndingHere = max(-1, 4 + (-1)) = max(-1, 3) = 3`
+- `maxSoFar = max(4, 3) = 4`
+
+Iteration 5 (i = 5):
+- `maxEndingHere = max(2, 3 + 2) = max(2, 5) = 5`
+- `maxSoFar = max(4, 5) = 5`
+
+Iteration 6 (i = 6):
+- `maxEndingHere = max(1, 5 + 1) = max(1, 6) = 6`
+- `maxSoFar = max(5, 6) = 6`
+
+Iteration 7 (i = 7):
+- `maxEndingHere = max(-5, 6 + (-5)) = max(-5, 1) = 1`
+- `maxSoFar = max(6, 1) = 6`
+
+Iteration 8 (i = 8):
+- `maxEndingHere = max(4, 1 + 4) = max(4, 5) = 5`
+- `maxSoFar = max(6, 5) = 6`
+
+After the loop, the function returns `maxSoFar = 6`, which is the maximum subarray sum.
+
+```java
+public int maxSubArray(int[] nums) 
+    {
+        int maxEndingHere = nums[0];
+        int maxSoFar = nums[0];
+        for (int i = 1; i < nums.length; i++) {
+            maxEndingHere = Math.max(nums[i], maxEndingHere + nums[i]);
+            maxSoFar = Math.max(maxSoFar, maxEndingHere);
+        }
+        return maxSoFar;
+        
+    }
+```
+
+Optimizations:
+
+This implementation is already optimized for both time and space complexity. However, there is a potential optimization that can be made if the input array contains only non-negative integers.
+
+If the input array contains only non-negative integers, we can simplify the code by removing the `Math.max(nums[i], maxEndingHere + nums[i])` part, as we know that adding any non-negative number to `maxEndingHere` will always result in a value greater than or equal to `maxEndingHere`.
+
+Here's the optimized version for non-negative input arrays:
+
+```java
+public int maxSubArray(int[] nums) {
+    int maxSoFar = 0;
+    int maxEndingHere = 0;
+
+    for (int num : nums) {
+        maxEndingHere = maxEndingHere + num;
+        maxSoFar = Math.max(maxSoFar, maxEndingHere);
+        if (maxEndingHere < 0) {
+            maxEndingHere = 0;
+        }
+    }
+
+    return maxSoFar;
+}
+```
+
+In this optimized version, we initialize `maxSoFar` and `maxEndingHere` to 0 since we know that the maximum subarray sum cannot be negative for non-negative input arrays. We then iterate through the array and update `maxEndingHere` by adding the current element to it. If `maxEndingHere` becomes negative, we reset it to 0, as we know that any subarray starting from that point will have a non-negative sum.
+
+The time complexity of this optimized solution remains O(n), where n is the length of the input array `nums`. The space complexity is still O(1), as the algorithm uses a constant amount of extra space.
+
+This optimization can improve the performance of the algorithm for non-negative input arrays by avoiding unnecessary comparisons and operations.
+
+Note : Problem 13 can also be solved with the above algorithm eventhough the given solution is viable and a better option.
