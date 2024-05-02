@@ -3155,3 +3155,454 @@ The time complexity of this optimized solution remains O(n), where n is the leng
 This optimization can improve the performance of the algorithm for non-negative input arrays by avoiding unnecessary comparisons and operations.
 
 Note : Problem 13 can also be solved with the above algorithm eventhough the given solution is viable and a better option.
+
+## 2-05-2024
+
+**19. Best time to buy and sell stock**
+
+[Best time to buy and sell stock (CodeStudio)](https://www.naukri.com/code360/problems/best-time-to-buy-and-sell-stock_6194560?utm_source=striver&utm_medium=website&utm_campaign=a_zcoursetuf)
+
+[Best time to buy and sell stock (Leetcode)](https://leetcode.com/problems/best-time-to-buy-and-sell-stock/description/)
+
+You are given an array of integers 'prices' of size 'n', where ‘prices[i]’ is the price of a given stock on an ‘i’-th day. You want to maximize the profit by choosing a single day to buy one stock and a different day to sell that stock.
+
+Please note that you can’t sell a stock before you buy one.
+
+Sample Input 1:
+6
+7 1 5 4 3 6
+
+Sample Output 1 :
+5
+
+Explanation Of Sample Input 1:
+Purchase stock on day two, where the price is one, and sell it on day six, where the price is 6. Profit = 6 - 1 = 5.
+
+Sample Input 2:
+5
+5 4 3 2 1
+
+Sample Output 2 :
+0
+
+Pseudocode:
+
+```
+function bestTimeToBuyAndSellStock(prices):
+    minimum = prices[0]  // Initialize minimum price with the first element
+    maxProfit = 0  // Initialize maximum profit to 0
+
+    // Iterate through the array
+    for each price in prices:
+        cost = price - minimum  // Calculate the potential profit
+        maxProfit = max(maxProfit, cost)  // Update the maximum profit
+        minimum = min(minimum, price)  // Update the minimum price
+
+    return maxProfit
+```
+
+Time Complexity: O(n), where n is the length of the input array `prices`. The algorithm iterates through the array once.
+
+Space Complexity: O(1), as the algorithm uses a constant amount of extra space, regardless of the input size.
+
+Explanation with an example:
+
+Let's consider the example where `prices = [7, 1, 5, 3, 6, 4]`.
+
+Iteration 1 (i = 0):
+- `minimum` is initialized to `prices[0]` (7).
+- `maxProfit` is initialized to 0.
+
+Iteration 2 (i = 1):
+- `cost = prices[i] - minimum = 1 - 7 = -6`
+- `maxProfit` remains 0, since -6 is less than 0.
+- `minimum` is updated to 1, since 1 is less than the previous minimum (7).
+
+Iteration 3 (i = 2):
+- `cost = prices[i] - minimum = 5 - 1 = 4`
+- `maxProfit` is updated to 4, since 4 is greater than the previous maximum profit (0).
+- `minimum` remains 1, since 5 is not less than the previous minimum (1).
+
+Iteration 4 (i = 3):
+- `cost = prices[i] - minimum = 3 - 1 = 2`
+- `maxProfit` remains 4, since 2 is less than the current maximum profit (4).
+- `minimum` remains 1, since 3 is not less than the previous minimum (1).
+
+Iteration 5 (i = 4):
+- `cost = prices[i] - minimum = 6 - 1 = 5`
+- `maxProfit` is updated to 5, since 5 is greater than the previous maximum profit (4).
+- `minimum` remains 1, since 6 is not less than the previous minimum (1).
+
+Iteration 6 (i = 5):
+- `cost = prices[i] - minimum = 4 - 1 = 3`
+- `maxProfit` remains 5, since 3 is less than the current maximum profit (5).
+- `minimum` remains 1, since 4 is not less than the previous minimum (1).
+
+After the loop, the function returns `maxProfit = 5`, which is the maximum profit that can be obtained by buying and selling the stock once.
+
+```java
+public static int bestTimeToBuyAndSellStock(int []prices) 
+{
+        int minimum=prices[0];
+        int maxProfit=0;
+        for(int i=0;i<prices.length;i++)
+        {
+            int cost=prices[i]-minimum;
+            maxProfit=Math.max(maxProfit, cost);
+            minimum=Math.min(minimum, prices[i]);
+        }
+        return maxProfit;
+    }
+```
+
+Optimizations:
+
+This implementation is already optimized for both time and space complexity. However, there is a potential optimization that can be made if the input array is sorted in ascending or descending order.
+
+If the input array is sorted in ascending order, we can simply return the difference between the last and first elements, as this would represent the maximum profit that can be obtained by buying at the lowest price and selling at the highest price.
+
+If the input array is sorted in descending order, we can immediately return 0, as it is impossible to make a profit when the prices are monotonically decreasing.
+
+Here's the optimized version that checks if the input array is sorted:
+
+```java
+public static int bestTimeToBuyAndSellStock(int[] prices) {
+    int n = prices.length;
+    
+    // Check if the array is sorted in ascending order
+    boolean isAscending = true;
+    for (int i = 1; i < n; i++) {
+        if (prices[i] < prices[i - 1]) {
+            isAscending = false;
+            break;
+        }
+    }
+    
+    if (isAscending) {
+        return prices[n - 1] - prices[0]; // Maximum profit for ascending order
+    }
+    
+    // Check if the array is sorted in descending order
+    boolean isDescending = true;
+    for (int i = 1; i < n; i++) {
+        if (prices[i] > prices[i - 1]) {
+            isDescending = false;
+            break;
+        }
+    }
+    
+    if (isDescending) {
+        return 0; // No profit for descending order
+    }
+    
+    // If the array is not sorted, apply the original algorithm
+    int minimum = prices[0];
+    int maxProfit = 0;
+    for (int i = 0; i < n; i++) {
+        int cost = prices[i] - minimum;
+        maxProfit = Math.max(maxProfit, cost);
+        minimum = Math.min(minimum, prices[i]);
+    }
+    
+    return maxProfit;
+}
+```
+
+In this optimized version, we first check if the input array is sorted in ascending order. If it is, we return the difference between the last and first elements, as this represents the maximum profit.
+
+If the input array is not sorted in ascending order, we check if it is sorted in descending order. If it is, we return 0, as no profit can be made when the prices are monotonically decreasing.
+
+If the input array is not sorted in either ascending or descending order, we apply the original algorithm to find the maximum profit.
+
+The time complexity of this optimized solution is O(n) in the worst case, where n is the length of the input array `prices`. In the best case, when the input array is sorted, the time complexity becomes O(1) as we can directly return the maximum profit without iterating through the entire array.
+
+The space complexity remains O(1), as the algorithm uses a constant amount of extra space, regardless of the input size.
+
+This optimization can improve the performance of the algorithm for sorted input arrays, as it avoids unnecessary iterations and computations.
+
+**20. Rearrange the array in alternating positive and negative items**
+
+[Rearrange the array in alternating positive and negative items (CodeStudio)](https://www.naukri.com/code360/problems/alternate-numbers_6783445?utm_source=striver&utm_medium=website&utm_campaign=a_zcoursetuf&leftPanelTabValue=PROBLEM)
+
+[Rearrange Array Elements by Sign (Leetcode)](https://leetcode.com/problems/rearrange-array-elements-by-sign/)
+
+**Pseudocode:**
+
+```
+function rearrangeArray(nums):
+    create an empty list positive
+    create an empty list negative
+    for each num in nums:
+        if num is positive:
+            add num to positive list
+        else:
+            add num to negative list
+    create an empty result array of length nums.length
+    i = 0, j = 0, k = 0
+    while i is less than length of positive list and j is less than length of negative list:
+        result[k] = positive[i]
+        k = k + 1
+        i = i + 1
+        result[k] = negative[j]
+        k = k + 1
+        j = j + 1
+    return result
+```
+
+**Explanation:**
+
+1. The algorithm starts by creating two empty lists: `positive` and `negative`.
+2. It then iterates over the input array `nums` and adds each positive number to the `positive` list and each negative number to the `negative` list.
+3. Next, it creates a new array `result` of the same length as the input array `nums`.
+4. The algorithm then uses three pointers: `i` for the `positive` list, `j` for the `negative` list, and `k` for the `result` array.
+5. It iterates simultaneously over the `positive` and `negative` lists until one of them is exhausted.
+6. In each iteration, it assigns the current value from the `positive` list to `result[k]`, increments `k` and `i`, then assigns the current value from the `negative` list to `result[k]`, and increments `k` and `j`.
+7. Finally, the rearranged `result` array is returned.
+
+**Time Complexity:** The algorithm has two main parts:
+1. Splitting the input array into positive and negative lists: This part takes O(n) time, where n is the length of the input array.
+2. Rearranging the elements into the result array: This part takes O(n) time, as it iterates through the positive and negative lists once.
+
+Therefore, the overall time complexity is O(n).
+
+**Space Complexity:** The algorithm creates two additional lists (positive and negative) to store the positive and negative numbers from the input array. In the worst case, where all elements are positive or negative, one of the lists will store n elements, and the other will be empty. Therefore, the space complexity is O(n).
+
+**Example:**
+Let's consider the example `nums = [3, 1, -2, -5, 2, -4]`.
+
+1. Initially, `positive = []` and `negative = []`.
+2. After the first loop, `positive = [3, 1, 2]` and `negative = [-2, -5, -4]`.
+3. The result array is initialized with length 6: `result = [0, 0, 0, 0, 0, 0]`.
+4. Iteration 1: `i = 0`, `j = 0`, `k = 0`
+   - `result[0] = positive[0] = 3`
+   - `result = [3, 0, 0, 0, 0, 0]`
+   - `k = 1`, `i = 1`
+5. Iteration 2: `i = 1`, `j = 0`, `k = 1`
+   - `result[1] = negative[0] = -2`
+   - `result = [3, -2, 0, 0, 0, 0]`
+   - `k = 2`, `j = 1`
+6. Iteration 3: `i = 1`, `j = 1`, `k = 2`
+   - `result[2] = positive[1] = 1`
+   - `result = [3, -2, 1, 0, 0, 0]`
+   - `k = 3`, `i = 2`
+7. Iteration 4: `i = 2`, `j = 1`, `k = 3`
+   - `result[3] = negative[1] = -5`
+   - `result = [3, -2, 1, -5, 0, 0]`
+   - `k = 4`, `j = 2`
+8. Iteration 5: `i = 2`, `j = 2`, `k = 4`
+   - `result[4] = positive[2] = 2`
+   - `result = [3, -2, 1, -5, 2, 0]`
+   - `k = 5`, `i = 3` (out of bounds for positive list)
+9. Iteration 6: `i = 3`, `j = 2`, `k = 5`
+   - `result[5] = negative[2] = -4`
+   - `result = [3, -2, 1, -5, 2, -4]`
+   - `k = 6`, `j = 3` (out of bounds for negative list)
+
+The final result is `[3, -2, 1, -5, 2, -4]`.
+
+Java Code:
+
+```java
+public int[] rearrangeArray(int[] nums) 
+    {
+        List<Integer> positive = new ArrayList<>();
+        List<Integer> negative = new ArrayList<>();
+        for(int num: nums)
+        {
+            if (num > 0)
+            {
+                positive.add(num);
+            }
+            else
+            {
+                negative.add(num);
+            }
+        }
+        int[] result = new int[nums.length];
+        int i=0,j=0,k=0;
+        while(i<positive.size() && j<negative.size())
+        {
+            result[k++] = positive.get(i++);
+            result[k++] = negative.get(j++);
+        }
+        return result;
+    }
+```
+
+**Potential Optimizations:**
+
+1. **In-place operation:** Instead of creating separate lists for positive and negative numbers, we can rearrange the elements within the original input array itself. This would reduce the space complexity from O(n) to O(1).
+
+2. **Two-pointer approach:** We can use two pointers, one starting from the beginning and the other from the end of the array. At each iteration, we can swap elements if they have different signs. This approach would also have a time complexity of O(n) and a space complexity of O(1).
+
+3. **Avoid unnecessary swaps:** In the current implementation, we are swapping elements even when they are already in the correct position. We can optimize this by checking if the current element is already in the correct position and skipping the swap if it is.
+
+4. **Early termination:** If the input array is already rearranged correctly, we can terminate the algorithm early, saving unnecessary iterations.
+
+These optimizations can potentially improve the performance of the algorithm, especially for large input arrays or scenarios where space complexity is a critical factor.
+
+Here's the optimized code using the in-place operation and two-pointer approach:
+
+```java
+class Solution {
+    public int[] rearrangeArray(int[] nums) {
+        int n = nums.length;
+        int left = 0, right = 1;
+        
+        while (right < n) {
+            while (left < n && nums[left] >= 0) {
+                left += 2;
+            }
+            while (right < n && nums[right] < 0) {
+                right += 2;
+            }
+            if (left < n && right < n) {
+                int temp = nums[left];
+                nums[left] = nums[right];
+                nums[right] = temp;
+            }
+        }
+        
+        return nums;
+    }
+}
+```
+
+**Explanation:**
+
+1. We initialize two pointers, `left` and `right`, at indices 0 and 1, respectively.
+2. We use `left` to traverse the array and find the next positive number, skipping over negative numbers.
+3. We use `right` to traverse the array and find the next negative number, skipping over positive numbers.
+4. If we find a positive number at `left` and a negative number at `right`, we swap them.
+5. We repeat steps 2-4 until either `left` or `right` reaches the end of the array.
+
+This approach rearranges the elements in-place within the original input array, without using any additional data structures. It has a time complexity of O(n) and a space complexity of O(1), as it operates directly on the input array.
+
+**Example:**
+Let's consider the same example `nums = [3, 1, -2, -5, 2, -4]`.
+
+1. Initially, `left = 0` and `right = 1`.
+2. Iteration 1:
+   - `left = 0` (nums[0] = 3, positive)
+   - `right = 1` (nums[1] = 1, positive)
+   - `right` is incremented to 3 (nums[3] = -5, negative)
+   - `nums[0]` and `nums[3]` are swapped, `nums = [-5, 1, -2, 3, 2, -4]`
+3. Iteration 2:
+   - `left = 2` (nums[2] = -2, negative)
+   - `left` is incremented to 4 (nums[4] = 2, positive)
+   - `right = 3` (nums[3] = 3, positive)
+   - `right` is incremented to 5 (nums[5] = -4, negative)
+   - `nums[4]` and `nums[5]` are swapped, `nums = [-5, 1, -2, 3, -4, 2]`
+4. Iteration 3:
+   - `left = 6` (out of bounds)
+   - `right = 6` (out of bounds)
+   - The loop terminates, and the final result is `[-5, 1, -2, 3, -4, 2]`.
+
+This optimized code has a time complexity of O(n) and a space complexity of O(1), and it performs the rearrangement in-place without using any additional data structures.
+
+**21. Superior Elements**
+
+[Superior Elements (CodeStudio)](https://www.naukri.com/code360/problems/superior-elements_6783446?utm_source=striver&utm_medium=website&utm_campaign=a_zcoursetuf&leftPanelTabValue=PROBLEM)
+
+**Pseudocode:**
+
+```
+function superiorElements(a):
+    create an empty list result
+    add the last element of a to result
+    for each element num in a from second-to-last to first:
+        if num is greater than the next element in a and greater than the last element in result:
+            add num to result
+    return result
+```
+
+**Explanation:**
+
+1. The function starts by creating an empty list `list` to store the superior elements.
+2. It adds the last element of the input array `a` to the `list` because there are no elements after it.
+3. Then, it iterates over the array `a` from the second-to-last element to the first element in reverse order using a `for` loop.
+4. Inside the loop, for each element `a[i]`, it checks two conditions:
+   - `a[i]` is greater than the next element `a[i+1]` in the array.
+   - `a[i]` is greater than the last element in the `list`, which is `list.get(list.size()-1)`.
+5. If both conditions are met, `a[i]` is considered a superior element, and it is added to the `list`.
+6. After iterating through the entire array, the `list` contains all the superior elements, and it is returned.
+
+**Time Complexity:** The time complexity of this algorithm is O(n), where n is the length of the input array `a`. This is because it iterates through the array once in reverse order, performing constant-time operations (comparisons and list additions) for each element.
+
+**Space Complexity:** The space complexity is O(m), where m is the number of superior elements in the input array `a`. In the worst case, where all elements are superior (sorted in descending order), the space complexity becomes O(n), as the list will store all the elements.
+
+**Example:**
+Let's consider the example `a = [5, 7, 3, 9, 4, 9, 8, 6, 5]`.
+
+1. Initially, `list = []`.
+2. The last element `5` is added to the list: `list = [5]`.
+3. Iteration 1 (reverse order): `i = a.length-2 = 7`
+   - `a[7] = 6` is not greater than `a[8] = 5` or `list.get(0) = 5`, so it is not added to the list.
+4. Iteration 2: `i = 6`
+   - `a[6] = 8` is greater than `a[7] = 6` and `list.get(0) = 5`, so it is added to the list: `list = [8, 5]`.
+5. Iteration 3: `i = 5`
+   - `a[5] = 9` is greater than `a[6] = 8` and `list.get(0) = 8`, so it is added to the list: `list = [9, 8, 5]`.
+6. Iteration 4: `i = 4`
+   - `a[4] = 4` is not greater than `a[5] = 9` or `list.get(0) = 9`, so it is not added to the list.
+7. Iteration 5: `i = 3`
+   - `a[3] = 9` is not greater than `a[4] = 4`, but it is greater than `list.get(0) = 9`, so it is added to the list: `list = [9, 9, 8, 5]`.
+8. Iteration 6: `i = 2`
+   - `a[2] = 3` is not greater than `a[3] = 9` or `list.get(0) = 9`, so it is not added to the list.
+9. Iteration 7: `i = 1`
+   - `a[1] = 7` is not greater than `a[2] = 3`, but it is greater than `list.get(0) = 9`, so it is added to the list: `list = [9, 9, 8, 7, 5]`.
+10. Iteration 8: `i = 0`
+    - `a[0] = 5` is not greater than `a[1] = 7` or `list.get(0) = 9`, so it is not added to the list.
+
+The final result is `[9, 9, 8, 7, 5]`.
+
+Java Code: 
+
+```java
+public static List< Integer > superiorElements(int []a) {
+        List<Integer> list = new ArrayList<>();
+        list.add(a[a.length-1]);
+        for(int i=a.length-2; i>=0; i--)
+        {
+            if(a[i]>a[i+1] && a[i]>list.get(list.size()-1))
+            {
+                list.add(a[i]);
+            }
+
+        }
+        return list;
+```
+
+**Potential Optimizations:**
+
+1. **Early Termination:** If the current element `a[i]` is not greater than the last element in the `list`, we can terminate the loop early because all the remaining elements will also be smaller than the last element in the `list`.
+
+Here's the optimized code:
+
+```java
+public static List<Integer> superiorElements(int[] a) {
+    List<Integer> list = new ArrayList<>();
+    list.add(a[a.length - 1]);
+    int lastSuperior = a[a.length - 1];
+
+    for (int i = a.length - 2; i >= 0; i--) {
+        if (a[i] > lastSuperior) {
+            list.add(a[i]);
+            lastSuperior = a[i];
+        } else if (a[i] == lastSuperior) {
+            list.add(a[i]);
+        } else {
+            break; // Early termination
+        }
+    }
+
+    return list;
+}
+```
+
+In this optimized code:
+- We initialize `lastSuperior` with the last element of the array `a[a.length - 1]`.
+- Inside the loop, if `a[i]` is greater than `lastSuperior`, we update `lastSuperior` to `a[i]` and add `a[i]` to the `list`.
+- If `a[i]` is equal to `lastSuperior`, we add `a[i]` to the `list` without updating `lastSuperior`.
+- If `a[i]` is less than `lastSuperior`, we break out of the loop using the `break` statement (early termination).
+
+This optimization can improve the performance of the algorithm, especially when the input array contains a large number of consecutive descending elements towards the beginning of the array, as it avoids unnecessary iterations and comparisons.
