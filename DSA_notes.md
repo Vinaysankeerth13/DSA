@@ -4,7 +4,8 @@
 The optimisation code for each problem is given by AI, so there might be a possibility that they're not an exact fit for the problem you're solving. Please bear that in mind and modify the code implementing the concepts that are provided for optimisation.
 
 ## 25-04-2024
-### Selection Sort
+
+**Selection Sort**
 
 - Selection Sort is a simple sorting algorithm that works by repeatedly finding the minimum element from the unsorted part of the array and swapping it with the first element of the unsorted part.
 
@@ -101,7 +102,7 @@ This implementation uses generics to work with any type that implements the `Com
 [Selection Sort (Java)](https://youtu.be/dsqsnngsoD8?feature=shared "Selection Sort")
 
 
-### Bubble Sort
+**Bubble Sort**
 
 Bubble Sort is a simple sorting algorithm that repeatedly swaps adjacent elements if they are in the wrong order, making the largest element "bubble up" towards the end of the array.
 
@@ -201,7 +202,7 @@ This optimization reduces the number of comparisons and swaps performed, but the
 
 [Bubble Sort Video (Java)](https://www.youtube.com/watch?v=g8qeaEd2jTc "Bubble Sort")
 
-## Recursive Bubble sort
+**Recursive Bubble sort**
 
 The recursive approach works by dividing the array into two parts: the sorted part and the unsorted part. The recursion is used to sort the unsorted part, and then the last element of the unsorted part is "bubbled up" to its correct position in the sorted part.
 
@@ -268,7 +269,7 @@ It's worth noting that Bubble Sort itself is not an efficient algorithm for larg
 
 [Bubble Sort Video (Java)](https://www.youtube.com/watch?v=g8qeaEd2jTc "Bubble Sort")
 
-## Insertion Sort
+**Insertion Sort**
 
 Insertion Sort is a simple sorting algorithm that builds the final sorted array one item at a time by taking an element from the input array and inserting it into its correct position in the sorted part of the array.
 
@@ -331,7 +332,7 @@ Another optimization is to combine Insertion Sort with other sorting algorithms,
 
 [Insertion Sort (Java)](https://youtu.be/0lOnnd50cGI?feature=shared "Insertion Sort")
 
-### Recursive Insertion Sort
+**Recursive Insertion Sort**
 
 The recursive approach works by dividing the array into two parts: the sorted part and the unsorted part. The recursion is used to sort the unsorted part, and then the first element of the unsorted part is inserted into its correct position in the sorted part.
 
@@ -403,7 +404,8 @@ It's worth noting that Insertion Sort is efficient for small datasets and partia
 
 
 ## 26-04-2024
-### Merge Sort
+
+**Merge Sort**
 
 Merge Sort is a divide-and-conquer algorithm that repeatedly divides the input array into two halves until each subarray contains only one element. It then merges the subarrays in a sorted manner to produce the final sorted array.
 
@@ -541,7 +543,7 @@ Overall, Merge Sort is a efficient and stable sorting algorithm, making it a pop
 
 [Merge Sort video (Java)](https://www.youtube.com/watch?v=bOk35XmHPKs "Merge Sort")
 
-### Quick Sort
+**Quick Sort**
 
 Quicksort is a divide-and-conquer algorithm that is widely used for sorting arrays and lists. It works by partitioning the array around a pivot element and recursively sorting the subarrays before and after the pivot.
 
@@ -2471,6 +2473,8 @@ The time complexity of this optimized solution remains O(n), where n is the leng
 
 This optimization can improve the performance of the algorithm, especially when the input array contains negative values and the cumulative sums have a wide range.
 
+## Medium
+
 **15. Two Sum**
 
 [Two Sum (CodeStudio)](https://www.naukri.com/code360/problems/reading_6845742?utm_source=striver&utm_medium=website&utm_campaign=a_zcoursetuf&leftPanelTabValue=PROBLEM)
@@ -3605,4 +3609,471 @@ In this optimized code:
 - If `a[i]` is equal to `lastSuperior`, we add `a[i]` to the `list` without updating `lastSuperior`.
 - If `a[i]` is less than `lastSuperior`, we break out of the loop using the `break` statement (early termination).
 
-This optimization can improve the performance of the algorithm, especially when the input array contains a large number of consecutive descending elements towards the beginning of the array, as it avoids unnecessary iterations and comparisons.
+This optimization can improve the performance of the algorithm, especially when the input array contains a large number of consecutive descending elements towards the beginning of the array, as it avoids unnecessary iterations and comparisons. 
+
+## 2-05-2024
+
+**22. Longest Consecutive Sequence in an Array**
+
+[Longest Consecutive Sequence in an Array](https://www.naukri.com/code360/problems/longest-successive-elements_6811740?utm_source=striver&utm_medium=website&utm_campaign=a_zcoursetuf&leftPanelTabValue=DISCUSS)
+
+[Longest Consecutive Sequence in an Array](https://leetcode.com/problems/longest-consecutive-sequence/)
+
+There is an integer array ‘A’ of size ‘N’.
+
+A sequence is successive when the adjacent elements of the sequence have a difference of 1.
+
+You must return the length of the longest successive sequence.
+
+Note:
+
+You can reorder the array to form a sequence. 
+For example,
+
+Input:
+A = [5, 8, 3, 2, 1, 4], N = 6
+Output:
+5
+Explanation: 
+The resultant sequence can be 1, 2, 3, 4, 5.    
+The length of the sequence is 5.
+
+**Pseudocode:**
+
+```
+function longestConsecutive(nums):
+    if nums is empty:
+        return 0
+    sort nums in ascending order
+    count = 0
+    longest = 1
+    lastSmaller = MIN_VALUE
+    
+    for each num in nums:
+        if num - 1 == lastSmaller:
+            count += 1
+            lastSmaller = num
+        else if num != lastSmaller:
+            count = 1
+            lastSmaller = num
+        update longest with the maximum of longest and count
+    
+    return longest
+```
+
+**Explanation:**
+
+1. The function first checks if the input array `nums` is empty. If it is, it returns 0 since there can be no consecutive sequence.
+2. If the array is not empty, it sorts the array in ascending order using `Arrays.sort(nums)`.
+3. The function initializes three variables:
+   - `count`: Keeps track of the length of the current consecutive sequence.
+   - `longest`: Stores the length of the longest consecutive sequence found so far.
+   - `lastSmaller`: Stores the value of the last element in the current consecutive sequence.
+4. The function then iterates over the sorted array `nums`.
+5. For each element `num` in `nums`:
+   - If `num - 1` is equal to `lastSmaller`, it means that `num` is part of the current consecutive sequence. In this case, `count` is incremented by 1, and `lastSmaller` is updated to `num`.
+   - If `num` is not equal to `lastSmaller`, it means that a new consecutive sequence starts from `num`. In this case, `count` is reset to 1, and `lastSmaller` is updated to `num`.
+   - The `longest` variable is updated with the maximum value between its current value and the current value of `count`.
+6. After iterating through the entire array, the function returns the value of `longest`, which represents the length of the longest consecutive sequence found in the input array.
+
+**Time Complexity:** The time complexity of this algorithm is O(n log n), where n is the length of the input array `nums`. This is because the sorting operation using `Arrays.sort(nums)` takes O(n log n) time in the average case.
+
+**Space Complexity:** The space complexity is O(1), as the algorithm uses a constant amount of extra space to store the variables `count`, `longest`, and `lastSmaller`, regardless of the size of the input array.
+
+**Example:**
+Let's consider the example `nums = [100, 4, 200, 1, 3, 2]`.
+
+1. After sorting, `nums` becomes `[1, 2, 3, 4, 100, 200]`.
+2. Initially, `count = 0`, `longest = 1`, and `lastSmaller = MIN_VALUE`.
+3. Iteration 1: `num = 1`
+   - `num - 1 != lastSmaller`, so `count = 1` and `lastSmaller = 1`.
+   - `longest = max(longest, count) = max(1, 1) = 1`.
+4. Iteration 2: `num = 2`
+   - `num - 1 == lastSmaller`, so `count = 2` and `lastSmaller = 2`.
+   - `longest = max(longest, count) = max(1, 2) = 2`.
+5. Iteration 3: `num = 3`
+   - `num - 1 == lastSmaller`, so `count = 3` and `lastSmaller = 3`.
+   - `longest = max(longest, count) = max(2, 3) = 3`.
+6. Iteration 4: `num = 4`
+   - `num - 1 == lastSmaller`, so `count = 4` and `lastSmaller = 4`.
+   - `longest = max(longest, count) = max(3, 4) = 4`.
+7. Iteration 5: `num = 100`
+   - `num - 1 != lastSmaller`, so `count = 1` and `lastSmaller = 100`.
+   - `longest = max(longest, count) = max(4, 1) = 4`.
+8. Iteration 6: `num = 200`
+   - `num - 1 != lastSmaller`, so `count = 1` and `lastSmaller = 200`.
+   - `longest = max(longest, count) = max(4, 1) = 4`.
+
+The function returns `4`, which is the length of the longest consecutive sequence `[1, 2, 3, 4]` in the input array.
+
+**Potential Optimizations:**
+
+The given implementation is already optimized for time complexity, as it uses sorting to ensure that consecutive elements are processed together. However, there is a potential optimization to improve the space complexity:
+
+Instead of using an auxiliary data structure like an array or a list, we can use a set data structure to store the unique elements of the input array. This way, we can skip the sorting step and directly iterate over the set. The time complexity will remain O(n log n) due to the set construction, but the space complexity will improve from O(n) (for sorting) to O(m), where m is the number of unique elements in the input array.
+
+Here's the optimized code using a set:
+
+```java
+public int longestConsecutive(int[] nums) {
+    int n = nums.length;
+    if (n == 0) {
+        return 0;
+    }
+
+    Set<Integer> numSet = new HashSet<>();
+    for (int num : nums) {
+        numSet.add(num);
+    }
+
+    int longest = 0;
+    for (int num : numSet) {
+        if (!numSet.contains(num - 1)) {
+            int currentNum = num;
+            int currentCount = 1;
+
+            while (numSet.contains(currentNum + 1)) {
+                currentNum++;
+                currentCount++;
+            }
+
+            longest = Math.max(longest, currentCount);
+        }
+    }
+
+    return longest;
+}
+```
+
+In this optimized code:
+
+1. We create a `HashSet` `numSet` and add all the elements from the input array `nums` to it.
+2. We iterate over the elements in `numSet`.
+3. For each element `num`, we check if `num - 1` is not present in the set. If it's not present, it means `num` is the start of a new consecutive sequence.
+4. We then count the length of the consecutive sequence starting from `num` by incrementing `currentNum` and `currentCount` until we encounter a number that is not present in the set.
+5. We update the `longest` variable with the maximum length of the consecutive sequence found so far.
+6. Finally, we return the value of `longest`.
+
+This optimization improves the space complexity to O(m), where m is the number of unique elements in the input array `nums`. However, the time complexity remains O(n log n) due to the set construction, which involves sorting the elements internally.
+
+**23. Set Matrix Zeros**
+
+[Zero Matrix (CodeStudio)](https://www.naukri.com/code360/problems/zero-matrix_1171153?utm_source=striver&utm_medium=website&utm_campaign=a_zcoursetuf&leftPanelTabValue=PROBLEM)
+
+You are given a matrix 'MATRIX' of dimension 'N' x 'M'. Your task is to make all the elements of row 'i' and column 'j' equal to 0 if any element in the ith row or jth column of the matrix is 0.
+
+Note:
+
+1) The number of rows should be at least 1.
+
+2) The number of columns should be at least 1.
+
+3) For example, refer to the below matrix illustration:
+
+![Example 1](https://files.codingninjas.in/zero-8066.png)
+
+**Pseudocode:**
+
+```
+function zeroMatrix(matrix, n, m):
+    create an empty set rows to store row indices
+    create an empty set cols to store column indices
+    
+    for each row i in matrix:
+        for each column j in row i:
+            if matrix[i][j] is 0:
+                add i to rows
+                add j to cols
+    
+    for each row i in matrix:
+        create a list ls to store the current row
+        for each column j in row i:
+            if i is in rows or j is in cols:
+                set ls[j] to 0
+        update matrix[i] with ls
+    
+    return matrix
+```
+
+**Explanation:**
+
+1. The function starts by creating two sets: `rows` and `cols`. These sets will store the indices of rows and columns, respectively, that contain at least one 0.
+2. It then iterates over the matrix using nested loops. If any element `matrix[i][j]` is 0, it adds the row index `i` to the `rows` set and the column index `j` to the `cols` set.
+3. After iterating over the entire matrix, the `rows` and `cols` sets contain the indices of rows and columns that need to be set to 0.
+4. The function then iterates over the matrix again using a nested loop.
+5. For each row `i`, it creates a new list `ls` to store the modified row.
+6. For each column `j` in the current row `i`, it checks if the row index `i` is present in the `rows` set or the column index `j` is present in the `cols` set.
+7. If either condition is true, it sets the corresponding element `ls[j]` to 0.
+8. After processing all columns in the current row, it updates the original matrix by setting `matrix[i]` to the modified row `ls`.
+9. Finally, the modified matrix is returned.
+
+**Time Complexity:** The time complexity of this algorithm is O(n * m), where n is the number of rows and m is the number of columns in the matrix. This is because the algorithm iterates over the entire matrix twice using nested loops.
+
+**Space Complexity:** The space complexity is O(n + m), where n is the number of rows and m is the number of columns in the matrix. This is because the algorithm uses two sets (`rows` and `cols`) to store the indices of rows and columns that need to be set to 0. In the worst case, all rows and columns may need to be set to 0, resulting in a space complexity of O(n + m).
+
+**Example:**
+Let's consider the example `matrix = [[1, 1, 1], [1, 0, 1], [1, 1, 1]]`, `n = 3`, and `m = 3`.
+
+1. Initially, `rows = {}`, `cols = {}`, and `finalList = []`.
+2. Iteration 1: `i = 0`, `j = 0`, `matrix[0][0] = 1`, so no updates.
+3. Iteration 2: `i = 0`, `j = 1`, `matrix[0][1] = 1`, so no updates.
+4. Iteration 3: `i = 0`, `j = 2`, `matrix[0][2] = 1`, so no updates.
+5. Iteration 4: `i = 1`, `j = 0`, `matrix[1][0] = 1`, so no updates.
+6. Iteration 5: `i = 1`, `j = 1`, `matrix[1][1] = 0`, so `rows = {1}`, `cols = {1}`.
+7. Iteration 6: `i = 1`, `j = 2`, `matrix[1][2] = 1`, so no updates.
+8. Iteration 7: `i = 2`, `j = 0`, `matrix[2][0] = 1`, so no updates.
+9. Iteration 8: `i = 2`, `j = 1`, `j = 1` is in `cols`, so `finalList = [[1, 0, 1]]`.
+10. Iteration 9: `i = 2`, `j = 2`, `j = 2` is not in `cols`, so `finalList = [[1, 0, 1], [1, 0, 1]]`.
+11. Iteration 10: `i = 1`, `i = 1` is in `rows`, so `finalList = [[1, 0, 1], [0, 0, 0], [1, 0, 1]]`.
+12. Iteration 11: `i = 0`, `i = 0` is not in `rows`, so `finalList = [[1, 0, 1], [0, 0, 0], [1, 0, 1]]`.
+
+The final matrix is `[[1, 0, 1], [0, 0, 0], [1, 0, 1]]`.
+
+**Potential Optimizations:**
+
+The given implementation is already optimized for both time and space complexity. However, there is a potential optimization to improve the readability and maintainability of the code:
+
+Instead of using nested loops to iterate over the matrix, we can use a single loop and access the elements using indices. This can make the code more concise and easier to understand.
+
+Here's the optimized code:
+
+```java
+public static ArrayList<ArrayList<Integer>> zeroMatrix(ArrayList<ArrayList<Integer>> matrix, Integer n, Integer m) {
+    // Create a set to store row indices and column indices
+    Set<Integer> rows = new HashSet<>();
+    Set<Integer> cols = new HashSet<>();
+
+    // Iterate over the matrix and store the row and column indices with 0
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < m; j++) {
+            if (matrix.get(i).get(j) == 0) {
+                rows.add(i);
+                cols.add(j);
+            }
+        }
+    }
+
+    // Iterate over the matrix again and set elements to 0 if the row or column index is in the respective set
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < m; j++) {
+            if (rows.contains(i) || cols.contains(j)) {
+                matrix.get(i).set(j, 0);
+            }
+        }
+    }
+
+    return matrix;
+}
+```
+
+In this optimized code:
+
+1. We create two sets `rows` and `cols` to store the row and column indices with 0, respectively.
+2. We iterate over the matrix using a single loop and store the row and column indices with 0 in the respective sets.
+3. We iterate over the matrix again using a single loop and set the elements to 0 if the corresponding row or column index is present in the `rows` or `cols` set, respectively.
+4. Finally, we return the modified matrix.
+
+This optimization improves the readability and maintainability of the code without affecting the time and space complexity.
+
+[Set Matrix Zeroes (Leetcode)](https://leetcode.com/problems/set-matrix-zeroes/description/)
+
+Given an m x n integer matrix matrix, if an element is 0, set its entire row and column to 0's.
+
+You must do it in place.
+
+![Example 1](https://assets.leetcode.com/uploads/2020/08/17/mat1.jpg)
+
+![Example 2](https://assets.leetcode.com/uploads/2020/08/17/mat2.jpg)
+
+
+**Pseudocode:**
+
+```
+function setZeroes(matrix):
+    m = number of rows in matrix
+    n = number of columns in matrix
+    create a new matrix matrix2 of size m x n
+    
+    # Copy the original matrix to matrix2
+    for each row i in matrix:
+        for each column j in row i:
+            matrix2[i][j] = matrix[i][j]
+    
+    # Traverse the original matrix
+    for each row i in matrix:
+        for each column j in row i:
+            if matrix[i][j] is 0:
+                # Set the entire row and column to 0 in matrix2
+                for each column k in row i:
+                    matrix2[i][k] = 0
+                for each row k:
+                    matrix2[k][j] = 0
+    
+    # Copy the modified matrix2 back to the original matrix
+    for each row i in matrix:
+        for each column j in row i:
+            matrix[i][j] = matrix2[i][j]
+```
+
+**Explanation:**
+
+1. The function takes a 2D integer matrix as input.
+2. It creates a new matrix `matrix2` of the same size as the input matrix to store the modified values.
+3. It copies the original matrix to `matrix2` using nested loops.
+4. It then iterates over the original matrix using nested loops.
+5. If an element `matrix[i][j]` is 0, it sets the entire row `i` and column `j` to 0 in `matrix2` using two additional nested loops.
+6. After processing all elements, `matrix2` contains the modified matrix with the desired changes.
+7. Finally, it copies the modified `matrix2` back to the original matrix using nested loops.
+
+**Time Complexity:** The time complexity of this algorithm is O(m * n * (m + n)), where m is the number of rows and n is the number of columns in the matrix. This is because the algorithm iterates over the matrix three times using nested loops, and for each non-zero element, it performs two additional nested loops to set the corresponding row and column to 0 in `matrix2`.
+
+**Space Complexity:** The space complexity is O(m * n), where m is the number of rows and n is the number of columns in the matrix. This is because the algorithm creates a new matrix `matrix2` of the same size as the input matrix to store the modified values.
+
+**Example:**
+Let's consider the example `matrix = [[1, 1, 1], [1, 0, 1], [1, 1, 1]]`.
+
+1. Initially, `m = 3`, `n = 3`, and `matrix2` is a new 3x3 matrix with all elements set to the same values as the input matrix.
+2. Iteration 1: `i = 0`, `j = 0`, `matrix[0][0] = 1`, so no changes are made.
+3. Iteration 2: `i = 0`, `j = 1`, `matrix[0][1] = 1`, so no changes are made.
+4. Iteration 3: `i = 0`, `j = 2`, `matrix[0][2] = 1`, so no changes are made.
+5. Iteration 4: `i = 1`, `j = 0`, `matrix[1][0] = 1`, so no changes are made.
+6. Iteration 5: `i = 1`, `j = 1`, `matrix[1][1] = 0`, so `matrix2[1][0] = matrix2[1][1] = matrix2[1][2] = 0` (set the entire row to 0), and `matrix2[0][1] = matrix2[1][1] = matrix2[2][1] = 0` (set the entire column to 0).
+7. Iteration 6: `i = 1`, `j = 2`, `matrix[1][2] = 1`, but since the row and column have already been set to 0, no further changes are made.
+8. Iteration 7: `i = 2`, `j = 0`, `matrix[2][0] = 1`, but since the column has already been set to 0, no further changes are made.
+9. Iteration 8: `i = 2`, `j = 1`, `matrix[2][1] = 1`, but since the column has already been set to 0, no further changes are made.
+10. Iteration 9: `i = 2`, `j = 2`, `matrix[2][2] = 1`, but since the column has already been set to 0, no further changes are made.
+11. Finally, the modified `matrix2` is copied back to the original matrix, resulting in `matrix = [[0, 0, 0], [0, 0, 0], [0, 0, 0]]`.
+
+**Potential Optimizations:**
+
+The given implementation is not optimized for space complexity, as it creates a new matrix `matrix2` of the same size as the input matrix. We can optimize the space complexity by using two additional boolean arrays to keep track of the rows and columns that need to be set to 0, instead of creating a separate matrix.
+
+Here's the optimized code:
+
+```java
+class Solution {
+    public void setZeroes(int[][] matrix) {
+        int m = matrix.length;
+        int n = matrix[0].length;
+        boolean[] rows = new boolean[m];
+        boolean[] cols = new boolean[n];
+
+        // Mark the rows and columns that need to be set to 0
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (matrix[i][j] == 0) {
+                    rows[i] = true;
+                    cols[j] = true;
+                }
+            }
+        }
+
+        // Set the rows and columns to 0 based on the boolean arrays
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (rows[i] || cols[j]) {
+                    matrix[i][j] = 0;
+                }
+            }
+        }
+    }
+}
+```
+
+In this optimized code:
+
+1. We create two boolean arrays `rows` and `cols` of sizes `m` and `n`, respectively, to store the information about rows and columns that need to be set to 0.
+2. We iterate over the matrix and mark the corresponding rows and columns in the `rows` and `cols` arrays if an element is 0.
+3. We iterate over the matrix again and set the elements to 0 if the corresponding row or column is marked in the `rows` or `cols` arrays, respectively.
+
+This optimization reduces the space complexity from O(m * n) to O(m + n), as we only need to store two boolean arrays instead of creating a separate matrix.
+
+The time complexity remains O(m * n * (m + n)), as we still need to iterate over the matrix twice, and for each non-zero element, we need to mark the corresponding row and column.
+
+**24. Rotate Matrix by 90 degrees**
+
+Yet to learn
+
+**25. Print the matrix in spiral manner**
+
+Yet to learn
+
+**26. Count All Subarrays With Given Sum**
+
+[Count All Subarrays With Given Sum (CodeStudio)](https://www.naukri.com/code360/problems/subarray-sums-i_1467103?utm_source=striver&utm_medium=website&utm_campaign=a_zcoursetuf&leftPanelTabValue=PROBLEM)
+
+[Subarray Sum Equals K (Leetcode)](https://leetcode.com/problems/subarray-sum-equals-k/submissions/1248079219/)
+
+
+**Pseudocode:**
+
+```
+function subarraySum(nums, k):
+    create a map sumFrequency to store the cumulative sum and its frequency
+    initialize sumFrequency with key 0 and value 1 (to handle the case when sum equals k)
+    count = 0 (to store the number of subarrays with sum k)
+    sum = 0 (to store the cumulative sum)
+
+    for each num in nums:
+        sum += num
+        diff = sum - k
+        if diff is present in sumFrequency:
+            count += the frequency of diff in sumFrequency
+        increment the frequency of sum in sumFrequency
+
+    return count
+```
+
+**Explanation:**
+
+1. The function initializes an empty `HashMap` called `sumFrequency` to store the cumulative sum and its frequency.
+2. It initializes `sumFrequency` with `key=0` and `value=1`. This step is crucial because it accounts for the case when the cumulative sum equals `k`, which means there is a subarray whose sum is `k`.
+3. The function initializes two variables: `count` to store the number of subarrays with sum `k`, and `sum` to store the cumulative sum.
+4. It then iterates over the input array `nums`.
+5. For each element `num` in `nums`, it updates the `sum` by adding `num` to it.
+6. It calculates the `diff` as `sum - k`. If there exists a subarray with a cumulative sum equal to `diff`, then by adding `num` to that subarray, we can create a new subarray with a sum equal to `k`.
+7. If `diff` is present as a key in the `sumFrequency` map, it means there are subarrays with a cumulative sum equal to `diff`. The function adds the frequency of `diff` to the `count`.
+8. After processing the current element, the function updates the frequency of the current `sum` in the `sumFrequency` map.
+9. Finally, the function returns the `count`, which represents the number of subarrays with a sum equal to `k`.
+
+**Time Complexity:** The time complexity of this algorithm is O(n), where n is the length of the input array `nums`. This is because the algorithm iterates over the array once, and the operations performed in the loop (sum calculation, map lookup, and map update) take constant time on average.
+
+**Space Complexity:** The space complexity is O(n) in the worst case, where all elements in the input array are distinct. In this case, the `sumFrequency` map will store a cumulative sum for each element, resulting in a space complexity of O(n). However, if the input array contains many duplicate elements, the space complexity can be reduced due to the fact that the `sumFrequency` map will store fewer distinct cumulative sums.
+
+**Example:**
+Let's consider the example `nums = [1, 1, 1]` and `k = 2`.
+
+1. Initially, `sumFrequency = {0: 1}`, `count = 0`, and `sum = 0`.
+2. Iteration 1: `num = 1`, `sum = 1`, `diff = 1 - 2 = -1`. `-1` is not present in `sumFrequency`, so `count` remains 0. `sumFrequency = {0: 1, 1: 1}`.
+3. Iteration 2: `num = 1`, `sum = 2`, `diff = 2 - 2 = 0`. `0` is present in `sumFrequency` with a frequency of 1, so `count = 1`. `sumFrequency = {0: 1, 1: 1, 2: 1}`.
+4. Iteration 3: `num = 1`, `sum = 3`, `diff = 3 - 2 = 1`. `1` is present in `sumFrequency` with a frequency of 1, so `count = 2`. `sumFrequency = {0: 1, 1: 1, 2: 1, 3: 1}`.
+
+The function returns `2`, which is the number of subarrays with a sum equal to `k = 2` (the subarrays are `[1, 1]` and `[1, 1, 1]`).
+
+**Potential Optimizations:**
+
+The given implementation is already optimized for both time and space complexity. However, there is a potential optimization to improve the readability and maintainability of the code:
+
+Instead of using the `getOrDefault` method to handle the case when the `sum` is not present in the `sumFrequency` map, we can use a single conditional statement to check if the `sum` is present in the map or not, and update the frequency accordingly.
+
+Here's the optimized code:
+
+```java
+public int subarraySum(int[] nums, int k) {
+    Map<Integer, Integer> sumFrequency = new HashMap<>();
+    sumFrequency.put(0, 1); // Initialize with 0 sum frequency
+    int count = 0;
+    int sum = 0;
+    for (int num : nums) {
+        sum += num;
+        int diff = sum - k;
+        count += sumFrequency.getOrDefault(diff, 0);
+        sumFrequency.put(sum, sumFrequency.getOrDefault(sum, 0) + 1);
+    }
+    return count;
+}
+```
+
+In this optimized code, we use the `getOrDefault` method to handle the case when the `diff` or `sum` is not present in the `sumFrequency` map. If the key is not present, the `getOrDefault` method returns the default value of 0.
+
+This optimization improves the readability and maintainability of the code without affecting the time and space complexity.
