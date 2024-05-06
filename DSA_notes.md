@@ -3,7 +3,7 @@
 ## Note :
 The optimisation code for each problem is given by AI, so there might be a possibility that they're not an exact fit for the problem you're solving. Please bear that in mind and modify the code implementing the concepts that are provided for optimisation.
 
-## 25-04-2024
+## 25-04-20242
 
 **Selection Sort**
 
@@ -2966,10 +2966,12 @@ public class Solution {
         for(int i=0;i<n;i++){
             if(count==0)
             ele=v[i];
-            if(v[i]==ele){
+            if(v[i]==ele)
+            {
                 count++;
             }
-            else{
+            else
+            {
                 count--;
             }
         }
@@ -3611,7 +3613,7 @@ In this optimized code:
 
 This optimization can improve the performance of the algorithm, especially when the input array contains a large number of consecutive descending elements towards the beginning of the array, as it avoids unnecessary iterations and comparisons. 
 
-## 2-05-2024
+## 3-05-2024
 
 **22. Longest Consecutive Sequence in an Array**
 
@@ -4077,3 +4079,1074 @@ public int subarraySum(int[] nums, int k) {
 In this optimized code, we use the `getOrDefault` method to handle the case when the `diff` or `sum` is not present in the `sumFrequency` map. If the key is not present, the `getOrDefault` method returns the default value of 0.
 
 This optimization improves the readability and maintainability of the code without affecting the time and space complexity.
+
+## 4-05-2024
+
+**27. Pascals Triangle**
+
+[Pascals Triangle (CodeStudio)](https://www.naukri.com/code360/problems/print-pascal-s-triangle_6917910?utm_source=striver&utm_medium=website&utm_campaign=a_zcoursetuf&leftPanelTabValue=DISCUSS)
+
+The given Java code is an implementation of a function `pascalTriangle` that generates Pascal's Triangle up to a specified number of rows `N`. The function returns a 2D integer array representing the triangle.
+
+**Pseudocode:**
+
+```
+function pascalTriangle(N):
+    create a 2D array arr with N rows
+    for each row i from 0 to N-1:
+        create a row of size i+1
+        for each column j from 0 to i:
+            if j is 0 or j is i:
+                set arr[i][j] to 1
+            else:
+                set arr[i][j] to the sum of arr[i-1][j] and arr[i-1][j-1]
+    return arr
+```
+
+**Explanation:**
+
+1. The function takes an integer `N` as input, which represents the number of rows to generate in Pascal's Triangle.
+2. It creates a 2D integer array `arr` with `N` rows, where each row is initially an empty array.
+3. The function then iterates over the rows from `0` to `N-1` using a `for` loop.
+4. For each row `i`:
+   - A new row of size `i+1` is created to store the elements of that row in the triangle.
+   - The function then iterates over the columns from `0` to `i` using another `for` loop.
+   - For each column `j`:
+     - If `j` is 0 or `j` is equal to `i`, the element `arr[i][j]` is set to 1 (as the first and last elements of each row in Pascal's Triangle are always 1).
+     - Otherwise, the element `arr[i][j]` is set to the sum of the elements directly above it and above-left to it in the previous row (`arr[i-1][j]` and `arr[i-1][j-1]`, respectively).
+5. After filling all the elements in the 2D array `arr`, the function returns `arr`, which represents Pascal's Triangle.
+
+**Time Complexity:** The time complexity of this algorithm is O(N^2), where N is the number of rows in Pascal's Triangle. This is because for each row, the function iterates over the elements in the previous row to calculate the current row's elements, and the number of elements in each row increases linearly with the row number.
+
+**Space Complexity:** The space complexity is O(N^2), where N is the number of rows in Pascal's Triangle. This is because the algorithm creates a 2D array to store all the elements of the triangle, and the total number of elements across all rows is proportional to N^2.
+
+**Example:**
+Let's consider the example `N = 5`.
+
+1. The 2D array `arr` is created with 5 rows: `arr = [[],[],[],[],[]]`.
+2. Iteration 1: `i = 0`
+   - A new row of size 1 is created: `arr[0] = [1]`.
+3. Iteration 2: `i = 1`
+   - A new row of size 2 is created: `arr[1] = [0, 0]`.
+   - `arr[1][0] = 1` (first element is 1).
+   - `arr[1][1] = 1` (last element is 1).
+   - `arr = [[1], [1, 1]]`.
+4. Iteration 3: `i = 2`
+   - A new row of size 3 is created: `arr[2] = [0, 0, 0]`.
+   - `arr[2][0] = 1` (first element is 1).
+   - `arr[2][1] = arr[1][0] + arr[1][1] = 1 + 1 = 2`.
+   - `arr[2][2] = 1` (last element is 1).
+   - `arr = [[1], [1, 1], [1, 2, 1]]`.
+5. Iteration 4: `i = 3`
+   - A new row of size 4 is created: `arr[3] = [0, 0, 0, 0]`.
+   - `arr[3][0] = 1` (first element is 1).
+   - `arr[3][1] = arr[2][0] + arr[2][1] = 1 + 2 = 3`.
+   - `arr[3][2] = arr[2][1] + arr[2][2] = 2 + 1 = 3`.
+   - `arr[3][3] = 1` (last element is 1).
+   - `arr = [[1], [1, 1], [1, 2, 1], [1, 3, 3, 1]]`.
+6. Iteration 5: `i = 4`
+   - A new row of size 5 is created: `arr[4] = [0, 0, 0, 0, 0]`.
+   - `arr[4][0] = 1` (first element is 1).
+   - `arr[4][1] = arr[3][0] + arr[3][1] = 1 + 3 = 4`.
+   - `arr[4][2] = arr[3][1] + arr[3][2] = 3 + 3 = 6`.
+   - `arr[4][3] = arr[3][2] + arr[3][3] = 3 + 1 = 4`.
+   - `arr[4][4] = 1` (last element is 1).
+   - `arr = [[1], [1, 1], [1, 2, 1], [1, 3, 3, 1], [1, 4, 6, 4, 1]]`.
+
+The function returns `arr`, which represents Pascal's Triangle up to 5 rows.
+
+Java Code :
+
+```java
+import java.util.*; 
+public class Solution { 
+public static int[][] pascalTriangle(int N) 
+{    
+ int[][] arr = new int[N][];      
+ for(int i=0;i<N;i++)      
+{         
+ arr[i]=new int[i+1];     
+        for(int j=0;j<=i;j++) {          
+           if(j==0||j==i)              
+           arr[i][j]=1;            
+           else  
+           {             
+            arr[i][j]=arr[i-1][j]+arr[i-1][j-1];           
+            }         
+     }   
+}  
+       return arr;   
+}
+} 
+```
+
+**Potential Optimizations:**
+
+The given implementation is already optimized for both time and space complexity. However, there is a potential optimization to improve the readability and maintainability of the code:
+
+Instead of using nested loops, we can use a single loop and calculate the row elements using the previous row's elements. This can make the code more concise and easier to understand.
+
+Here's the optimized code:
+
+```java
+import java.util.*;
+
+public class Solution {
+    public static int[][] pascalTriangle(int N) {
+        int[][] arr = new int[N][];
+        arr[0] = new int[1];
+        arr[0][0] = 1;
+
+        for (int i = 1; i < N; i++) {
+            arr[i] = new int[i + 1];
+            arr[i][0] = 1;
+            for (int j = 1; j < i; j++) {
+                arr[i][j] = arr[i - 1][j - 1] + arr[i - 1][j];
+            }
+            arr[i][i] = 1;
+        }
+
+        return arr;
+    }
+}
+```
+
+In this optimized code:
+
+1. The first row (`arr[0]`) is initialized with `[1]`.
+2. The function then iterates from `1` to `N-1` to generate the remaining rows.
+3. For each row `i`:
+   - A new row of size `i+1` is created (`arr[i]`).
+   - The first element (`arr[i][0]`) is set to 1.
+   - The function then iterates from `1` to `i-1` to calculate the remaining elements.
+   - For each column `j`, the element `arr[i][j]` is set to the sum of the elements directly above it and above-left to it in the previous row (`arr[i-1][j-1]` and `arr[i-1][j]`, respectively).
+   - The last element of the row (`arr[i][i]`) is set to 1.
+4. Finally, the 2D array `arr` representing Pascal's Triangle is returned.
+
+This optimization improves the readability and maintainability of the code without affecting the time and space complexity.
+
+[Pascals Triangle (Leetcode)](https://leetcode.com/problems/pascals-triangle/description/)
+
+The given Java code is an implementation of the `generate` function, which takes an integer `numRows` as input and returns a list of lists representing Pascal's Triangle up to the specified number of rows.
+
+**Pseudocode:**
+
+```
+function generate(numRows):
+    create an empty list triangle to store the rows
+    if numRows is 0:
+        return triangle (empty list)
+    
+    create a new list firstRow with element 1
+    add firstRow to triangle
+    
+    for i from 1 to numRows-1:
+        get the previous row prevRow from triangle
+        create a new empty list currRow
+        
+        add 1 as the first element of currRow
+        
+        for j from 1 to i-1:
+            prevLeft = prevRow[j-1]
+            prevRight = prevRow[j]
+            currVal = prevLeft + prevRight
+            add currVal to currRow
+        
+        add 1 as the last element of currRow
+        add currRow to triangle
+    
+    return triangle
+```
+
+**Explanation:**
+
+1. The function initializes an empty list `triangle` to store the rows of Pascal's Triangle.
+2. It checks if `numRows` is 0. If so, it returns the empty `triangle` list (base case).
+3. The first row of Pascal's Triangle is always `[1]`, so it creates a new list `firstRow` with the element 1 and adds it to the `triangle` list.
+4. The function then iterates from `1` to `numRows-1` to generate the remaining rows.
+5. For each iteration `i`:
+   - It retrieves the previous row `prevRow` from the `triangle` list.
+   - It creates a new empty list `currRow` to store the current row.
+   - It adds 1 as the first element of `currRow` (since the first element of each row in Pascal's Triangle is always 1).
+   - It then iterates from `1` to `i-1` to calculate the remaining elements of `currRow`.
+   - For each iteration `j`:
+     - It retrieves the elements `prevLeft` and `prevRight` from the previous row `prevRow` at indices `j-1` and `j`, respectively.
+     - It calculates the current element `currVal` as the sum of `prevLeft` and `prevRight`.
+     - It adds `currVal` to the `currRow` list.
+   - After calculating all the elements of `currRow`, it adds 1 as the last element (since the last element of each row in Pascal's Triangle is always 1).
+   - It adds the `currRow` list to the `triangle` list.
+6. Finally, it returns the `triangle` list containing all the rows of Pascal's Triangle.
+
+**Time Complexity:** The time complexity of this algorithm is O(n^2), where n is the value of `numRows`. This is because for each row, the algorithm iterates over the previous row to calculate the current row, and the number of elements in each row increases linearly with the row number.
+
+**Space Complexity:** The space complexity is O(n^2), where n is the value of `numRows`. This is because the algorithm stores all the rows of Pascal's Triangle in the `triangle` list, and the total number of elements across all rows is proportional to n^2.
+
+**Example:**
+Let's consider the example `numRows = 5`.
+
+1. Initially, `triangle` is an empty list.
+2. Since `numRows` is not 0, a new list `firstRow = [1]` is created and added to `triangle`.
+3. Iteration 1: `i = 1`, `prevRow = [1]`, `currRow = [1, 1]`. `currRow` is added to `triangle`.
+4. Iteration 2: `i = 2`, `prevRow = [1, 1]`, `currRow = [1, 2, 1]`. `currRow` is added to `triangle`.
+5. Iteration 3: `i = 3`, `prevRow = [1, 2, 1]`, `currRow = [1, 3, 3, 1]`. `currRow` is added to `triangle`.
+6. Iteration 4: `i = 4`, `prevRow = [1, 3, 3, 1]`, `currRow = [1, 4, 6, 4, 1]`. `currRow` is added to `triangle`.
+
+The final `triangle` list is `[[1], [1, 1], [1, 2, 1], [1, 3, 3, 1], [1, 4, 6, 4, 1]]`.
+
+```java
+class Solution {
+    public List<List<Integer>> generate(int numRows) 
+    {
+        List<List<Integer>> triangle = new ArrayList<>();
+        // Base case: If numRows is 0, return an empty triangle
+        if (numRows == 0) {
+            return triangle;
+        }
+        // First row of the triangle
+        List<Integer> firstRow = new ArrayList<>();
+        firstRow.add(1);
+        triangle.add(firstRow);
+        // Generate remaining rows
+        for (int i = 1; i < numRows; i++) {
+            List<Integer> prevRow = triangle.get(i - 1);
+            List<Integer> currRow = new ArrayList<>();
+            // The first element of each row is 1
+            currRow.add(1);
+            // Calculate the remaining elements using the previous row
+            for (int j = 1; j < i; j++) {
+                int prevLeft = prevRow.get(j - 1);
+                int prevRight = prevRow.get(j);
+                int currVal = prevLeft + prevRight;
+                currRow.add(currVal);
+            }
+            // The last element of each row is 1
+            currRow.add(1);
+            triangle.add(currRow);
+        }
+        return triangle;
+    }
+}
+```
+
+**Potential Optimizations:**
+
+The given implementation is already optimized for both time and space complexity. However, there is a potential optimization to improve the readability and maintainability of the code:
+
+Instead of using nested loops, we can use a single loop and calculate the row elements using the previous row's elements. This can make the code more concise and easier to understand.
+
+Here's the optimized code:
+
+```java
+public List<List<Integer>> generate(int numRows) {
+    List<List<Integer>> triangle = new ArrayList<>();
+
+    // Base case: If numRows is 0, return an empty triangle
+    if (numRows == 0) {
+        return triangle;
+    }
+
+    // First row of the triangle
+    List<Integer> firstRow = new ArrayList<>();
+    firstRow.add(1);
+    triangle.add(firstRow);
+
+    // Generate remaining rows
+    for (int i = 1; i < numRows; i++) {
+        List<Integer> prevRow = triangle.get(i - 1);
+        List<Integer> currRow = new ArrayList<>(i + 1);
+        currRow.add(1); // First element is always 1
+
+        for (int j = 1; j < i; j++) {
+            int prevLeft = prevRow.get(j - 1);
+            int prevRight = prevRow.get(j);
+            currRow.add(prevLeft + prevRight);
+        }
+
+        currRow.add(1); // Last element is always 1
+        triangle.add(currRow);
+    }
+
+    return triangle;
+}
+```
+
+In this optimized code:
+
+1. The first row (`firstRow = [1]`) is initialized and added to the `triangle` list.
+2. The function then iterates from `1` to `numRows-1` to generate the remaining rows.
+3. For each row `i`:
+   - A new list `currRow` of size `i+1` is created.
+   - The first element (`currRow.add(1)`) is set to 1.
+   - The function then iterates from `1` to `i-1` to calculate the remaining elements.
+   - For each column `j`, the element `currRow.add(prevLeft + prevRight)` is calculated using the elements directly above it and above-left to it in the previous row (`prevRow.get(j-1)` and `prevRow.get(j)`, respectively).
+   - The last element of the row (`currRow.add(1)`) is set to 1.
+   - The `currRow` list is added to the `triangle` list.
+4. Finally, the `triangle` list representing Pascal's Triangle is returned.
+
+This optimization improves the readability and maintainability of the code without affecting the time and space complexity.
+
+**28. Majority Element (n/3)**
+
+[Majority Element (n/3) (CodeStudio)](https://www.naukri.com/code360/problems/majority-element_6915220?utm_source=striver&utm_medium=website&utm_campaign=a_zcoursetuf&leftPanelTabValue=SUBMISSION)
+
+[Majority Element II (Leetcode)](https://leetcode.com/problems/majority-element-ii/description/)
+
+Given an integer array of size n, find all elements that appear more than ⌊ n/3 ⌋ times.
+
+Example 1:
+
+Input: nums = [3,2,3]
+Output: [3]
+Example 2:
+
+Input: nums = [1]
+Output: [1]
+Example 3:
+
+Input: nums = [1,2]
+Output: [1,2]
+
+**Pseudocode:**
+
+```
+function majorityElement(v):
+    n = length of v
+    create an empty list ls to store the majority elements
+    create an empty hashmap mpp to store the frequency of elements
+    mini = (n / 3) + 1 (minimum frequency required for a majority element)
+
+    for each element num in v:
+        value = frequency of num in mpp (default to 0 if not present)
+        increment the frequency of num in mpp by 1
+        if the frequency of num is equal to mini:
+            add num to ls
+        if the size of ls is 2:
+            break the loop (since there can be at most 2 majority elements)
+
+    sort ls in ascending order
+    return ls
+```
+
+**Explanation:**
+
+1. The function initializes the following variables:
+   - `n`: The length of the input array `v`.
+   - `ls`: An empty list to store the majority elements.
+   - `mpp`: An empty hashmap to store the frequency of elements in `v`.
+   - `mini`: The minimum frequency required for an element to be considered a majority element. It is calculated as `(n / 3) + 1`.
+2. The function then iterates over the input array `v`.
+3. For each element `v[i]`:
+   - It retrieves the current frequency of `v[i]` from the `mpp` hashmap, defaulting to 0 if `v[i]` is not present in `mpp`.
+   - It increments the frequency of `v[i]` in `mpp` by 1.
+   - If the frequency of `v[i]` is equal to `mini`, it adds `v[i]` to the `ls` list.
+   - If the size of `ls` becomes 2, it breaks out of the loop because there can be at most 2 majority elements in the array (since the sum of frequencies of all elements is `n`, and each majority element has a frequency greater than `n/3`).
+4. After the loop, the `ls` list contains the potential majority elements.
+5. The function sorts the `ls` list in ascending order using the `Collections.sort(ls)` method.
+6. Finally, the sorted `ls` list containing the majority elements is returned.
+
+**Time Complexity:** The time complexity of this algorithm is O(n log n), where n is the length of the input array `v`. This is because the algorithm iterates over the array once to count the frequencies, which takes O(n) time, and then sorts the list `ls`, which takes O(k log k) time, where k is the number of potential majority elements (at most 2). Since k is a constant (2), the overall time complexity becomes O(n log n).
+
+**Space Complexity:** The space complexity is O(n), where n is the length of the input array `v`. This is because the algorithm uses a hashmap `mpp` to store the frequencies of elements, which can take up to O(n) space in the worst case when all elements are distinct.
+
+**Example:**
+Let's consider the example `v = [1, 2, 2, 3, 2, 1, 1, 3]`.
+
+1. Initially, `n = 8`, `ls = []`, `mpp = {}`, and `mini = (8 / 3) + 1 = 4`.
+2. Iteration 1: `v[0] = 1`, `mpp = {1: 1}`, `ls = []`.
+3. Iteration 2: `v[1] = 2`, `mpp = {1: 1, 2: 1}`, `ls = []`.
+4. Iteration 3: `v[2] = 2`, `mpp = {1: 1, 2: 2}`, `ls = []`.
+5. Iteration 4: `v[3] = 3`, `mpp = {1: 1, 2: 2, 3: 1}`, `ls = []`.
+6. Iteration 5: `v[4] = 2`, `mpp = {1: 1, 2: 3, 3: 1}`, `ls = [2]`.
+7. Iteration 6: `v[5] = 1`, `mpp = {1: 2, 2: 3, 3: 1}`, `ls = [2, 1]`, and the loop breaks because `ls.size() == 2`.
+8. The `ls` list is sorted: `ls = [1, 2]`.
+9. The function returns `[1, 2]`, which are the majority elements in the input array `v`.
+
+```java
+class Solution {
+    public List<Integer> majorityElement(int[] nums) 
+    {
+        int n = nums.length;
+        List<Integer> ls = new ArrayList<>(); 
+        HashMap<Integer, Integer> mpp = new HashMap<>();
+        int mini = (int)(n / 3) + 1;
+        for (int i = 0; i < n; i++) 
+        {
+            int value = mpp.getOrDefault(nums[i], 0);
+            mpp.put(nums[i], value + 1);
+            if (mpp.get(nums[i]) == mini) 
+            {
+                ls.add(nums[i]);
+            }
+            if (ls.size() == 2) break;
+        }
+        Collections.sort(ls);
+        return ls; 
+    }
+}
+```
+
+**Potential Optimizations:**
+
+The given implementation is already optimized for both time and space complexity. However, there is a potential optimization to improve the readability and maintainability of the code:
+
+Instead of using the `getOrDefault` method to handle the case when an element is not present in the `mpp` hashmap, we can use a single conditional statement to check if the element is present and update the frequency accordingly.
+
+Here's the optimized code:
+
+```java
+import java.util.*;
+
+public class Solution {
+    public static List<Integer> majorityElement(int[] v) {
+        int n = v.length;
+        List<Integer> ls = new ArrayList<>();
+        HashMap<Integer, Integer> mpp = new HashMap<>();
+        int mini = (int) (n / 3) + 1;
+
+        for (int num : v) {
+            int value = mpp.getOrDefault(num, 0);
+            mpp.put(num, value + 1);
+            if (mpp.get(num) == mini) {
+                ls.add(num);
+                if (ls.size() == 2) break;
+            }
+        }
+
+        Collections.sort(ls);
+        return ls;
+    }
+}
+```
+
+In this optimized code, we use the `getOrDefault` method to handle the case when an element is not present in the `mpp` hashmap. This can make the code more concise and easier to understand.
+
+This optimization does not affect the time and space complexity of the algorithm.
+
+
+## 6-05-2024
+
+**29. 3 Sum**
+
+[3 Sum (Leetcode)](https://leetcode.com/problems/3sum/description/)
+
+[3 Sum (CodeStudio)](https://www.naukri.com/code360/problems/three-sum_6922132?utm_source=striver&utm_medium=website&utm_campaign=a_zcoursetuf)
+
+
+Given an integer array nums, return all the triplets [nums[i], nums[j], nums[k]] such that i != j, i != k, and j != k, and nums[i] + nums[j] + nums[k] == 0.
+
+Notice that the solution set must not contain duplicate triplets.
+
+Example 1:
+
+Input: nums = [-1,0,1,2,-1,-4]
+Output: [[-1,-1,2],[-1,0,1]]
+Explanation: 
+nums[0] + nums[1] + nums[2] = (-1) + 0 + 1 = 0.
+nums[1] + nums[2] + nums[4] = 0 + 1 + (-1) = 0.
+nums[0] + nums[3] + nums[4] = (-1) + 2 + (-1) = 0.
+The distinct triplets are [-1,0,1] and [-1,-1,2].
+Notice that the order of the output and the order of the triplets does not matter.
+Example 2:
+
+Input: nums = [0,1,1]
+Output: []
+Explanation: The only possible triplet does not sum up to 0.
+Example 3:
+
+Input: nums = [0,0,0]
+Output: [[0,0,0]]
+Explanation: The only possible triplet sums up to 0.
+
+The given code is a solution to the "3Sum" problem, which is a famous problem in computer science. The problem statement is as follows:
+
+Given an integer array `nums`, return all the triplets `[nums[i], nums[j], nums[k]]` such that `i != j`, `i != k`, and `j != k`, and `nums[i] + nums[j] + nums[k] == 0`.
+
+The solution should not contain duplicate triplets.
+
+Pseudocode
+
+```
+1. Sort the input array nums in ascending order
+2. Initialize an empty list to store the triplets (ans)
+3. Iterate through the array with a variable i from 0 to length - 2
+    a. If i > 0 and nums[i] is the same as nums[i-1], skip this iteration (to avoid duplicates)
+    b. Initialize two pointers, j = i + 1 and k = length - 1
+    c. While j < k:
+        i. Calculate the sum of nums[i], nums[j], and nums[k]
+        ii. If the sum is 0:
+            1. Add the triplet [nums[i], nums[j], nums[k]] to ans
+            2. Move j and k inwards until they point to different values (to avoid duplicates)
+        iii. If the sum is less than 0, increment j (to increase the sum)
+        iv. If the sum is greater than 0, decrement k (to decrease the sum)
+4. Return ans
+```
+
+**Time Complexity:** O(n^2), where n is the length of the input array `nums`. The sorting step takes O(n log n), but the nested loops have a time complexity of O(n^2).
+
+**Space Complexity:** O(n), where n is the length of the input array `nums`. In the worst case, the output list `ans` could contain O(n^2) triplets, but the space required for the sorted array and the pointers is O(n).
+
+**Explanation with Example:**
+
+Let's consider the example `nums = [-1, 0, 1, 2, -1, -4]`.
+
+1. The array is sorted: `nums = [-4, -1, -1, 0, 1, 2]`.
+2. An empty list `ans` is initialized to store the triplets.
+3. The outer loop starts with `i = 0` and `nums[i] = -4`.
+   - `j = 1` and `k = 5` (initially pointing to the second and last elements).
+   - While `j < k`:
+     - `sum = nums[i] + nums[j] + nums[k] = -4 + (-1) + 2 = -3 < 0`, so `j` is incremented to 2.
+     - `sum = nums[i] + nums[j] + nums[k] = -4 + (-1) + 1 = -4 < 0`, so `j` is incremented to 3.
+     - `sum = nums[i] + nums[j] + nums[k] = -4 + 0 + 1 = -3 < 0`, so `j` is incremented to 4.
+     - `sum = nums[i] + nums[j] + nums[k] = -4 + 1 + 1 = -2 < 0`, so `j` is incremented to 5, which is not less than `k`, so the inner loop terminates.
+4. The outer loop continues with `i = 1` and `nums[i] = -1`.
+   - `j = 2` and `k = 5` (initially pointing to the third and last elements).
+   - While `j < k`:
+     - `sum = nums[i] + nums[j] + nums[k] = -1 + (-1) + 2 = 0`, so the triplet `[-1, -1, 2]` is added to `ans`. `j` is incremented to 3, and `k` is decremented to 4.
+     - `sum = nums[i] + nums[j] + nums[k] = -1 + 0 + 1 = 0`, so the triplet `[-1, 0, 1]` is added to `ans`. `j` is incremented to 4, and `k` is decremented to 3, which is not less than `j`, so the inner loop terminates.
+5. The outer loop continues with `i = 2` and `nums[i] = -1`, but since `nums[i]` is the same as `nums[i-1]`, this iteration is skipped to avoid duplicates.
+6. The outer loop continues with `i = 3` and `nums[i] = 0`.
+   - `j = 4` and `k = 5` (initially pointing to the fifth and last elements).
+   - While `j < k`:
+     - `sum = nums[i] + nums[j] + nums[k] = 0 + 1 + 2 = 3 > 0`, so `k` is decremented to 4, which is not greater than `j`, so the inner loop terminates.
+7. The outer loop continues with `i = 4` and `nums[i] = 1`.
+   - `j = 5` and `k = 5` (initially pointing to the last element).
+   - While `j < k`: This condition is false, so the inner loop is not executed.
+8. The outer loop terminates, and the list `ans` containing the triplets `[-1, -1, 2]` and `[-1, 0, 1]` is returned.
+
+
+Java Code:
+
+```java
+List<List<Integer>> ans = new ArrayList<>();
+
+        Arrays.sort(nums);
+
+        for(int i=0; i<nums.length-2;i++)
+        {
+            if(i>0 && nums[i] == nums[i-1])
+            {
+                continue;
+            }
+            int j = i+1;
+            int k = nums.length - 1;
+
+            while(j<k)
+            {
+                int sum = nums[i]+nums[j]+nums[k];
+                
+                if(sum == 0)
+                {
+                    ans.add(Arrays.asList(nums[i],nums[j],nums[k]));
+                    
+                    while (j<k && nums[j] == nums[j+1])
+                    {
+                        j++;
+                    }
+                    
+                    j++;
+                    k--;
+                }
+                else if(sum<0)
+                {
+                    j++;
+                }
+                else
+                {
+                    k--;
+                }
+            } 
+        }
+        return ans;
+```
+
+**Possible Optimizations:**
+
+The given code is already optimized for the "3Sum" problem, as it avoids duplicates and has an optimal time complexity of O(n^2). However, one potential optimization could be to use a `HashSet` instead of a `List` to store the triplets. This would prevent duplicate triplets from being added to the set, eliminating the need for the `while` loops to skip over duplicates. However, this optimization might not significantly improve the time complexity, as the nested loops still have a time complexity of O(n^2).
+
+Here's the optimized code using a `HashSet`:
+
+```java
+List<List<Integer>> ans = new ArrayList<>();
+HashSet<List<Integer>> triplets = new HashSet<>();
+Arrays.sort(nums);
+
+for (int i = 0; i < nums.length - 2; i++) {
+    if (i > 0 && nums[i] == nums[i - 1]) {
+        continue;
+    }
+    int j = i + 1;
+    int k = nums.length - 1;
+    while (j < k) {
+        int sum = nums[i] + nums[j] + nums[k];
+        if (sum == 0) {
+            triplets.add(Arrays.asList(nums[i], nums[j], nums[k]));
+            j++;
+            k--;
+        } else if (sum < 0) {
+            j++;
+        } else {
+            k--;
+        }
+    }
+}
+
+ans.addAll(triplets);
+return ans;
+```
+
+In this optimized code, the triplets are added to a `HashSet` instead of a `List`. After the nested loops, the `HashSet` is converted back to a `List` and returned as the final result.
+
+
+**30. Largest Subarray with Zero sum**
+
+[Largest Subarray with Zero sum (CodeStudio)](https://www.naukri.com/code360/problems/longest-subarray-with-zero-sum_6783450?utm_source=striver&utm_medium=website&utm_campaign=a_zcoursetuf)
+
+
+Ninja is given an array ‘Arr’ of size ‘N’. You have to help him find the longest subarray of ‘Arr’, whose sum is 0. You must return the length of the longest subarray whose sum is 0.
+
+
+
+For Example:
+For N = 5, and Arr = {1, -1, 0, 0, 1}, 
+We have the following subarrays with zero sums: 
+{{1, -1}, {1, -1, 0}, {1, -1, 0, 0}, {-1, 0, 0, 1}, {0}, {0, 0}, {0}}
+Among these subarrays, {1, -1, 0, 0} and {-1, 0, 0, 1} are the longest subarrays with their sum equal to zero. Hence the answer is 4.
+
+
+The given code is an optimized solution to find the length of the longest subarray with a sum of 0 in a given array of integers.
+
+**Pseudocode with Explanation (Time Complexity and Space Complexity):**
+
+```
+1. Initialize maxLength to 0 (to store the length of the longest subarray with sum 0)
+2. Initialize sum to 0 (to keep track of the cumulative sum)
+3. Create a HashMap sumIndex to store the cumulative sum and its index
+4. Initialize the HashMap with 0 as the key and -1 as the value (to handle the case where a subarray starts from the beginning of the array and has a sum of 0)
+5. Iterate through the array:
+    a. Update the sum by adding the current element
+    b. If the current sum exists in the HashMap:
+        i. Calculate the length of the subarray with sum 0 ending at the current index (i - sumIndex.get(sum) + 1)
+        ii. Update maxLength with the maximum value between the current maxLength and the calculated length
+    c. If the current sum doesn't exist in the HashMap:
+        i. Add the current sum and its index to the HashMap
+6. Return maxLength
+```
+
+**Time Complexity:** O(n), where n is the length of the input array. We iterate through the array once, and the HashMap operations (get and put) have an average time complexity of O(1).
+
+**Space Complexity:** O(n), where n is the length of the input array. In the worst case, when all elements are distinct, the HashMap will store all elements and their indices, resulting in a space complexity of O(n).
+
+**Explanation with Example:**
+
+Let's consider the example `arr = [1, -1, 3, -3, 2, -2, 4, 5, -5]`.
+
+1. `maxLength` is initialized to 0, `sum` is initialized to 0, and an empty `HashMap` `sumIndex` is created.
+2. `sumIndex.put(0, -1)` initializes the `HashMap` with a key-value pair of `0` and `-1`. This is to handle the case where a subarray starts from the beginning of the array and has a sum of 0.
+3. The loop starts with `i = 0`:
+   - `sum = 1` (after adding `arr[0] = 1`)
+   - The `HashMap` doesn't contain the key `1`, so `sumIndex.put(1, 0)` adds the key-value pair `1` and `0` to the `HashMap`.
+4. `i = 1`:
+   - `sum = 0` (after adding `arr[1] = -1`)
+   - The `HashMap` contains the key `0`, so `maxLength = Math.max(maxLength, 2)` updates `maxLength` to 2 (since `i - sumIndex.get(0) + 1 = 2 - (-1) + 1 = 2`).
+5. `i = 2`:
+   - `sum = 3` (after adding `arr[2] = 3`)
+   - The `HashMap` doesn't contain the key `3`, so `sumIndex.put(3, 2)` adds the key-value pair `3` and `2` to the `HashMap`.
+6. `i = 3`:
+   - `sum = 0` (after adding `arr[3] = -3`)
+   - The `HashMap` contains the key `0`, so `maxLength = Math.max(maxLength, 4)` updates `maxLength` to 4 (since `i - sumIndex.get(0) + 1 = 4 - (-1) + 1 = 4`).
+7. The loop continues, and the `HashMap` is updated with the cumulative sums and their indices.
+8. After iterating through the entire array, the `maxLength` of 4 is returned, which corresponds to the subarray `[3, -3, 2, -2]` with a sum of 0.
+
+Java code:
+
+```java
+import java.util.*;
+public class Solution {
+    public static int getLongestZeroSumSubarrayLength(int[] arr) {
+        int maxLength = 0;
+        int n = arr.length;
+        int sum = 0;
+        
+        // Create a HashMap to store the cumulative sum and its index
+        Map<Integer, Integer> sumIndex = new HashMap<>();
+        
+        // Initialize the HashMap with 0 as the first index
+        sumIndex.put(0, -1);
+        
+        for (int i = 0; i < n; i++) {
+            sum += arr[i];
+            
+            // If the current sum exists in the HashMap,
+            // it means there is a subarray with sum 0 ending at index i
+            if (sumIndex.containsKey(sum)) {
+                maxLength = Math.max(maxLength, i - sumIndex.get(sum));
+            } else {
+                // Otherwise, store the current sum and its index in the HashMap
+                sumIndex.put(sum, i);
+            }
+        }
+        
+        return maxLength;
+    }
+}
+```
+
+**Possible Optimizations:**
+
+The given code is already optimized and has a time complexity of O(n) and a space complexity of O(n). However, there is a slight optimization that can be made to handle the case where the entire array has a sum of 0.
+
+Here's the optimized code:
+
+```java
+public class Solution {
+    public static int getLongestZeroSumSubarrayLength(int[] arr) {
+        int maxLength = 0;
+        int n = arr.length;
+        int sum = 0;
+        
+        // Create a HashMap to store the cumulative sum and its index
+        Map<Integer, Integer> sumIndex = new HashMap<>();
+        
+        // Handle the case where the entire array has a sum of 0
+        sumIndex.put(0, -1);
+        
+        for (int i = 0; i < n; i++) {
+            sum += arr[i];
+            
+            // If the current sum exists in the HashMap,
+            // it means there is a subarray with sum 0 ending at index i
+            if (sumIndex.containsKey(sum)) {
+                maxLength = Math.max(maxLength, i - sumIndex.get(sum));
+            } else {
+                // Otherwise, store the current sum and its index in the HashMap
+                sumIndex.put(sum, i);
+            }
+        }
+        
+        // Handle the case where the entire array has a sum of 0
+        if (sumIndex.containsKey(0)) {
+            maxLength = Math.max(maxLength, n);
+        }
+        
+        return maxLength;
+    }
+}
+```
+
+In this optimized code, we handle the case where the entire array has a sum of 0 by checking if the `HashMap` contains the key `0` after iterating through the array. If it does, we update `maxLength` with the maximum value between the current `maxLength` and the length of the entire array `n`.
+
+This optimization ensures that if the entire array has a sum of 0, the code correctly returns the length of the entire array as the length of the longest subarray with sum 0.
+
+**31. Maximum Product Subarray**
+
+[Maximum Product Subarray](https://leetcode.com/problems/maximum-product-subarray/description/)
+
+Given an integer array nums, find a 
+subarray
+ that has the largest product, and return the product.
+
+The test cases are generated so that the answer will fit in a 32-bit integer.
+
+Example 1:
+
+Input: nums = [2,3,-2,4]
+Output: 6
+Explanation: [2,3] has the largest product 6.
+Example 2:
+
+Input: nums = [-2,0,-1]
+Output: 0
+Explanation: The result cannot be 2, because [-2,-1] is not a subarray.
+
+The given code is a solution to the "Maximum Product Subarray" problem, which finds the maximum product of a contiguous subarray within an integer array.
+
+**Pseudocode with Explanation (Time Complexity and Space Complexity):**
+
+```
+1. Initialize max, min, and ans with the first element of the array
+2. Iterate through the array from index 1 to the end:
+    a. Store the current max value in a temporary variable temp
+    b. Update max with the maximum of the following three values:
+        i. The current max multiplied by the current element
+        ii. The current min multiplied by the current element
+        iii. The current element
+    c. Update min with the minimum of the following three values:
+        i. The previous max (temp) multiplied by the current element
+        ii. The current min multiplied by the current element
+        iii. The current element
+    d. If the current max is greater than the current ans, update ans with max
+3. Return ans
+```
+
+**Time Complexity:** O(n), where n is the length of the input array. We iterate through the array once.
+
+**Space Complexity:** O(1), as we are using constant extra space to store max, min, ans, and temp.
+
+**Explanation with Example:**
+
+Let's consider the example `nums = [2, 3, -2, 4]`.
+
+1. Initially, `max = 2`, `min = 2`, and `ans = 2`.
+2. Iteration 1 (`i = 1`):
+   - `temp = 2` (storing the previous max value)
+   - `max = Math.max(2 * 3, 2 * 3, 3) = 6` (updating max)
+   - `min = Math.min(2 * 3, 2 * 3, 3) = 3` (updating min)
+   - `ans = 6` (updating ans since max is greater than the previous ans)
+3. Iteration 2 (`i = 2`):
+   - `temp = 6` (storing the previous max value)
+   - `max = Math.max(6 * (-2), 3 * (-2), -2) = 6` (updating max)
+   - `min = Math.min(6 * (-2), 3 * (-2), -2) = -12` (updating min)
+   - `ans = 6` (ans remains unchanged)
+4. Iteration 3 (`i = 3`):
+   - `temp = 6` (storing the previous max value)
+   - `max = Math.max(6 * 4, (-12) * 4, 4) = 24` (updating max)
+   - `min = Math.min(6 * 4, (-12) * 4, 4) = -48` (updating min)
+   - `ans = 24` (updating ans since max is greater than the previous ans)
+5. The loop terminates, and the maximum product subarray is 24, corresponding to the subarray `[2, 3, -2, 4]`.
+
+Java code:
+
+```java
+class Solution {
+    public int maxProduct(int[] nums) {
+        
+        int max = nums[0], min = nums[0], ans = nums[0];
+        
+        for (int i = 1; i < nums.length; i++) {
+            
+            int temp = max;  // store the max because before updating min your max will already be updated
+            
+            max = Math.max(Math.max(max * nums[i], min * nums[i]), nums[i]);
+            min = Math.min(Math.min(temp * nums[i], min * nums[i]), nums[i]);
+            
+            if (max > ans) {
+                ans = max;
+            }
+        }
+        
+        return ans;
+
+    }
+}
+```
+
+**Possible Optimizations:**
+
+The given code is already optimized and has a time complexity of O(n) and a space complexity of O(1). There are no significant optimizations that can be made without changing the overall time complexity.
+
+However, here's an alternative implementation that might be slightly more readable:
+
+```java
+class Solution {
+    public int maxProduct(int[] nums) {
+        if (nums == null || nums.length == 0) {
+            return 0;
+        }
+
+        int maxSoFar = nums[0];
+        int minSoFar = nums[0];
+        int result = maxSoFar;
+
+        for (int i = 1; i < nums.length; i++) {
+            int currMax = Math.max(Math.max(maxSoFar * nums[i], minSoFar * nums[i]), nums[i]);
+            minSoFar = Math.min(Math.min(maxSoFar * nums[i], minSoFar * nums[i]), nums[i]);
+            maxSoFar = currMax;
+            result = Math.max(result, maxSoFar);
+        }
+
+        return result;
+    }
+}
+```
+
+In this implementation, we first handle the edge case where the input array is null or empty. Then, we initialize `maxSoFar` and `minSoFar` with the first element of the array, and `result` with `maxSoFar`.
+
+Inside the loop, we update `currMax` with the maximum of the three possible cases: `maxSoFar * nums[i]`, `minSoFar * nums[i]`, and `nums[i]`. We then update `minSoFar` with the minimum of the three possible cases, and `maxSoFar` with the updated `currMax`. Finally, we update `result` with the maximum of `result` and `maxSoFar`.
+
+This implementation follows the same logic as the given code but might be easier to read and understand for some developers.
+
+**32. Merge Sorted Array**
+
+You are given two integer arrays nums1 and nums2, sorted in non-decreasing order, and two integers m and n, representing the number of elements in nums1 and nums2 respectively.
+
+Merge nums1 and nums2 into a single array sorted in non-decreasing order.
+
+The final sorted array should not be returned by the function, but instead be stored inside the array nums1. To accommodate this, nums1 has a length of m + n, where the first m elements denote the elements that should be merged, and the last n elements are set to 0 and should be ignored. nums2 has a length of n.
+
+
+Example 1:
+
+Input: nums1 = [1,2,3,0,0,0], m = 3, nums2 = [2,5,6], n = 3
+Output: [1,2,2,3,5,6]
+Explanation: The arrays we are merging are [1,2,3] and [2,5,6].
+The result of the merge is [1,2,2,3,5,6] with the underlined elements coming from nums1.
+Example 2:
+
+Input: nums1 = [1], m = 1, nums2 = [], n = 0
+Output: [1]
+Explanation: The arrays we are merging are [1] and [].
+The result of the merge is [1].
+Example 3:
+
+Input: nums1 = [0], m = 0, nums2 = [1], n = 1
+Output: [1]
+Explanation: The arrays we are merging are [] and [1].
+The result of the merge is [1].
+Note that because m = 0, there are no elements in nums1. The 0 is only there to ensure the merge result can fit in nums1.
+
+The given code is a Java implementation of the "Merge Two Sorted Arrays Without Extra Space" problem. It merges two sorted arrays `a` and `b` into a single sorted array by utilizing the gap method (also known as the shell sort algorithm).
+
+**Pseudocode with Explanation (Time Complexity and Space Complexity):**
+
+```
+1. Initialize n and m with the lengths of arrays a and b, respectively
+2. Initialize len as the sum of n and m
+3. Initialize gap as (len/2) + (len%2)
+4. While gap is greater than 0:
+    a. Initialize left and right pointers
+    b. While right is less than len:
+        i. If left is within the bounds of a and right is out of bounds of a:
+            Swap elements at indices left of a and right-n of b
+        ii. If left is out of bounds of a:
+            Swap elements at indices left-n and right-n of b
+        iii. Otherwise:
+            Swap elements at indices left and right of a
+        iv. Increment left and right
+    c. If gap is 1, break out of the loop
+    d. Update gap as (gap/2) + (gap%2)
+5. Return (arrays a and b are now merged and sorted)
+```
+
+**Time Complexity:** O(m * n * log(m + n)), where m and n are the lengths of the input arrays a and b, respectively. The time complexity is derived from the shell sort algorithm, which performs multiple iterations with decreasing gap sizes, and each iteration has a time complexity of O(m + n).
+
+**Space Complexity:** O(1), as the merge is performed in-place without using any additional data structures.
+
+**Explanation with Example:**
+
+Let's consider the example `a = [1, 3, 5, 7]` and `b = [0, 2, 4, 6, 8]`.
+
+1. Initially, `n = 4`, `m = 5`, and `len = 9`.
+2. `gap = (9/2) + (9%2) = 5`.
+3. Iteration 1 (`gap = 5`):
+   - `left = 0`, `right = 5`
+   - Swap `a[0]` (1) and `b[0]` (0), as `a[0] > b[0]`.
+   - `left = 1`, `right = 6`
+   - Swap `a[1]` (3) and `b[1]` (2), as `a[1] > b[1]`.
+   - `left = 2`, `right = 7`
+   - No swap is needed, as `a[2] < b[2]`.
+   - `left = 3`, `right = 8`
+   - Swap `a[3]` (7) and `b[3]` (6), as `a[3] > b[3]`.
+   - After this iteration, `a = [0, 2, 5, 6]` and `b = [1, 3, 4, 7, 8]`.
+4. Iteration 2 (`gap = 2`):
+   - `left = 0`, `right = 2`
+   - Swap `a[0]` (0) and `a[2]` (5), as `a[0] > a[2]`.
+   - `left = 1`, `right = 3`
+   - No swap is needed, as `a[1] < a[3]`.
+   - `left = 2`, `right = 4`
+   - Swap `b[0]` (1) and `b[2]` (4), as `b[0] > b[2]`.
+   - `left = 3`, `right = 5`
+   - No swap is needed, as `b[1] < b[3]`.
+   - After this iteration, `a = [0, 2, 5, 6]` and `b = [1, 3, 4, 7, 8]`.
+5. Iteration 3 (`gap = 1`):
+   - `left = 0`, `right = 1`
+   - No swap is needed, as `a[0] < a[1]`.
+   - `left = 1`, `right = 2`
+   - Swap `a[1]` (2) and `a[2]` (5), as `a[1] > a[2]`.
+   - `left = 2`, `right = 3`
+   - No swap is needed, as `a[2] < a[3]`.
+   - `left = 3`, `right = 4`
+   - Swap `b[0]` (1) and `b[1]` (3), as `b[0] > b[1]`.
+   - `left = 4`, `right = 5`
+   - No swap is needed, as `b[2] < b[3]`.
+   - After this iteration, `a = [0, 2, 5, 6]` and `b = [1, 3, 4, 7, 8]`.
+6. The loop terminates, and the arrays `a` and `b` are now merged and sorted: `[0, 1, 2, 3, 4, 5, 6, 7, 8]`.
+
+Java code:
+
+```java
+class Solution {
+     public static void merge(int[] nums1, int m, int[] nums2, int n) {
+        int i = m - 1;
+        int j = n - 1;
+        int k = m + n - 1;
+
+        while (i >= 0 && j >= 0) {
+            if (nums1[i] > nums2[j]) {
+                nums1[k] = nums1[i];
+                i--;
+            } else {
+                nums1[k] = nums2[j];
+                j--;
+            }
+            k--;
+        }
+
+        while (i >= 0) {
+            nums1[k] = nums1[i];
+            i--;
+            k--;
+        }
+
+        while (j >= 0) {
+            nums1[k] = nums2[j];
+            j--;
+            k--;
+        }
+    }
+}
+```
+
+**Possible Optimizations:**
+
+The given code is already optimized for the problem of merging two sorted arrays without extra space. However, there is an alternative approach that can be considered:
+
+**Alternative Approach: Gap Method with Optimized Gap Sequence**
+
+Instead of using the gap sequence `(gap/2) + (gap%2)`, which is not as efficient, we can use a more optimized gap sequence proposed by Robert Sedgewick. This sequence provides better performance for the shell sort algorithm.
+
+The optimized gap sequence is:
+
+```
+9, 5, 3, 1
+```
+
+Here's the optimized code using this gap sequence:
+
+```java
+public class Solution {
+    public static void mergeTwoSortedArraysWithoutExtraSpace(long[] a, long[] b) {
+        int n = a.length;
+        int m = b.length;
+        int len = n + m;
+        int[] gaps = {9, 5, 3, 1}; // Optimized gap sequence
+
+        for (int gap : gaps) {
+            int left = 0;
+            int right = left + gap;
+            while (right < len) {
+                if (left < n && right >= n) {
+                    swap(a, b, left, right - n);
+                } else if (left >= n) {
+                    swap(b, b, left - n, right - n);
+                } else {
+                    swap(a, a, left, right);
+                }
+                left++;
+                right++;
+            }
+        }
+    }
+
+    public static void swap(long[] a, long[] b, int x, int y) {
+        if (a[x] > b[y]) {
+            long temp = a[x];
+            a[x] = b[y];
+            b[y] = temp;
+        }
+    }
+}
+```
+
+In this optimized code, we use a hardcoded array `gaps` containing the optimized gap sequence `[9, 5, 3, 1]`. The rest of the code remains the same, but it performs fewer iterations due to the optimized gap sequence.
+
+This optimization may provide better performance for larger input sizes, as the gap sequence is more efficient than the `(gap/2) + (gap%2)` sequence used in the original code.
