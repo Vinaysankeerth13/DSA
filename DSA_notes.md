@@ -1,6 +1,7 @@
 # Data Structures and Algorithms
 
 ## Note :
+
 The optimisation code for each problem is given by AI, so there might be a possibility that they're not an exact fit for the problem you're solving. Please bear that in mind and modify the code implementing the concepts that are provided for optimisation.
 
 ## 25-04-20242
@@ -101,7 +102,6 @@ This implementation uses generics to work with any type that implements the `Com
 
 [Selection Sort (Java)](https://youtu.be/dsqsnngsoD8?feature=shared "Selection Sort")
 
-
 **Bubble Sort**
 
 Bubble Sort is a simple sorting algorithm that repeatedly swaps adjacent elements if they are in the wrong order, making the largest element "bubble up" towards the end of the array.
@@ -112,14 +112,14 @@ Sure, here's the pseudocode for Bubble Sort with explanations:
 
 ```
 BUBBLE-SORT(A)
-    n = length(A)             
-    swapped = true            
-    while swapped             
-        swapped = false       
-        for i = 0 to n-2      
-            if A[i] > A[i+1]  
-                swap A[i] and A[i+1]  
-                swapped = true                     
+    n = length(A)
+    swapped = true
+    while swapped
+        swapped = false
+        for i = 0 to n-2
+            if A[i] > A[i+1]
+                swap A[i] and A[i+1]
+                swapped = true
 ```
 
 Explanations:
@@ -256,10 +256,12 @@ private static void swap(int[] arr, int i, int j) {
 ```
 
 Time Complexity:
+
 - The time complexity of the recursive Bubble Sort is still O(n^2) in both the average and worst cases, just like the iterative version.
 - This is because the outer loop runs `n` times, and the inner loop runs up to `n-1` times for each iteration of the outer loop.
 
 Space Complexity:
+
 - The space complexity of the recursive Bubble Sort is O(n) due to the recursive calls on the call stack.
 - In the worst case, when the array is in reverse order, the recursion stack will have a depth of `n`, leading to O(n) space complexity.
 
@@ -278,13 +280,13 @@ Pseudocode for Insertion Sort:
 ```
 INSERTION-SORT(A)
     n = length(A)
-    for i = 1 to n-1                      
-        key = A[i]                        
-        j = i - 1                         
-        while j >= 0 and A[j] > key       
-            A[j+1] = A[j]                 
-            j = j - 1                     
-        A[j+1] = key                      
+    for i = 1 to n-1
+        key = A[i]
+        j = i - 1
+        while j >= 0 and A[j] > key
+            A[j+1] = A[j]
+            j = j - 1
+        A[j+1] = key
 ```
 
 Explanations:
@@ -317,10 +319,12 @@ public static void insertionSort(int[] arr, int size) {
 The Java code follows the same logic as the pseudocode, with a few minor differences in variable naming and array indexing.
 
 Time Complexity:
+
 - Best Case: O(n) when the array is already sorted.
 - Average and Worst Case: O(n^2) because the inner loop may run for each element in the array.
 
 Space Complexity:
+
 - O(1) - Insertion Sort is an in-place algorithm, meaning it doesn't require additional memory proportional to the input size.
 
 Optimizations:
@@ -342,9 +346,9 @@ Pseudocode for the recursive Insertion Sort:
 RECURSIVE-INSERTION-SORT(A, n)
     if n <= 1
         return  // Base case: array with 0 or 1 element is already sorted
-    
+
     RECURSIVE-INSERTION-SORT(A, n-1)  // Sort the first n-1 elements
-    
+
     // Insert the last element into the sorted subarray
     key = A[n-1]  // The last element to be inserted
     j = n-2       // Start from the last sorted element
@@ -389,10 +393,12 @@ public static void recursiveInsertionSort(int[] arr, int n) {
 ```
 
 Time Complexity:
+
 - The time complexity of the recursive Insertion Sort is O(n^2) in both the average and worst cases, just like the iterative version.
 - This is because, in the worst case, the inner loop runs `n-1` times for each recursive call, and there are `n` recursive calls.
 
 Space Complexity:
+
 - The space complexity of the recursive Insertion Sort is O(n) due to the recursive calls on the call stack.
 - In the worst case, when the array is in reverse order, the recursion stack will have a depth of `n`, leading to O(n) space complexity.
 
@@ -401,7 +407,6 @@ Similar to the recursive Bubble Sort, the recursive version of Insertion Sort ha
 It's worth noting that Insertion Sort is efficient for small datasets and partially sorted arrays, with a time complexity of O(n) in the best case. However, for large datasets that are completely unsorted, other sorting algorithms like Merge Sort or Quicksort, which have an average time complexity of O(n log n), are generally preferred.
 
 [Insertion Sort (Java)](https://youtu.be/0lOnnd50cGI?feature=shared "Insertion Sort")
-
 
 ## 26-04-2024
 
@@ -415,26 +420,26 @@ Pseudocode for Merge Sort with explanations:
 MERGE-SORT(A, left, right)
     if left < right
         middle = (left + right) / 2
-        MERGE-SORT(A, left, middle)       
-        MERGE-SORT(A, middle + 1, right)  
-        MERGE(A, left, middle, right)     
+        MERGE-SORT(A, left, middle)
+        MERGE-SORT(A, middle + 1, right)
+        MERGE(A, left, middle, right)
 
 MERGE(A, left, middle, right)
-    n1 = middle - left + 1    
-    n2 = right - middle       
+    n1 = middle - left + 1
+    n2 = right - middle
     Create temporary arrays L[n1] and R[n2]
 
-   
+
     for i = 0 to n1 - 1
         L[i] = A[left + i]
     for j = 0 to n2 - 1
         R[j] = A[middle + 1 + j]
 
-    i = 0   
-    j = 0   
+    i = 0
+    j = 0
     k = left
 
-    
+
     while i < n1 and j < n2
         if L[i] <= R[j]
             A[k] = L[i]
@@ -444,13 +449,13 @@ MERGE(A, left, middle, right)
             j = j + 1
         k = k + 1
 
-    
+
     while i < n1
         A[k] = L[i]
         i = i + 1
         k = k + 1
 
-    
+
     while j < n2
         A[k] = R[j]
         j = j + 1
@@ -522,10 +527,12 @@ The Java code follows the same logic as the pseudocode, with a few minor differe
 4. Finally, the elements from the `temp` ArrayList are copied back into the original array `arr`.
 
 Time Complexity:
+
 - The time complexity of Merge Sort is O(n log n) in both the average and worst cases.
 - This is because the divide step takes O(log n) time, and the merge step takes O(n) time for each level of the recursion tree.
 
 Space Complexity:
+
 - The space complexity of Merge Sort is O(n) due to the use of temporary arrays or data structures (like the `ArrayList` in the given code) for merging the subarrays.
 
 Optimizations:
@@ -636,11 +643,13 @@ The Java code follows the same logic as the pseudocode, with a few minor differe
 7. The `swap` function is a helper function that swaps the elements at the given indices in the input array.
 
 Time Complexity:
+
 - The average time complexity of Quicksort is O(n log n), where n is the size of the input array.
 - In the best case, when the partitioning is always balanced, the time complexity is O(n log n).
 - In the worst case, when the array is already sorted (or reverse sorted), the time complexity degrades to O(n^2) due to unbalanced partitioning.
 
 Space Complexity:
+
 - The space complexity of Quicksort is O(log n) on average, due to the recursive calls on the call stack.
 - In the worst case, when the partitioning is highly unbalanced, the space complexity can degrade to O(n) due to the deeper recursion stack.
 
@@ -723,10 +732,12 @@ The Java code follows the same logic as the pseudocode, with a few minor differe
 6. After the loop completes, the function returns the value stored in `largest`, which represents the largest element in the array.
 
 Time Complexity:
+
 - The time complexity of this algorithm is O(n), where n is the length of the input array.
 - This is because the algorithm needs to iterate through the entire array once to find the largest element.
 
 Space Complexity:
+
 - The space complexity is O(1), which means it uses a constant amount of extra space, regardless of the input size.
 - The algorithm only uses a few variables to store temporary values and does not require any additional data structures proportional to the input size.
 
@@ -829,10 +840,12 @@ The Java code follows the same logic as the pseudocode, with a few minor differe
 5. After the loop completes, the function returns a new integer array containing `secMax` and `secMin`.
 
 Time Complexity:
+
 - The time complexity of this algorithm is O(n), where n is the length of the input array.
 - This is because the algorithm needs to iterate through the entire array once to find the second maximum and second minimum elements.
 
 Space Complexity:
+
 - The space complexity is O(1), which means it uses a constant amount of extra space, regardless of the input size.
 - The algorithm only uses a few variables to store temporary values and does not require any additional data structures proportional to the input size.
 
@@ -893,10 +906,12 @@ The Java code follows the same logic as the pseudocode, with a few minor differe
 5. If the loop completes without finding any pair of adjacent elements in the wrong order, the function returns `1` (indicating that the array is sorted).
 
 Time Complexity:
+
 - The time complexity of this algorithm is O(n), where n is the length of the input array.
 - This is because the algorithm needs to iterate through the entire array once to check if it is sorted.
 
 Space Complexity:
+
 - The space complexity is O(1), which means it uses a constant amount of extra space, regardless of the input size.
 - The algorithm only uses a few variables to store temporary values and does not require any additional data structures proportional to the input size.
 
@@ -968,10 +983,12 @@ The Java code follows the same logic as the pseudocode, with a few minor differe
 7. If the loop completes without finding more than one transition point, the function returns `true`, indicating that the array is a non-decreasing rotated sorted array.
 
 Time Complexity:
+
 - The time complexity of this algorithm is O(n), where n is the length of the input array.
 - This is because the algorithm needs to iterate through the entire array once to check for transition points.
 
 Space Complexity:
+
 - The space complexity is O(1), which means it uses a constant amount of extra space, regardless of the input size.
 - The algorithm only uses a few variables to store temporary values and does not require any additional data structures proportional to the input size.
 
@@ -1085,11 +1102,11 @@ Sure, let's start by providing the pseudocode for the `rotateArray` method:
 rotateArray(arr, n):
     Create a new array rotatedArr of size n
     Set k to 0
-    
+
     For each index i from 0 to n-1:
         Calculate the new index k using the formula ((i - 1 + n) % n)
         Assign the value of arr[i] to rotatedArr[k]
-    
+
     Return rotatedArr
 ```
 
@@ -1107,21 +1124,25 @@ Let's go through each iteration of the provided code using the input array `[1, 
 Given the input array `[1, 2, 3, 4, 5]` and assuming `n = 5`:
 
 1. **Iteration 1 (i = 0)**:
+
    - Calculate the new index `k` using the formula `((0 - 1 + 5) % 5)`, which results in `k = 4`.
    - Assign the value of `arr[0]` (which is 1) to `rotatedArr[4]`.
    - Result: `rotatedArr = [0, 0, 0, 0, 1]`
 
 2. **Iteration 2 (i = 1)**:
+
    - Calculate the new index `k` using the formula `((1 - 1 + 5) % 5)`, which results in `k = 0`.
    - Assign the value of `arr[1]` (which is 2) to `rotatedArr[0]`.
    - Result: `rotatedArr = [2, 0, 0, 0, 1]`
 
 3. **Iteration 3 (i = 2)**:
+
    - Calculate the new index `k` using the formula `((2 - 1 + 5) % 5)`, which results in `k = 1`.
    - Assign the value of `arr[2]` (which is 3) to `rotatedArr[1]`.
    - Result: `rotatedArr = [2, 3, 0, 0, 1]`
 
 4. **Iteration 4 (i = 3)**:
+
    - Calculate the new index `k` using the formula `((3 - 1 + 5) % 5)`, which results in `k = 2`.
    - Assign the value of `arr[3]` (which is 4) to `rotatedArr[2]`.
    - Result: `rotatedArr = [2, 3, 4, 0, 1]`
@@ -1134,12 +1155,15 @@ Given the input array `[1, 2, 3, 4, 5]` and assuming `n = 5`:
 After all iterations, the `rotatedArr` becomes `[2, 3, 4, 5, 1]`, which represents the input array rotated to the left by one position. Each element of the original array is shifted one position to the left, and the last element wraps around to the beginning of the array.
 
 Time Complexity:
+
 - The time complexity of this implementation is O(n) because it iterates over each element of the input array once.
 
 Space Complexity:
+
 - The space complexity is also O(n) because it creates a new array of size `n` to store the rotated elements.
 
 Optimization:
+
 - The code can be optimized by removing the need for the `k` variable and calculating the new index directly within the assignment statement. Here's the optimized version:
 
 ```java
@@ -1164,15 +1188,15 @@ Here's the pseudocode for the provided `rotate` method:
 rotate(nums, k):
     Calculate the effective rotation count k = k % length of nums
     Calculate the index d where the array will be divided into two parts: d = length of nums - k
-    
+
     Reverse the first part of the array from index 0 to d-1
     Reverse the second part of the array from index d to the end of the array
     Reverse the entire array
-    
+
     The array nums is now rotated to the right by k positions
 ```
 
-Java Code: 
+Java Code:
 
 ```java
 class Solution {
@@ -1191,7 +1215,7 @@ class Solution {
         rev(nums,0,d-1);
         rev(nums,d,nums.length-1);
         rev(nums,0,nums.length-1);
-        
+
     }
 }
 ```
@@ -1203,10 +1227,12 @@ Given the input array `[1, 2, 3, 4, 5]` and assuming `k = 2`:
 1. Calculate `k = 2 % 5 = 2` and `d = 5 - 2 = 3`.
 
 2. Reverse the first part of the array from index 0 to d-1 (0 to 2):
+
    - Original: `[1, 2, 3, 4, 5]`
    - Reversed: `[3, 2, 1, 4, 5]`
 
 3. Reverse the second part of the array from index d to the end of the array (3 to 4):
+
    - Original: `[3, 2, 1, 4, 5]`
    - Reversed: `[3, 2, 1, 5, 4]`
 
@@ -1217,15 +1243,18 @@ Given the input array `[1, 2, 3, 4, 5]` and assuming `k = 2`:
 The array `[1, 2, 3, 4, 5]` is now rotated to the right by 2 positions, resulting in `[4, 5, 1, 2, 3]`.
 
 Time Complexity:
+
 - The time complexity of the `rotate` method is O(n), where n is the length of the input array `nums`. This is because the method performs three passes over the array, each of which takes linear time.
 
 Space Complexity:
+
 - The space complexity is O(1) because the method only uses a constant amount of extra space regardless of the size of the input array.
 
 Optimization:
+
 - The provided code is already optimized and performs the rotation efficiently in O(n) time with O(1) space complexity. Further optimization is not necessary for this problem.
 
-**6. Left rotate the array by D places** 
+**6. Left rotate the array by D places**
 
 Let's break down the provided code, first with pseudocode and then with an example.
 
@@ -1243,14 +1272,14 @@ Java Code:
 
 ```java
 public class Solution {
-	public static ArrayList<Integer> rotateArray(ArrayList<Integer> arr, int k) 
+	public static ArrayList<Integer> rotateArray(ArrayList<Integer> arr, int k)
     {
         for(int i=0;i<k;i++)
         {
             int first = arr.remove(0);
             arr.add(first);
         }
-       return arr; 
+       return arr;
     }
 }
 ```
@@ -1260,6 +1289,7 @@ Explanation with Example:
 Consider the input ArrayList `arr = [1, 2, 3, 4, 5]` and `k = 2`.
 
 1. **Iteration 1**:
+
    - Remove the first element (`1`) from the ArrayList.
    - Add the removed element (`1`) to the end of the ArrayList.
    - ArrayList after Iteration 1: `[2, 3, 4, 5, 1]`
@@ -1271,12 +1301,13 @@ Consider the input ArrayList `arr = [1, 2, 3, 4, 5]` and `k = 2`.
 
 The final ArrayList is `[3, 4, 5, 1, 2]`, which represents the input ArrayList `[1, 2, 3, 4, 5]` rotated to the left by 2 places.
 
-**Time Complexity**: The time complexity of this code is O(k * n), where n is the size of the ArrayList. This is because the loop runs k times, and each iteration involves removing an element from the beginning of the ArrayList, which takes O(n) time due to shifting elements.
+**Time Complexity**: The time complexity of this code is O(k \* n), where n is the size of the ArrayList. This is because the loop runs k times, and each iteration involves removing an element from the beginning of the ArrayList, which takes O(n) time due to shifting elements.
 
 **Space Complexity**: The space complexity is O(1) because the code modifies the input ArrayList in place without using any additional space proportional to the size of the input.
 
 **Optimization**:
-- The current implementation has a time complexity of O(k * n), which can be inefficient for large values of k or large ArrayLists. To optimize, we can use the `%` operator to reduce the number of iterations in case k is larger than the size of the ArrayList. Additionally, we can use the `Collections.rotate()` method to achieve the same rotation in a single step, which may be more efficient.
+
+- The current implementation has a time complexity of O(k \* n), which can be inefficient for large values of k or large ArrayLists. To optimize, we can use the `%` operator to reduce the number of iterations in case k is larger than the size of the ArrayList. Additionally, we can use the `Collections.rotate()` method to achieve the same rotation in a single step, which may be more efficient.
 
 Here's the optimized code using the `%` operator:
 
@@ -1337,22 +1368,27 @@ Example:
 Let's consider the example `nums = [0, 1, 0, 3, 12]`.
 
 Iteration 1 (i = 0):
+
 - `nums[i]` is 0, so no action is taken.
 
 Iteration 2 (i = 1):
+
 - `nums[i]` is 1, a non-zero element.
 - `nums[nonZero] = nums[i]`, so `nums[0] = 1`.
 - `nonZero` is incremented to 1.
 
 Iteration 3 (i = 2):
+
 - `nums[i]` is 0, so no action is taken.
 
 Iteration 4 (i = 3):
+
 - `nums[i]` is 3, a non-zero element.
 - `nums[nonZero] = nums[i]`, so `nums[1] = 3`.
 - `nonZero` is incremented to 2.
 
 Iteration 5 (i = 4):
+
 - `nums[i]` is 12, a non-zero element.
 - `nums[nonZero] = nums[i]`, so `nums[2] = 12`.
 - `nonZero` is incremented to 3.
@@ -1360,6 +1396,7 @@ Iteration 5 (i = 4):
 After the first loop, the array is `[1, 3, 12, 0, 0]`.
 
 The `while` loop then fills the remaining positions with zeros:
+
 - `nums[3] = 0` and `nums[4] = 0`.
 
 The final array is `[1, 3, 12, 0, 0]`.
@@ -1368,7 +1405,7 @@ Java Code:
 
 ```java
 public class Solution {
-        public static int[] moveZeros(int n, int []a) 
+        public static int[] moveZeros(int n, int []a)
         {
             int nonZero =0;
             for(int i=0;i<n;i++)
@@ -1418,8 +1455,8 @@ You are given an array ‘arr’ containing ‘n’ integers. You are also given
 If ‘num’ is present in the array, return the 0-based index of the first occurrence of ‘num’. Else, return -1.
 
 Example:
-Input: ‘n’ = 5, ‘num’ = 4 
-'arr' =  [6,7,8,4,1] 
+Input: ‘n’ = 5, ‘num’ = 4
+'arr' = [6,7,8,4,1]
 
 Output: 3
 
@@ -1450,12 +1487,15 @@ Example:
 Let's consider the example where `n = 5`, `num = 3`, and `arr = [1, 5, 3, 7, 9]`.
 
 Iteration 1 (i = 0):
+
 - `arr[i]` is 1, which is not equal to `num` (3), so no action is taken.
 
 Iteration 2 (i = 1):
+
 - `arr[i]` is 5, which is not equal to `num` (3), so no action is taken.
 
 Iteration 3 (i = 2):
+
 - `arr[i]` is 3, which is equal to `num` (3).
 - `sol` is updated to 2 (the index of the found element).
 - The `break` statement is executed, and the loop terminates.
@@ -1523,7 +1563,7 @@ Input: ‘n’ = 5 ‘m’ = 3
 
 Output: [1, 2, 3, 4, 5, 6]
 
-Explanation: 
+Explanation:
 Common elements in ‘a’ and ‘b’ are: [2, 3]
 Distinct elements in ‘a’ are: [1, 4, 6]
 Distinct elements in ‘b’ are: [5]
@@ -1578,31 +1618,37 @@ Example:
 Let's consider the example where `a = [1, 2, 3, 4, 5]` and `b = [3, 4, 5, 6, 7]`.
 
 Iteration 1 (i = 0, j = 0):
+
 - `a[i]` (1) is less than `b[j]` (3).
 - `sol` is empty, so 1 is added to `sol`.
 - `i` is incremented to 1.
 
 Iteration 2 (i = 1, j = 0):
+
 - `a[i]` (2) is less than `b[j]` (3).
 - The last element in `sol` (1) is not equal to `a[i]` (2), so 2 is added to `sol`.
 - `i` is incremented to 2.
 
 Iteration 3 (i = 2, j = 0):
+
 - `a[i]` (3) is equal to `b[j]` (3).
 - The last element in `sol` (2) is not equal to `a[i]` (3), so 3 is added to `sol`.
 - `i` and `j` are incremented to 3 and 1, respectively.
 
 Iteration 4 (i = 3, j = 1):
+
 - `a[i]` (4) is less than `b[j]` (4).
 - The last element in `sol` (3) is not equal to `a[i]` (4), so 4 is added to `sol`.
 - `i` is incremented to 4.
 
 Iteration 5 (i = 4, j = 1):
+
 - `a[i]` (5) is greater than `b[j]` (4).
 - The last element in `sol` (4) is not equal to `b[j]` (4), so 4 is added to `sol`.
 - `j` is incremented to 2.
 
 Iteration 6 (i = 4, j = 2):
+
 - `a[i]` (5) is equal to `b[j]` (5).
 - The last element in `sol` (4) is not equal to `a[i]` (5), so 5 is added to `sol`.
 - `i` and `j` are incremented to 5 and 3, respectively.
@@ -1760,11 +1806,13 @@ Example:
 Let's consider the example where `nums = [3, 0, 1]`.
 
 First, we calculate the length of the array:
+
 ```
 n = 3
 ```
 
 Then, we calculate the expected sum using the formula for the sum of the first n natural numbers:
+
 ```
 expectedSum = (n * (n + 1)) / 2
             = (3 * (3 + 1)) / 2
@@ -1775,17 +1823,21 @@ expectedSum = (n * (n + 1)) / 2
 Next, we initialize `actualSum` to 0 and iterate through the array to calculate the sum of its elements:
 
 Iteration 1 (i = 0):
+
 - `actualSum += nums[i]` => `actualSum = 0 + 3 = 3`
 
 Iteration 2 (i = 1):
+
 - `actualSum += nums[i]` => `actualSum = 3 + 0 = 3`
 
 Iteration 3 (i = 2):
+
 - `actualSum += nums[i]` => `actualSum = 3 + 1 = 4`
 
 After the loop, `actualSum` is 4.
 
 Finally, we calculate the missing number as the difference between the expected sum and the actual sum:
+
 ```
 solution = expectedSum - actualSum
          = 6 - 4
@@ -1798,7 +1850,7 @@ Java code:
 
 ```java
 class Solution {
-    public int missingNumber(int[] nums) 
+    public int missingNumber(int[] nums)
     {
         int n = nums.length;
         int expectedeSum = (n*(n+1)/2);
@@ -1846,7 +1898,6 @@ The time complexity of this approach is still O(n), as it iterates through the a
 
 [Maximum Consecutive Ones (CodeStudio)](https://www.naukri.com/code360/problems/traffic_6682625?utm_source=striver&utm_medium=website&utm_campaign=a_zcoursetuf)
 
-
 Pseudocode:
 
 ```
@@ -1881,27 +1932,33 @@ Example:
 Let's consider the example where `n = 6`, `m = 2`, and `vehicle = [1, 1, 0, 0, 1, 0]`.
 
 Iteration 1 (right = 0):
+
 - `vehicle[right]` is 1, so no action is taken.
 - `maxConsecutive` is updated to 1 (right - left + 1 = 0 - 0 + 1 = 1).
 
 Iteration 2 (right = 1):
+
 - `vehicle[right]` is 1, so no action is taken.
 - `maxConsecutive` is updated to 2 (right - left + 1 = 1 - 0 + 1 = 2).
 
 Iteration 3 (right = 2):
+
 - `vehicle[right]` is 0, so `zerosCount` is incremented to 1.
 - `maxConsecutive` is updated to 3 (right - left + 1 = 2 - 0 + 1 = 3).
 
 Iteration 4 (right = 3):
+
 - `vehicle[right]` is 0, so `zerosCount` is incremented to 2.
 - Since `zerosCount` is now equal to `m` (2), no shrinking of the window is needed.
 - `maxConsecutive` is updated to 4 (right - left + 1 = 3 - 0 + 1 = 4).
 
 Iteration 5 (right = 4):
+
 - `vehicle[right]` is 1, so no action is taken.
 - `maxConsecutive` is updated to 5 (right - left + 1 = 4 - 0 + 1 = 5).
 
 Iteration 6 (right = 5):
+
 - `vehicle[right]` is 0, so `zerosCount` is incremented to 3.
 - Since `zerosCount` is now greater than `m` (2), the window needs to be shrunk.
 - `vehicle[left]` is 1, so no decrement of `zerosCount` is needed.
@@ -1914,18 +1971,18 @@ Java code:
 
 ```java
 public class Solution {
-    public static int traffic(int n, int m, int []vehicle) 
+    public static int traffic(int n, int m, int []vehicle)
     {
         int maxConsecutive = 0;
         int zerosCount = 0;
         int left = 0;
-        
+
         for (int right = 0; right < n; right++) {
-            
+
             if (vehicle[right] == 0) {
                 zerosCount++;
             }
-            
+
             // Shrink the window if the number of zeros exceeds M
             while (zerosCount > m) {
                 if (vehicle[left] == 0) {
@@ -1933,11 +1990,11 @@ public class Solution {
                 }
                 left++;
             }
-            
+
             // Update the maximum consecutive vehicles count
             maxConsecutive = Math.max(maxConsecutive, right - left + 1);
         }
-        
+
         return maxConsecutive;
     }
 }
@@ -2027,26 +2084,32 @@ Example:
 Let's consider the example where `nums = [1, 1, 0, 1, 1, 1]`.
 
 Iteration 1 (element = 1):
+
 - `element` (1) is not 0, so `curCount` is incremented to 1.
 - `maxCount` remains 0.
 
 Iteration 2 (element = 1):
+
 - `element` (1) is not 0, so `curCount` is incremented to 2.
 - `maxCount` remains 0.
 
 Iteration 3 (element = 0):
+
 - `element` is 0, so `maxCount` is updated to 2 (the maximum of 0 and 2).
 - `curCount` is reset to 0.
 
 Iteration 4 (element = 1):
+
 - `element` (1) is not 0, so `curCount` is incremented to 1.
 - `maxCount` remains 2.
 
 Iteration 5 (element = 1):
+
 - `element` (1) is not 0, so `curCount` is incremented to 2.
 - `maxCount` remains 2.
 
 Iteration 6 (element = 1):
+
 - `element` (1) is not 0, so `curCount` is incremented to 3.
 - `maxCount` remains 2.
 
@@ -2071,7 +2134,7 @@ class Solution {
                 if(maxCount<curCount){
                     maxCount=curCount;
                 }
-                curCount=0;                
+                curCount=0;
             }
             else{
                 curCount++;
@@ -2079,7 +2142,7 @@ class Solution {
         }
         // After the loop, compare the final current count with the maximum count and return the larger value
         return maxCount>curCount? maxCount:curCount;
-        
+
     }
 }
 ```
@@ -2152,18 +2215,23 @@ Explanation with an example:
 Let's consider the example where `arr = [1, 2, 2, 3, 1]`.
 
 Iteration 1 (i = 0):
+
 - `sol = 0 ^ 1 = 1`
 
 Iteration 2 (i = 1):
+
 - `sol = 1 ^ 2 = 3`
 
 Iteration 3 (i = 2):
+
 - `sol = 3 ^ 2 = 1`
 
 Iteration 4 (i = 3):
+
 - `sol = 1 ^ 3 = 2`
 
 Iteration 5 (i = 4):
+
 - `sol = 2 ^ 1 = 3`
 
 After the loop, `sol` contains the value 3, which is the single element in the array `[1, 2, 2, 3, 1]`.
@@ -2257,27 +2325,32 @@ Example:
 Let's consider the example where `a = [1, 2, 3, 4, 5]` and `k = 9`.
 
 Iteration 1 (left = 0, right = 0):
+
 - `sum = 0 + a[0] = 1`
 - Since `sum` (1) is not greater than `k` (9), no shrinking of the subarray is needed.
 - `max` remains 0.
 
 Iteration 2 (left = 0, right = 1):
+
 - `sum = 1 + a[1] = 3`
 - Since `sum` (3) is not greater than `k` (9), no shrinking of the subarray is needed.
 - `max` remains 0.
 
 Iteration 3 (left = 0, right = 2):
+
 - `sum = 3 + a[2] = 6`
 - Since `sum` (6) is not greater than `k` (9), no shrinking of the subarray is needed.
 - `max` remains 0.
 
 Iteration 4 (left = 0, right = 3):
+
 - `sum = 6 + a[3] = 10`
 - Since `sum` (10) is greater than `k` (9), the subarray needs to be shrunk from the left side.
 - `sum = 10 - a[0] = 9`
 - Since `sum` (9) is equal to `k` (9), `max` is updated to 3 (right - left = 3 - 0 = 3).
 
 Iteration 5 (left = 1, right = 4):
+
 - `sum = 9 + a[4] = 14`
 - Since `sum` (14) is greater than `k` (9), the subarray needs to be shrunk from the left side.
 - `sum = 14 - a[1] = 12`
@@ -2351,7 +2424,7 @@ The time complexity of this optimized solution is O(n), where n is the length of
 
 The space complexity of this optimized solution is O(n) in the worst case, where all the elements in the array are distinct, and we need to store all the cumulative sums in the hash table.
 
-But there seems to be a problem with the optimsed code. 
+But there seems to be a problem with the optimsed code.
 
 **14. Longest subarray with sum K (Positives + Negatives)**
 
@@ -2364,7 +2437,7 @@ Ninjas asks for your help to win this game. Find the length of the longest subar
 If there is no subarray whose sum is ‘K’ then you should return 0.
 
 Example:
-Input: ‘N’ = 5,  ‘K’ = 4, ‘NUMS’ = [ 1, 2, 1, 0, 1 ]
+Input: ‘N’ = 5, ‘K’ = 4, ‘NUMS’ = [ 1, 2, 1, 0, 1 ]
 
 Output: 4
 
@@ -2404,26 +2477,31 @@ Example:
 Let's consider the example where `nums = [1, 2, 3, 4, 5]` and `k = 9`.
 
 Iteration 1 (i = 0):
+
 - `sum = 0 + nums[0] = 1`
 - `map` does not contain `(sum - k) = 1 - 9 = -8`, so no update to `max`.
 - `map` does not contain `sum = 1`, so `map.put(1, 0)` is executed.
 
 Iteration 2 (i = 1):
+
 - `sum = 1 + nums[1] = 3`
 - `map` does not contain `(sum - k) = 3 - 9 = -6`, so no update to `max`.
 - `map` does not contain `sum = 3`, so `map.put(3, 1)` is executed.
 
 Iteration 3 (i = 2):
+
 - `sum = 3 + nums[2] = 6`
 - `map` does not contain `(sum - k) = 6 - 9 = -3`, so no update to `max`.
 - `map` does not contain `sum = 6`, so `map.put(6, 2)` is executed.
 
 Iteration 4 (i = 3):
+
 - `sum = 6 + nums[3] = 10`
 - `map` contains `(sum - k) = 10 - 9 = 1`, so `max` is updated to 3 (i - map.get(1) = 3 - 0 = 3).
 - `map` does not contain `sum = 10`, so `map.put(10, 3)` is executed.
 
 Iteration 5 (i = 4):
+
 - `sum = 10 + nums[4] = 15`
 - `map` does not contain `(sum - k) = 15 - 9 = 6`, so no update to `max`.
 - `map` does not contain `sum = 15`, so `map.put(15, 4)` is executed.
@@ -2487,7 +2565,7 @@ Return YES/NO, if it is possible for him to read any 2 books and he can meet his
 
 Example:
 Input: ‘N’ = 5, ‘TARGET’ = 5
-‘BOOK’ = [4, 1, 2, 3, 1] 
+‘BOOK’ = [4, 1, 2, 3, 1]
 
 Output: YES
 Explanation:
@@ -2520,12 +2598,15 @@ Example:
 Let's consider the example where `n = 4`, `book = [1, 2, 3, 4]`, and `target = 5`.
 
 Iteration 1 (i = 0, j = 1):
+
 - `book[i] + book[j]` is `1 + 2 = 3`, which is not equal to `target` (5).
 
 Iteration 2 (i = 0, j = 2):
+
 - `book[i] + book[j]` is `1 + 3 = 4`, which is not equal to `target` (5).
 
 Iteration 3 (i = 0, j = 3):
+
 - `book[i] + book[j]` is `1 + 4 = 5`, which is equal to `target` (5).
 - `a` is updated to "YES".
 
@@ -2545,7 +2626,7 @@ public class Solution {
                     a = "YES";
                 }
             }
-        } 
+        }
        return a;
     }
 }
@@ -2601,7 +2682,7 @@ You can return the answer in any order.
 
 Example 1:
 
-Input: 
+Input:
 
 nums = [2,7,11,15], target = 9
 
@@ -2644,6 +2725,7 @@ Example:
 Let's consider the example where `nums = [2, 7, 11, 15]` and `target = 9`.
 
 Iteration 1 (i = 0, j = 1):
+
 - `nums[i] + nums[j]` is `2 + 7 = 9`, which is equal to `target` (9).
 - The function returns `[0, 1]`, which are the indices of the two numbers (2 and 7).
 
@@ -2651,7 +2733,7 @@ Since a pair of numbers (2 and 7) is found whose sum is equal to the target, the
 
 ```java
 class Solution {
-    public int[] twoSum(int[] nums, int target) 
+    public int[] twoSum(int[] nums, int target)
     {
         for (int i=0 ; i < nums.length ; i++)
         {
@@ -2661,7 +2743,7 @@ class Solution {
                 {
                     return new int[]{i,j};
                 }
-                
+
             }
         }
         return new int[]{};
@@ -2761,29 +2843,35 @@ Example:
 Let's consider the example where `arr = [0, 1, 2, 0, 1, 2]` and `n = 6`.
 
 Iteration 1 (i = 0, mid = 0, low = 0, high = 5):
+
 - `arr[mid]` is 0.
 - Swap `arr[mid]` (0) with `arr[low]` (0), so no actual swap is performed.
 - Increment `mid` to 1 and `low` to 1.
 
 Iteration 2 (i = 1, mid = 1, low = 1, high = 5):
+
 - `arr[mid]` is 1.
 - Increment `mid` to 2.
 
 Iteration 3 (i = 2, mid = 2, low = 1, high = 5):
+
 - `arr[mid]` is 2.
 - Swap `arr[mid]` (2) with `arr[high]` (2), so no actual swap is performed.
 - Decrement `high` to 4.
 
 Iteration 4 (i = 3, mid = 3, low = 1, high = 4):
+
 - `arr[mid]` is 0.
 - Swap `arr[mid]` (0) with `arr[low]` (1), so the array becomes `[0, 1, 2, 1, 2, 0]`.
 - Increment `mid` to 4 and `low` to 2.
 
 Iteration 5 (i = 4, mid = 4, low = 2, high = 4):
+
 - `arr[mid]` is 1.
 - Increment `mid` to 5.
 
 Iteration 6 (i = 5, mid = 5, low = 2, high = 4):
+
 - `arr[mid]` is 2.
 - Swap `arr[mid]` (2) with `arr[high]` (2), so no actual swap is performed.
 - Decrement `high` to 3.
@@ -2927,27 +3015,34 @@ Example:
 Let's consider the example where `v = [2, 2, 1, 1, 1, 2, 2]`.
 
 Iteration 1 (i = 0):
+
 - `ele` is initialized to `v[0]` (2).
 - `count` is initialized to 0.
 - `v[i]` (2) is equal to `ele` (2), so `count` is incremented to 1.
 
 Iteration 2 (i = 1):
+
 - `v[i]` (2) is equal to `ele` (2), so `count` is incremented to 2.
 
 Iteration 3 (i = 2):
+
 - `v[i]` (1) is not equal to `ele` (2), so `count` is decremented to 1.
 
 Iteration 4 (i = 3):
+
 - `v[i]` (1) is not equal to `ele` (2), so `count` is decremented to 0.
 
 Iteration 5 (i = 4):
+
 - `count` is 0, so `ele` is reset to `v[i]` (1).
 - `v[i]` (1) is equal to `ele` (1), so `count` is incremented to 1.
 
 Iteration 6 (i = 5):
+
 - `v[i]` (2) is not equal to `ele` (1), so `count` is decremented to 0.
 
 Iteration 7 (i = 6):
+
 - `count` is 0, so `ele` is reset to `v[i]` (2).
 - `v[i]` (2) is equal to `ele` (2), so `count` is incremented to 1.
 
@@ -3082,41 +3177,49 @@ Example:
 Let's consider the example where `nums = [-2, 1, -3, 4, -1, 2, 1, -5, 4]`.
 
 Iteration 1 (i = 1):
+
 - `maxEndingHere = max(-2, -2 + 1) = max(-2, -1) = -1`
 - `maxSoFar = max(-2, -1) = -1`
 
 Iteration 2 (i = 2):
+
 - `maxEndingHere = max(-3, -1 + (-3)) = max(-3, -4) = -3`
 - `maxSoFar = max(-1, -3) = -1`
 
 Iteration 3 (i = 3):
+
 - `maxEndingHere = max(4, -3 + 4) = max(4, 1) = 4`
 - `maxSoFar = max(-1, 4) = 4`
 
 Iteration 4 (i = 4):
+
 - `maxEndingHere = max(-1, 4 + (-1)) = max(-1, 3) = 3`
 - `maxSoFar = max(4, 3) = 4`
 
 Iteration 5 (i = 5):
+
 - `maxEndingHere = max(2, 3 + 2) = max(2, 5) = 5`
 - `maxSoFar = max(4, 5) = 5`
 
 Iteration 6 (i = 6):
+
 - `maxEndingHere = max(1, 5 + 1) = max(1, 6) = 6`
 - `maxSoFar = max(5, 6) = 6`
 
 Iteration 7 (i = 7):
+
 - `maxEndingHere = max(-5, 6 + (-5)) = max(-5, 1) = 1`
 - `maxSoFar = max(6, 1) = 6`
 
 Iteration 8 (i = 8):
+
 - `maxEndingHere = max(4, 1 + 4) = max(4, 5) = 5`
 - `maxSoFar = max(6, 5) = 6`
 
 After the loop, the function returns `maxSoFar = 6`, which is the maximum subarray sum.
 
 ```java
-public int maxSubArray(int[] nums) 
+public int maxSubArray(int[] nums)
     {
         int maxEndingHere = nums[0];
         int maxSoFar = nums[0];
@@ -3125,7 +3228,7 @@ public int maxSubArray(int[] nums)
             maxSoFar = Math.max(maxSoFar, maxEndingHere);
         }
         return maxSoFar;
-        
+
     }
 ```
 
@@ -3216,30 +3319,36 @@ Explanation with an example:
 Let's consider the example where `prices = [7, 1, 5, 3, 6, 4]`.
 
 Iteration 1 (i = 0):
+
 - `minimum` is initialized to `prices[0]` (7).
 - `maxProfit` is initialized to 0.
 
 Iteration 2 (i = 1):
+
 - `cost = prices[i] - minimum = 1 - 7 = -6`
 - `maxProfit` remains 0, since -6 is less than 0.
 - `minimum` is updated to 1, since 1 is less than the previous minimum (7).
 
 Iteration 3 (i = 2):
+
 - `cost = prices[i] - minimum = 5 - 1 = 4`
 - `maxProfit` is updated to 4, since 4 is greater than the previous maximum profit (0).
 - `minimum` remains 1, since 5 is not less than the previous minimum (1).
 
 Iteration 4 (i = 3):
+
 - `cost = prices[i] - minimum = 3 - 1 = 2`
 - `maxProfit` remains 4, since 2 is less than the current maximum profit (4).
 - `minimum` remains 1, since 3 is not less than the previous minimum (1).
 
 Iteration 5 (i = 4):
+
 - `cost = prices[i] - minimum = 6 - 1 = 5`
 - `maxProfit` is updated to 5, since 5 is greater than the previous maximum profit (4).
 - `minimum` remains 1, since 6 is not less than the previous minimum (1).
 
 Iteration 6 (i = 5):
+
 - `cost = prices[i] - minimum = 4 - 1 = 3`
 - `maxProfit` remains 5, since 3 is less than the current maximum profit (5).
 - `minimum` remains 1, since 4 is not less than the previous minimum (1).
@@ -3247,7 +3356,7 @@ Iteration 6 (i = 5):
 After the loop, the function returns `maxProfit = 5`, which is the maximum profit that can be obtained by buying and selling the stock once.
 
 ```java
-public static int bestTimeToBuyAndSellStock(int []prices) 
+public static int bestTimeToBuyAndSellStock(int []prices)
 {
         int minimum=prices[0];
         int maxProfit=0;
@@ -3274,7 +3383,7 @@ Here's the optimized version that checks if the input array is sorted:
 ```java
 public static int bestTimeToBuyAndSellStock(int[] prices) {
     int n = prices.length;
-    
+
     // Check if the array is sorted in ascending order
     boolean isAscending = true;
     for (int i = 1; i < n; i++) {
@@ -3283,11 +3392,11 @@ public static int bestTimeToBuyAndSellStock(int[] prices) {
             break;
         }
     }
-    
+
     if (isAscending) {
         return prices[n - 1] - prices[0]; // Maximum profit for ascending order
     }
-    
+
     // Check if the array is sorted in descending order
     boolean isDescending = true;
     for (int i = 1; i < n; i++) {
@@ -3296,11 +3405,11 @@ public static int bestTimeToBuyAndSellStock(int[] prices) {
             break;
         }
     }
-    
+
     if (isDescending) {
         return 0; // No profit for descending order
     }
-    
+
     // If the array is not sorted, apply the original algorithm
     int minimum = prices[0];
     int maxProfit = 0;
@@ -3309,7 +3418,7 @@ public static int bestTimeToBuyAndSellStock(int[] prices) {
         maxProfit = Math.max(maxProfit, cost);
         minimum = Math.min(minimum, prices[i]);
     }
-    
+
     return maxProfit;
 }
 ```
@@ -3366,6 +3475,7 @@ function rearrangeArray(nums):
 7. Finally, the rearranged `result` array is returned.
 
 **Time Complexity:** The algorithm has two main parts:
+
 1. Splitting the input array into positive and negative lists: This part takes O(n) time, where n is the length of the input array.
 2. Rearranging the elements into the result array: This part takes O(n) time, as it iterates through the positive and negative lists once.
 
@@ -3409,7 +3519,7 @@ The final result is `[3, -2, 1, -5, 2, -4]`.
 Java Code:
 
 ```java
-public int[] rearrangeArray(int[] nums) 
+public int[] rearrangeArray(int[] nums)
     {
         List<Integer> positive = new ArrayList<>();
         List<Integer> negative = new ArrayList<>();
@@ -3454,7 +3564,7 @@ class Solution {
     public int[] rearrangeArray(int[] nums) {
         int n = nums.length;
         int left = 0, right = 1;
-        
+
         while (right < n) {
             while (left < n && nums[left] >= 0) {
                 left += 2;
@@ -3468,7 +3578,7 @@ class Solution {
                 nums[right] = temp;
             }
         }
-        
+
         return nums;
     }
 }
@@ -3561,7 +3671,7 @@ Let's consider the example `a = [5, 7, 3, 9, 4, 9, 8, 6, 5]`.
 
 The final result is `[9, 9, 8, 7, 5]`.
 
-Java Code: 
+Java Code:
 
 ```java
 public static List< Integer > superiorElements(int []a) {
@@ -3606,12 +3716,13 @@ public static List<Integer> superiorElements(int[] a) {
 ```
 
 In this optimized code:
+
 - We initialize `lastSuperior` with the last element of the array `a[a.length - 1]`.
 - Inside the loop, if `a[i]` is greater than `lastSuperior`, we update `lastSuperior` to `a[i]` and add `a[i]` to the `list`.
 - If `a[i]` is equal to `lastSuperior`, we add `a[i]` to the `list` without updating `lastSuperior`.
 - If `a[i]` is less than `lastSuperior`, we break out of the loop using the `break` statement (early termination).
 
-This optimization can improve the performance of the algorithm, especially when the input array contains a large number of consecutive descending elements towards the beginning of the array, as it avoids unnecessary iterations and comparisons. 
+This optimization can improve the performance of the algorithm, especially when the input array contains a large number of consecutive descending elements towards the beginning of the array, as it avoids unnecessary iterations and comparisons.
 
 ## 3-05-2024
 
@@ -3629,15 +3740,15 @@ You must return the length of the longest successive sequence.
 
 Note:
 
-You can reorder the array to form a sequence. 
+You can reorder the array to form a sequence.
 For example,
 
 Input:
 A = [5, 8, 3, 2, 1, 4], N = 6
 Output:
 5
-Explanation: 
-The resultant sequence can be 1, 2, 3, 4, 5.    
+Explanation:
+The resultant sequence can be 1, 2, 3, 4, 5.  
 The length of the sequence is 5.
 
 **Pseudocode:**
@@ -3650,7 +3761,7 @@ function longestConsecutive(nums):
     count = 0
     longest = 1
     lastSmaller = MIN_VALUE
-    
+
     for each num in nums:
         if num - 1 == lastSmaller:
             count += 1
@@ -3659,7 +3770,7 @@ function longestConsecutive(nums):
             count = 1
             lastSmaller = num
         update longest with the maximum of longest and count
-    
+
     return longest
 ```
 
@@ -3766,11 +3877,11 @@ You are given a matrix 'MATRIX' of dimension 'N' x 'M'. Your task is to make all
 
 Note:
 
-1) The number of rows should be at least 1.
+1. The number of rows should be at least 1.
 
-2) The number of columns should be at least 1.
+2. The number of columns should be at least 1.
 
-3) For example, refer to the below matrix illustration:
+3. For example, refer to the below matrix illustration:
 
 ![Example 1](https://files.codingninjas.in/zero-8066.png)
 
@@ -3780,20 +3891,20 @@ Note:
 function zeroMatrix(matrix, n, m):
     create an empty set rows to store row indices
     create an empty set cols to store column indices
-    
+
     for each row i in matrix:
         for each column j in row i:
             if matrix[i][j] is 0:
                 add i to rows
                 add j to cols
-    
+
     for each row i in matrix:
         create a list ls to store the current row
         for each column j in row i:
             if i is in rows or j is in cols:
                 set ls[j] to 0
         update matrix[i] with ls
-    
+
     return matrix
 ```
 
@@ -3809,7 +3920,7 @@ function zeroMatrix(matrix, n, m):
 8. After processing all columns in the current row, it updates the original matrix by setting `matrix[i]` to the modified row `ls`.
 9. Finally, the modified matrix is returned.
 
-**Time Complexity:** The time complexity of this algorithm is O(n * m), where n is the number of rows and m is the number of columns in the matrix. This is because the algorithm iterates over the entire matrix twice using nested loops.
+**Time Complexity:** The time complexity of this algorithm is O(n \* m), where n is the number of rows and m is the number of columns in the matrix. This is because the algorithm iterates over the entire matrix twice using nested loops.
 
 **Space Complexity:** The space complexity is O(n + m), where n is the number of rows and m is the number of columns in the matrix. This is because the algorithm uses two sets (`rows` and `cols`) to store the indices of rows and columns that need to be set to 0. In the worst case, all rows and columns may need to be set to 0, resulting in a space complexity of O(n + m).
 
@@ -3887,7 +3998,6 @@ You must do it in place.
 
 ![Example 2](https://assets.leetcode.com/uploads/2020/08/17/mat2.jpg)
 
-
 **Pseudocode:**
 
 ```
@@ -3895,12 +4005,12 @@ function setZeroes(matrix):
     m = number of rows in matrix
     n = number of columns in matrix
     create a new matrix matrix2 of size m x n
-    
+
     # Copy the original matrix to matrix2
     for each row i in matrix:
         for each column j in row i:
             matrix2[i][j] = matrix[i][j]
-    
+
     # Traverse the original matrix
     for each row i in matrix:
         for each column j in row i:
@@ -3910,7 +4020,7 @@ function setZeroes(matrix):
                     matrix2[i][k] = 0
                 for each row k:
                     matrix2[k][j] = 0
-    
+
     # Copy the modified matrix2 back to the original matrix
     for each row i in matrix:
         for each column j in row i:
@@ -3927,9 +4037,9 @@ function setZeroes(matrix):
 6. After processing all elements, `matrix2` contains the modified matrix with the desired changes.
 7. Finally, it copies the modified `matrix2` back to the original matrix using nested loops.
 
-**Time Complexity:** The time complexity of this algorithm is O(m * n * (m + n)), where m is the number of rows and n is the number of columns in the matrix. This is because the algorithm iterates over the matrix three times using nested loops, and for each non-zero element, it performs two additional nested loops to set the corresponding row and column to 0 in `matrix2`.
+**Time Complexity:** The time complexity of this algorithm is O(m _ n _ (m + n)), where m is the number of rows and n is the number of columns in the matrix. This is because the algorithm iterates over the matrix three times using nested loops, and for each non-zero element, it performs two additional nested loops to set the corresponding row and column to 0 in `matrix2`.
 
-**Space Complexity:** The space complexity is O(m * n), where m is the number of rows and n is the number of columns in the matrix. This is because the algorithm creates a new matrix `matrix2` of the same size as the input matrix to store the modified values.
+**Space Complexity:** The space complexity is O(m \* n), where m is the number of rows and n is the number of columns in the matrix. This is because the algorithm creates a new matrix `matrix2` of the same size as the input matrix to store the modified values.
 
 **Example:**
 Let's consider the example `matrix = [[1, 1, 1], [1, 0, 1], [1, 1, 1]]`.
@@ -3988,9 +4098,9 @@ In this optimized code:
 2. We iterate over the matrix and mark the corresponding rows and columns in the `rows` and `cols` arrays if an element is 0.
 3. We iterate over the matrix again and set the elements to 0 if the corresponding row or column is marked in the `rows` or `cols` arrays, respectively.
 
-This optimization reduces the space complexity from O(m * n) to O(m + n), as we only need to store two boolean arrays instead of creating a separate matrix.
+This optimization reduces the space complexity from O(m \* n) to O(m + n), as we only need to store two boolean arrays instead of creating a separate matrix.
 
-The time complexity remains O(m * n * (m + n)), as we still need to iterate over the matrix twice, and for each non-zero element, we need to mark the corresponding row and column.
+The time complexity remains O(m _ n _ (m + n)), as we still need to iterate over the matrix twice, and for each non-zero element, we need to mark the corresponding row and column.
 
 **24. Rotate Matrix by 90 degrees**
 
@@ -4005,7 +4115,6 @@ Yet to learn
 [Count All Subarrays With Given Sum (CodeStudio)](https://www.naukri.com/code360/problems/subarray-sums-i_1467103?utm_source=striver&utm_medium=website&utm_campaign=a_zcoursetuf&leftPanelTabValue=PROBLEM)
 
 [Subarray Sum Equals K (Leetcode)](https://leetcode.com/problems/subarray-sum-equals-k/submissions/1248079219/)
-
 
 **Pseudocode:**
 
@@ -4158,26 +4267,26 @@ The function returns `arr`, which represents Pascal's Triangle up to 5 rows.
 Java Code :
 
 ```java
-import java.util.*; 
-public class Solution { 
-public static int[][] pascalTriangle(int N) 
-{    
- int[][] arr = new int[N][];      
- for(int i=0;i<N;i++)      
-{         
- arr[i]=new int[i+1];     
-        for(int j=0;j<=i;j++) {          
-           if(j==0||j==i)              
-           arr[i][j]=1;            
-           else  
-           {             
-            arr[i][j]=arr[i-1][j]+arr[i-1][j-1];           
-            }         
-     }   
-}  
-       return arr;   
+import java.util.*;
+public class Solution {
+public static int[][] pascalTriangle(int N)
+{
+ int[][] arr = new int[N][];
+ for(int i=0;i<N;i++)
+{
+ arr[i]=new int[i+1];
+        for(int j=0;j<=i;j++) {
+           if(j==0||j==i)
+           arr[i][j]=1;
+           else
+           {
+            arr[i][j]=arr[i-1][j]+arr[i-1][j-1];
+            }
+     }
 }
-} 
+       return arr;
+}
+}
 ```
 
 **Potential Optimizations:**
@@ -4236,25 +4345,25 @@ function generate(numRows):
     create an empty list triangle to store the rows
     if numRows is 0:
         return triangle (empty list)
-    
+
     create a new list firstRow with element 1
     add firstRow to triangle
-    
+
     for i from 1 to numRows-1:
         get the previous row prevRow from triangle
         create a new empty list currRow
-        
+
         add 1 as the first element of currRow
-        
+
         for j from 1 to i-1:
             prevLeft = prevRow[j-1]
             prevRight = prevRow[j]
             currVal = prevLeft + prevRight
             add currVal to currRow
-        
+
         add 1 as the last element of currRow
         add currRow to triangle
-    
+
     return triangle
 ```
 
@@ -4295,7 +4404,7 @@ The final `triangle` list is `[[1], [1, 1], [1, 2, 1], [1, 3, 3, 1], [1, 4, 6, 4
 
 ```java
 class Solution {
-    public List<List<Integer>> generate(int numRows) 
+    public List<List<Integer>> generate(int numRows)
     {
         List<List<Integer>> triangle = new ArrayList<>();
         // Base case: If numRows is 0, return an empty triangle
@@ -4463,24 +4572,24 @@ Let's consider the example `v = [1, 2, 2, 3, 2, 1, 1, 3]`.
 
 ```java
 class Solution {
-    public List<Integer> majorityElement(int[] nums) 
+    public List<Integer> majorityElement(int[] nums)
     {
         int n = nums.length;
-        List<Integer> ls = new ArrayList<>(); 
+        List<Integer> ls = new ArrayList<>();
         HashMap<Integer, Integer> mpp = new HashMap<>();
         int mini = (int)(n / 3) + 1;
-        for (int i = 0; i < n; i++) 
+        for (int i = 0; i < n; i++)
         {
             int value = mpp.getOrDefault(nums[i], 0);
             mpp.put(nums[i], value + 1);
-            if (mpp.get(nums[i]) == mini) 
+            if (mpp.get(nums[i]) == mini)
             {
                 ls.add(nums[i]);
             }
             if (ls.size() == 2) break;
         }
         Collections.sort(ls);
-        return ls; 
+        return ls;
     }
 }
 ```
@@ -4522,7 +4631,6 @@ In this optimized code, we use the `getOrDefault` method to handle the case when
 
 This optimization does not affect the time and space complexity of the algorithm.
 
-
 ## 6-05-2024
 
 **29. 3 Sum**
@@ -4530,7 +4638,6 @@ This optimization does not affect the time and space complexity of the algorithm
 [3 Sum (Leetcode)](https://leetcode.com/problems/3sum/description/)
 
 [3 Sum (CodeStudio)](https://www.naukri.com/code360/problems/three-sum_6922132?utm_source=striver&utm_medium=website&utm_campaign=a_zcoursetuf)
-
 
 Given an integer array nums, return all the triplets [nums[i], nums[j], nums[k]] such that i != j, i != k, and j != k, and nums[i] + nums[j] + nums[k] == 0.
 
@@ -4540,7 +4647,7 @@ Example 1:
 
 Input: nums = [-1,0,1,2,-1,-4]
 Output: [[-1,-1,2],[-1,0,1]]
-Explanation: 
+Explanation:
 nums[0] + nums[1] + nums[2] = (-1) + 0 + 1 = 0.
 nums[1] + nums[2] + nums[4] = 0 + 1 + (-1) = 0.
 nums[0] + nums[3] + nums[4] = (-1) + 2 + (-1) = 0.
@@ -4613,7 +4720,6 @@ Let's consider the example `nums = [-1, 0, 1, 2, -1, -4]`.
    - While `j < k`: This condition is false, so the inner loop is not executed.
 8. The outer loop terminates, and the list `ans` containing the triplets `[-1, -1, 2]` and `[-1, 0, 1]` is returned.
 
-
 Java Code:
 
 ```java
@@ -4633,16 +4739,16 @@ List<List<Integer>> ans = new ArrayList<>();
             while(j<k)
             {
                 int sum = nums[i]+nums[j]+nums[k];
-                
+
                 if(sum == 0)
                 {
                     ans.add(Arrays.asList(nums[i],nums[j],nums[k]));
-                    
+
                     while (j<k && nums[j] == nums[j+1])
                     {
                         j++;
                     }
-                    
+
                     j++;
                     k--;
                 }
@@ -4654,7 +4760,7 @@ List<List<Integer>> ans = new ArrayList<>();
                 {
                     k--;
                 }
-            } 
+            }
         }
         return ans;
 ```
@@ -4696,22 +4802,17 @@ return ans;
 
 In this optimized code, the triplets are added to a `HashSet` instead of a `List`. After the nested loops, the `HashSet` is converted back to a `List` and returned as the final result.
 
-
 **30. Largest Subarray with Zero sum**
 
 [Largest Subarray with Zero sum (CodeStudio)](https://www.naukri.com/code360/problems/longest-subarray-with-zero-sum_6783450?utm_source=striver&utm_medium=website&utm_campaign=a_zcoursetuf)
 
-
 Ninja is given an array ‘Arr’ of size ‘N’. You have to help him find the longest subarray of ‘Arr’, whose sum is 0. You must return the length of the longest subarray whose sum is 0.
 
-
-
 For Example:
-For N = 5, and Arr = {1, -1, 0, 0, 1}, 
-We have the following subarrays with zero sums: 
+For N = 5, and Arr = {1, -1, 0, 0, 1},
+We have the following subarrays with zero sums:
 {{1, -1}, {1, -1, 0}, {1, -1, 0, 0}, {-1, 0, 0, 1}, {0}, {0, 0}, {0}}
 Among these subarrays, {1, -1, 0, 0} and {-1, 0, 0, 1} are the longest subarrays with their sum equal to zero. Hence the answer is 4.
-
 
 The given code is an optimized solution to find the length of the longest subarray with a sum of 0 in a given array of integers.
 
@@ -4766,16 +4867,16 @@ public class Solution {
         int maxLength = 0;
         int n = arr.length;
         int sum = 0;
-        
+
         // Create a HashMap to store the cumulative sum and its index
         Map<Integer, Integer> sumIndex = new HashMap<>();
-        
+
         // Initialize the HashMap with 0 as the first index
         sumIndex.put(0, -1);
-        
+
         for (int i = 0; i < n; i++) {
             sum += arr[i];
-            
+
             // If the current sum exists in the HashMap,
             // it means there is a subarray with sum 0 ending at index i
             if (sumIndex.containsKey(sum)) {
@@ -4785,7 +4886,7 @@ public class Solution {
                 sumIndex.put(sum, i);
             }
         }
-        
+
         return maxLength;
     }
 }
@@ -4803,16 +4904,16 @@ public class Solution {
         int maxLength = 0;
         int n = arr.length;
         int sum = 0;
-        
+
         // Create a HashMap to store the cumulative sum and its index
         Map<Integer, Integer> sumIndex = new HashMap<>();
-        
+
         // Handle the case where the entire array has a sum of 0
         sumIndex.put(0, -1);
-        
+
         for (int i = 0; i < n; i++) {
             sum += arr[i];
-            
+
             // If the current sum exists in the HashMap,
             // it means there is a subarray with sum 0 ending at index i
             if (sumIndex.containsKey(sum)) {
@@ -4822,12 +4923,12 @@ public class Solution {
                 sumIndex.put(sum, i);
             }
         }
-        
+
         // Handle the case where the entire array has a sum of 0
         if (sumIndex.containsKey(0)) {
             maxLength = Math.max(maxLength, n);
         }
-        
+
         return maxLength;
     }
 }
@@ -4841,9 +4942,9 @@ This optimization ensures that if the entire array has a sum of 0, the code corr
 
 [Maximum Product Subarray](https://leetcode.com/problems/maximum-product-subarray/description/)
 
-Given an integer array nums, find a 
+Given an integer array nums, find a
 subarray
- that has the largest product, and return the product.
+that has the largest product, and return the product.
 
 The test cases are generated so that the answer will fit in a 32-bit integer.
 
@@ -4909,21 +5010,21 @@ Java code:
 ```java
 class Solution {
     public int maxProduct(int[] nums) {
-        
+
         int max = nums[0], min = nums[0], ans = nums[0];
-        
+
         for (int i = 1; i < nums.length; i++) {
-            
+
             int temp = max;  // store the max because before updating min your max will already be updated
-            
+
             max = Math.max(Math.max(max * nums[i], min * nums[i]), nums[i]);
             min = Math.min(Math.min(temp * nums[i], min * nums[i]), nums[i]);
-            
+
             if (max > ans) {
                 ans = max;
             }
         }
-        
+
         return ans;
 
     }
@@ -4973,7 +5074,6 @@ Merge nums1 and nums2 into a single array sorted in non-decreasing order.
 
 The final sorted array should not be returned by the function, but instead be stored inside the array nums1. To accommodate this, nums1 has a length of m + n, where the first m elements denote the elements that should be merged, and the last n elements are set to 0 and should be ignored. nums2 has a length of n.
 
-
 Example 1:
 
 Input: nums1 = [1,2,3,0,0,0], m = 3, nums2 = [2,5,6], n = 3
@@ -5017,7 +5117,7 @@ The given code is a Java implementation of the "Merge Two Sorted Arrays Without 
 5. Return (arrays a and b are now merged and sorted)
 ```
 
-**Time Complexity:** O(m * n * log(m + n)), where m and n are the lengths of the input arrays a and b, respectively. The time complexity is derived from the shell sort algorithm, which performs multiple iterations with decreasing gap sizes, and each iteration has a time complexity of O(m + n).
+**Time Complexity:** O(m _ n _ log(m + n)), where m and n are the lengths of the input arrays a and b, respectively. The time complexity is derived from the shell sort algorithm, which performs multiple iterations with decreasing gap sizes, and each iteration has a time complexity of O(m + n).
 
 **Space Complexity:** O(1), as the merge is performed in-place without using any additional data structures.
 
@@ -5150,3 +5250,580 @@ public class Solution {
 In this optimized code, we use a hardcoded array `gaps` containing the optimized gap sequence `[9, 5, 3, 1]`. The rest of the code remains the same, but it performs fewer iterations due to the optimized gap sequence.
 
 This optimization may provide better performance for larger input sizes, as the gap sequence is more efficient than the `(gap/2) + (gap%2)` sequence used in the original code.
+
+## 7-05-2024
+
+**33. 4 Sum**
+
+[4 Sum (CodeStudio)](https://www.naukri.com/code360/problems/4sum_5713771?utm_source=striver&utm_medium=website&utm_campaign=a_zcoursetuf&leftPanelTabValue=PROBLEM)
+
+[4 Sum (Leetcode)](https://leetcode.com/problems/4sum/description/)
+
+You are given an array ‘NUMS’ of length ‘N’. You are also given an integer ‘TARGET’.
+
+Return an array of all the unique quadruplets [ ‘NUMS[ a ]’, ‘NUMS[ b ]’, ‘NUMS[ c ]’, ‘NUMS[ d ]’ ] with the following conditions:
+
+i. 0 <= a, b, c, d < ‘N’ and a, b, c, and d are distinct.
+
+ii. NUMS[ a ] + NUMS[ b ] + NUMS[ c ] +NUMS[ d ] = TARGET
+
+Return the array in any order.
+
+Note:
+
+(NUMS[ a ], NUMS[ b ], NUMS[ c ], NUMS[ d ]), (NUMS[ a ], NUMS[ d ], NUMS[ c ], NUMS[ b ]), (NUMS[ a ], NUMS[ c ], NUMS[ b ], NUMS[ d ])... all of them are treated or considered the same quadruplets.
+
+Two quadruplets are different if there is any integer in one quadruplet which is not in the other.
+
+The solution will be verified by the number of valid quadruplets returned. In the output, only the number of valid quadruplets will be printed.
+
+Example:
+Input: ‘N’ = 5, ‘TARGET’ = 5, ‘NUMS’ = [ 1, 2, 1, 0, 1 ]
+
+Output: 1.
+
+There is only one unique quadruplet with sum = 5 and that is [1, 2, 1, 1].
+
+**Pseudocode with Explanation (Time Complexity and Space Complexity):**
+
+```
+1. Sort the input array nums in ascending order
+2. Initialize an empty list ans to store the quadruplets
+3. Iterate through the array with a variable i from 0 to length - 4
+    a. If i > 0 and nums[i] is the same as nums[i-1], skip this iteration (to avoid duplicates)
+    b. Iterate through the array with a variable j from i + 1 to length - 3
+        i. If j > i + 1 and nums[j] is the same as nums[j-1], skip this iteration (to avoid duplicates)
+        ii. Initialize two pointers, l = j + 1 and r = length - 1
+        iii. While l < r:
+            1. Calculate the sum of nums[i], nums[j], nums[l], and nums[r]
+            2. If the sum is equal to the target:
+                a. Add the quadruplet [nums[i], nums[j], nums[l], nums[r]] to ans
+                b. Move l and r inwards until they point to different values (to avoid duplicates)
+            3. If the sum is less than the target, increment l (to increase the sum)
+            4. If the sum is greater than the target, decrement r (to decrease the sum)
+4. Return ans
+```
+
+**Time Complexity:** O(n^3), where n is the length of the input array `nums`. The sorting step takes O(n log n), and the nested loops have a time complexity of O(n^3).
+
+**Space Complexity:** O(n), where n is the length of the input array `nums`. In the worst case, the output list `ans` could contain O(n^3) quadruplets, but the space required for the sorted array and the pointers is O(n).
+
+**Explanation with Example:**
+
+Let's consider the example `nums = [1, 0, -1, 0, -2, 2]` and `target = 0`.
+
+1. The array is sorted: `nums = [-2, -1, 0, 0, 1, 2]`.
+2. An empty list `ans` is initialized to store the quadruplets.
+3. The outer loop starts with `i = 0` and `nums[i] = -2`.
+   - The inner loop starts with `j = 1` and `nums[j] = -1`.
+   - `l = 2` and `r = 5` (initially pointing to the third and last elements).
+   - While `l < r`:
+     - `sum = nums[i] + nums[j] + nums[l] + nums[r] = -2 + (-1) + 0 + 2 = -1 < 0`, so `l` is incremented to 3.
+     - `sum = nums[i] + nums[j] + nums[l] + nums[r] = -2 + (-1) + 0 + 1 = -2 < 0`, so `l` is incremented to 4.
+     - `sum = nums[i] + nums[j] + nums[l] + nums[r] = -2 + (-1) + 1 + 1 = -1 < 0`, so `l` is incremented to 5, which is not less than `r`, so the inner loop terminates.
+4. The inner loop continues with `j = 2` and `nums[j] = 0`.
+   - `l = 3` and `r = 5` (initially pointing to the fourth and last elements).
+   - While `l < r`:
+     - `sum = nums[i] + nums[j] + nums[l] + nums[r] = -2 + 0 + 0 + 2 = 0`, so the quadruplet `[-2, 0, 0, 2]` is added to `ans`. `l` is incremented to 4, and `r` is decremented to 4, which is not less than `l`, so the inner loop terminates.
+5. The outer loop continues with `i = 1` and `nums[i] = -1`.
+   - The inner loop starts with `j = 2` and `nums[j] = 0`.
+   - `l = 3` and `r = 5` (initially pointing to the fourth and last elements).
+   - While `l < r`:
+     - `sum = nums[i] + nums[j] + nums[l] + nums[r] = -1 + 0 + 0 + 2 = 1 > 0`, so `r` is decremented to 4.
+     - `sum = nums[i] + nums[j] + nums[l] + nums[r] = -1 + 0 + 0 + 1 = 0`, so the quadruplet `[-1, 0, 0, 1]` is added to `ans`. `l` is incremented to 4, and `r` is decremented to 3, which is not less than `l`, so the inner loop terminates.
+6. The outer loop continues with `i = 2` and `nums[i] = 0`, but since `nums[i]` is the same as `nums[i-1]`, this iteration is skipped to avoid duplicates.
+7. The outer loop continues with `i = 3` and `nums[i] = 0`, but since `nums[i]` is the same as `nums[i-1]`, this iteration is skipped to avoid duplicates.
+8. The outer loop continues with `i = 4` and `nums[i] = 1`.
+   - The inner loop starts with `j = 5` and `nums[j] = 2`.
+   - `l = 6` and `r = 6` (initially pointing to the last element).
+   - While `l < r`: This condition is false, so the inner loop is not executed.
+9. The outer loop terminates, and the list `ans` containing the quadruplets `[-2, 0, 0, 2]` and `[-1, 0, 0, 1]` is returned.
+
+Java code:
+
+```java
+class Solution {
+    public List<List<Integer>> fourSum(int[] nums, int target)
+    {
+        List<List<Integer>> ans = new ArrayList<>();
+        Arrays.sort(nums);
+        int n = nums.length;
+        for (int i = 0; i < n; i++) {
+            if (i > 0 && nums[i] == nums[i - 1])
+                continue;
+            for (int j = i + 1; j < n; j++) {
+                if (j > i + 1 && nums[j] == nums[j - 1])
+                    continue;
+                int l = j + 1, r = n - 1;
+                while (l < r) {
+                    long sum = (long) nums[i] + nums[j] + nums[l] + nums[r];
+                    if (sum == target) {
+                        ans.add(Arrays.asList(nums[i], nums[j], nums[l], nums[r]));
+                        l++;
+                        r--;
+                        while (l < r && nums[l] == nums[l - 1])
+                            l++;
+                        while (l < r && nums[r] == nums[r + 1])
+                            r--;
+                    } else if (sum < target)
+                        l++;
+                    else
+                        r--;
+                }
+            }
+        }
+        return ans;
+
+    }
+}
+```
+
+**Possible Optimizations:**
+
+The given code is already optimized for the "4Sum" problem, as it avoids duplicates and has an optimal time complexity of O(n^3). However, there is a potential optimization that can be made to reduce the time complexity further for certain input distributions.
+
+**Optimization: Using a Hashmap**
+
+If the input array contains many duplicate elements, we can use a HashMap to store the frequency of each element. This way, we can skip over duplicate elements more efficiently and reduce the time complexity in some cases.
+
+Here's the optimized code using a HashMap:
+
+```java
+public List<List<Integer>> fourSum(int[] nums, int target) {
+    List<List<Integer>> ans = new ArrayList<>();
+    int n = nums.length;
+    if (n < 4) return ans;
+
+    // Store the frequency of each element in a HashMap
+    Map<Integer, Integer> freq = new HashMap<>();
+    for (int num : nums) {
+        freq.put(num, freq.getOrDefault(num, 0) + 1);
+    }
+
+    // Sort the array
+    Arrays.sort(nums);
+
+    for (int i = 0; i < n - 3; i++) {
+        if (i > 0 && nums[i] == nums[i - 1]) continue; // Skip duplicates for i
+        int target1 = target - nums[i];
+        for (int j = i + 1; j < n - 2; j++) {
+            if (j > i + 1 && nums[j] == nums[j - 1]) continue; // Skip duplicates for j
+            int target2 = target1 - nums[j];
+            int l = j + 1, r = n - 1;
+            while (l < r) {
+                int sum = nums[l] + nums[r];
+                if (sum == target2) {
+                    ans.add(Arrays.asList(nums[i], nums[j], nums[l], nums[r]));
+                    while (l < r && nums[l] == nums[l + 1]) l++; // Skip duplicates for l
+                    while (l < r && nums[r] == nums[r - 1]) r--; // Skip duplicates for r
+                    l++;
+                }
+            }
+        }
+    }
+    return ans;
+}
+```
+
+**34. Subarrays with XOR ‘K’**
+
+[Count number of subarrays with given xor K (CodeStudio)](https://www.naukri.com/code360/problems/subarrays-with-xor-k_6826258?utm_source=striver&utm_medium=website&utm_campaign=a_zcoursetuf)
+
+Given an array ‘A’ consisting of ‘N’ integers and an integer ‘B’, find the number of subarrays of array ‘A’ whose bitwise XOR( ⊕ ) of all elements is equal to ‘B’.
+
+A subarray of an array is obtained by removing some(zero or more) elements from the front and back of the array.
+
+Example:
+Input: ‘N’ = 4 ‘B’ = 2
+‘A’ = [1, 2, 3, 2]
+
+Output: 3
+
+Explanation: Subarrays have bitwise xor equal to ‘2’ are: [1, 2, 3, 2], [2], [2].
+
+**Pseudocode with Explanation (Time Complexity and Space Complexity):**
+
+```
+1. Initialize n with the length of the input array a
+2. Initialize a HashMap mpp to store the cumulative XOR and its frequency
+3. Initialize xor to 0 (to keep track of the cumulative XOR)
+4. Initialize count to 0 (to store the count of subarrays with sum k)
+5. Put 0 and 1 in the HashMap mpp (to handle the case where the subarray starts from the beginning and has a sum of k)
+6. Iterate through the array a:
+    a. Update xor by performing XOR with the current element a[i]
+    b. Calculate x as xor ^ k (this is the cumulative XOR we need to find in the HashMap)
+    c. If x is present in the HashMap:
+        i. Increment count by the frequency of x in the HashMap
+    d. If xor is present in the HashMap:
+        i. Get the current frequency of xor from the HashMap
+        ii. Increment the frequency by 1 and update the HashMap with the new frequency
+    e. If xor is not present in the HashMap:
+        i. Put xor and 1 in the HashMap (as this is the first occurrence of this cumulative XOR)
+7. Return count
+```
+
+**Time Complexity:** O(n), where n is the length of the input array `a`. We iterate through the array once, and the HashMap operations (get and put) have an average time complexity of O(1).
+
+**Space Complexity:** O(n), where n is the length of the input array `a`. In the worst case, when all elements are distinct, the HashMap will store all elements and their frequencies, resulting in a space complexity of O(n).
+
+**Explanation with Example:**
+
+Let's consider the example `a = [1, 2, 3]` and `k = 3`.
+
+1. Initially, `n = 3`, `mpp = {}`, `xor = 0`, and `count = 0`.
+2. `mpp.put(0, 1)` initializes the HashMap with `0` as the key and `1` as the value.
+3. Iteration 1 (`i = 0`):
+   - `xor = 0 ^ 1 = 1`
+   - `x = 1 ^ 3 = 2`
+   - The HashMap doesn't contain the key `2`, so `count` remains unchanged.
+   - The HashMap doesn't contain the key `1`, so `mpp.put(1, 1)` adds the key-value pair `1` and `1` to the HashMap.
+4. Iteration 2 (`i = 1`):
+   - `xor = 1 ^ 2 = 3`
+   - `x = 3 ^ 3 = 0`
+   - The HashMap contains the key `0`, so `count += mpp.getOrDefault(0, 0) = count += 1 = 1`.
+   - The HashMap contains the key `3`, so `mpp.put(3, mpp.getOrDefault(3, 0) + 1) = mpp.put(3, 1 + 1) = mpp.put(3, 2)` updates the frequency of `3` to `2`.
+5. Iteration 3 (`i = 2`):
+   - `xor = 3 ^ 3 = 0`
+   - `x = 0 ^ 3 = 3`
+   - The HashMap contains the key `3`, so `count += mpp.getOrDefault(3, 0) = count += 2 = 3`.
+   - The HashMap contains the key `0`, so `mpp.put(0, mpp.getOrDefault(0, 0) + 1) = mpp.put(0, 1 + 1) = mpp.put(0, 2)` updates the frequency of `0` to `2`.
+6. The loop terminates, and the count of subarrays with sum `k = 3` is `3`.
+
+Java Code:
+
+```java
+ public static int subarraysWithSumK(int []a, int b) {
+        int n = a.length;
+        HashMap<Integer,Integer> mpp = new HashMap<>();
+        int xor =0, count =0;
+        mpp.put(0,1);
+        for(int i=0;i<n;i++){
+            xor ^= a[i];
+            int x = xor^b;
+            if(mpp.containsKey(x)) count += mpp.getOrDefault(x,0);
+            if(mpp.containsKey(xor)){
+                int val = mpp.getOrDefault(xor,0);
+                mpp.put(xor,val+1);
+            }
+            else
+            mpp.put(xor,1);
+        }
+        return count;
+    }
+```
+
+**Possible Optimizations:**
+
+The given code is already optimized and has a time complexity of O(n) and a space complexity of O(n). However, there is a potential optimization that can be made to reduce the space complexity in some cases.
+
+**Optimization: Using a Single Integer Variable Instead of a HashMap**
+
+If the input array contains only non-negative integers, we can use a single integer variable to store the cumulative XOR instead of a HashMap. This optimization reduces the space complexity to O(1) but works only for non-negative input arrays.
+
+Here's the optimized code using a single integer variable:
+
+```java
+public static int subarraysWithSumK(int[] a, int k) {
+    int n = a.length;
+    int xor = 0, count = 0;
+    int[] freq = new int[n + 1]; // Frequency array to store the count of each cumulative XOR
+    freq[0] = 1; // Initialize the frequency of 0 to 1
+
+    for (int i = 0; i < n; i++) {
+        xor ^= a[i];
+        int x = xor ^ k;
+        if (x >= 0 && x < n) {
+            count += freq[x];
+        }
+        freq[xor]++;
+    }
+
+    return count;
+}
+```
+
+In this optimized code, we use an integer array `freq` of size `n + 1` to store the frequency of each cumulative XOR. We initialize `freq[0]` to `1` to handle the case where the subarray starts from the beginning and has a sum of `k`.
+
+During the loop, we update `xor` by performing XOR with the current element `a[i]`. We calculate `x` as `xor ^ k`, which represents the cumulative XOR we need to find in the frequency array. If `x` is within the bounds of the frequency array (i.e., non-negative and less than `n`), we increment `count` by the frequency of `x` in the frequency array. Finally, we increment the frequency of the current cumulative XOR (`xor`) in the frequency array.
+
+This optimization works only for non-negative input arrays because the cumulative XOR will always be non-negative. If the input array contains negative integers, the cumulative XOR can be negative, and we won't be able to store and retrieve its frequency using an integer array efficiently.
+
+The time complexity of this optimized solution remains O(n), but the space complexity is reduced to O(1) (or O(min(n, max_element_in_array + 1)) to be more precise) for non-negative input arrays.
+
+**35. Missing and repeating numbers**
+
+[Missing and repeating numbers (CodeStudio)](https://www.naukri.com/code360/problems/missing-and-repeating-numbers_6828164?utm_source=striver&utm_medium=website&utm_campaign=a_zcoursetuf)
+
+You are given an array of ‘N’ integers where each integer value is between ‘1’ and ‘N’. Each integer appears exactly once except for ‘P’, which appears exactly twice, and ‘Q’, which is missing.
+
+Your task is to find ‘P’ and ‘Q’ and return them respectively.
+
+Detailed explanation ( Input/output format, Notes, Images )
+Constraints:
+2 <= N <= 5 \* 10^4
+1 <= data <= N
+
+Where ‘N’ is the size of the array and ‘data’ denotes the value of the elements of the array.
+
+**Pseudocode with Explanation (Time Complexity and Space Complexity):**
+
+```
+1. Initialize an array ans of size 2 with -1 as the initial values
+2. Initialize n with the length of the input array a
+3. Initialize p and q with -1 (to store the repeating and missing numbers, respectively)
+4. Iterate through the array a:
+    a. Calculate index as Math.abs(a[i]) - 1 (since array elements are in the range [1, n])
+    b. If a[index] is positive:
+        i. Make a[index] negative by multiplying it with -1
+        ii. Set p to index + 1 (as this is the repeating number)
+5. Iterate through the array a again:
+    a. If a[i] is positive and not equal to p:
+        i. Set q to i + 1 (as this is the missing number)
+6. Set ans[0] to p and ans[1] to q
+7. Return ans
+```
+
+**Time Complexity:** O(n), where n is the length of the input array `a`. We iterate through the array twice, but the overall time complexity is O(n).
+
+**Space Complexity:** O(1), as we are using constant extra space to store the result in the `ans` array and the auxiliary variables `p` and `q`.
+
+**Explanation with Example:**
+
+Let's consider the example `a = [1, 3, 3]`.
+
+1. Initially, `ans = [-1, -1]`, `n = 3`, `p = -1`, and `q = -1`.
+2. Iteration 1 (`i = 0`):
+   - `index = Math.abs(a[0]) - 1 = Math.abs(1) - 1 = 0`
+   - `a[index] = a[0] = -1` (since `a[0]` is positive, we make it negative)
+3. Iteration 2 (`i = 1`):
+   - `index = Math.abs(a[1]) - 1 = Math.abs(3) - 1 = 2`
+   - `a[index] = a[2] = -3` (since `a[2]` is already negative, we don't change it)
+   - `p = 3` (since `a[2]` is negative, we set `p` to the repeating number)
+4. Iteration 3 (`i = 2`):
+   - `index = Math.abs(a[2]) - 1 = Math.abs(3) - 1 = 2`
+   - `a[index] = a[2] = -3` (since `a[2]` is already negative, we don't change it)
+5. Iteration 1 of the second loop (`i = 0`):
+   - `a[0] = -1` (negative)
+   - `p != 1` (since `p = 3`)
+6. Iteration 2 of the second loop (`i = 1`):
+   - `a[1] = 3` (positive)
+   - `p != 2` (since `p = 3`)
+   - `q = 2` (since `a[1]` is positive and not equal to `p`, we set `q` to the missing number)
+7. Iteration 3 of the second loop (`i = 2`):
+   - `a[2] = -3` (negative)
+   - `p != 3` (since `p = 3`)
+8. `ans[0] = 3` (repeating number) and `ans[1] = 2` (missing number)
+9. The array `ans = [3, 2]` is returned.
+
+Java code:
+
+```java
+public static int[] findMissingRepeatingNumbers(int []a) {
+        int[] ans = {-1,-1};
+       int n=a.length;
+       int p=-1,q=-1;
+       for(int i=0;i<n;i++){
+           int index = Math.abs(a[i])-1;
+           a[index] = -1*a[index];
+           if(a[index]>0){
+               p=index+1;
+           }
+       }
+       for(int i=0;i<n;i++){
+           if(a[i]>0 && p!= i+1){
+               q=i+1;
+           }
+       }
+       ans[0]=p;
+       ans[1]=q;
+       return ans;
+    }
+```
+
+**Possible Optimizations:**
+
+The given code is already optimized and has a time complexity of O(n) and a space complexity of O(1). It uses a neat trick to mark the elements as visited by negating them and then uses the negated values to find the missing and repeating numbers.
+
+However, there is a slight optimization that can be made to handle edge cases more gracefully:
+
+```java
+public static int[] findMissingRepeatingNumbers(int[] a) {
+    int[] ans = {-1, -1};
+    int n = a.length;
+    int p = -1, q = -1;
+
+    for (int i = 0; i < n; i++) {
+        int index = Math.abs(a[i]) - 1;
+        if (a[index] < 0) {
+            p = Math.abs(a[i]);
+        } else {
+            a[index] = -a[index];
+        }
+    }
+
+    for (int i = 0; i < n; i++) {
+        if (a[i] > 0) {
+            q = i + 1;
+        }
+    }
+
+    ans[0] = p;
+    ans[1] = q;
+    return ans;
+}
+```
+
+In this optimized code, we handle the case where an element is negative in the input array. If we encounter a negative element, we set `p` to the absolute value of that element, as it is the repeating number.
+
+The main advantage of this optimization is that it handles edge cases more gracefully. For example, if the input array is `[-1, -1]`, the original code would incorrectly set `p` to `2`, while the optimized code would correctly set `p` to `1`.
+
+The time complexity and space complexity of this optimized code remain O(n) and O(1), respectively, but it provides better handling of edge cases involving negative numbers in the input array.
+
+**36. Number of Inversions**
+
+[Number of Inversions](https://www.naukri.com/code360/problems/number-of-inversions_6840276?utm_source=striver&utm_medium=website&utm_campaign=a_zcoursetuf&leftPanelTabValue=PROBLEM)
+
+There is an integer array ‘A’ of size ‘N’.
+
+Number of inversions in an array can be defined as the number of pairs of ‘i’, ‘j’ such that ‘i’ < ‘j’ and ‘A[i]’ > ‘A[j]’.
+
+You must return the number of inversions in the array.
+
+For example,
+Input:
+A = [5, 3, 2, 1, 4], N = 5
+Output:
+7
+Explanation:
+The pairs satisfying the condition for inversion are (1, 2), (1, 3), (1, 4), (1, 5), (2, 3), (2, 4), and (3, 4).
+The number of inversions in the array is 7.
+
+**Pseudocode with Explanation (Time Complexity and Space Complexity):**
+
+```
+1. Initialize i and j as 0 and i + 1, respectively
+2. Initialize count as 0 (to store the number of inversions)
+3. While i is less than n and j is less than n:
+    a. If a[i] is greater than a[j] and i is less than j:
+        i. Increment count by 1
+    b. Increment j by 1
+    c. If j is equal to n:
+        i. Increment i by 1
+        ii. Set j to i + 1
+4. Return count
+```
+
+**Time Complexity:** O(n^2), where n is the length of the input array `a`. The nested loops iterate through all possible pairs of elements, resulting in a time complexity of O(n^2).
+
+**Space Complexity:** O(1), as the code uses constant extra space to store the variables `i`, `j`, and `count`.
+
+**Explanation with Example:**
+
+Let's consider the example `a = [3, 1, 2]` and `n = 3`.
+
+1. Initially, `i = 0`, `j = 1`, and `count = 0`.
+2. Iteration 1:
+   - `a[i] = 3` and `a[j] = 1`
+   - `a[i] > a[j]` and `i < j`, so `count` is incremented to 1
+   - `j` is incremented to 2
+3. Iteration 2:
+   - `a[i] = 3` and `a[j] = 2`
+   - `a[i] > a[j]` and `i < j`, so `count` is incremented to 2
+   - `j` is incremented to 3
+   - `j = 3` is equal to `n`, so `i` is incremented to 1, and `j` is set to `i + 1 = 2`
+4. Iteration 3:
+   - `a[i] = 1` and `a[j] = 2`
+   - `a[i] < a[j]` and `i < j`, so `count` remains unchanged
+   - `j` is incremented to 3
+   - `j = 3` is equal to `n`, so the loop terminates
+5. The function returns `count = 2`, which is the number of inversions in the array `[3, 1, 2]`.
+
+```java
+public class Solution {
+    public static int numberOfInversions(int []a, int n) {
+        int i=0;
+        int j=i+1;
+        int count=0;
+
+        while(i<n&& j<n)
+        {
+                if(a[i]>a[j] && i<j)
+                {
+                    count++;
+                }
+                j++;
+                if(j==n)
+                {
+                    i++;
+                    j=i+1;
+                }
+        }
+        return count;
+    }
+}
+```
+
+**Possible Optimizations:**
+
+The given code has a time complexity of O(n^2), which is not optimal for large input sizes. There is a more efficient way to find the number of inversions in an array using the Merge Sort algorithm. The optimized solution has a time complexity of O(n log n) and a space complexity of O(n).
+
+Here's the optimized code using the Merge Sort algorithm:
+
+```java
+public static int numberOfInversions(int[] a, int n) {
+    int[] temp = new int[n];
+    return mergeSort(a, temp, 0, n - 1);
+}
+
+private static int mergeSort(int[] a, int[] temp, int left, int right) {
+    int mid, inversions = 0;
+
+    if (right > left) {
+        mid = (right + left) / 2;
+        inversions += mergeSort(a, temp, left, mid); // Inversions in the left subarray
+        inversions += mergeSort(a, temp, mid + 1, right); // Inversions in the right subarray
+        inversions += merge(a, temp, left, mid + 1, right); // Inversions in the merged subarray
+    }
+
+    return inversions;
+}
+
+private static int merge(int[] a, int[] temp, int left, int mid, int right) {
+    int i, j, k, inversions = 0;
+
+    i = left;
+    j = mid;
+    k = left;
+
+    while ((i <= mid - 1) && (j <= right)) {
+        if (a[i] <= a[j]) {
+            temp[k++] = a[i++];
+        } else {
+            temp[k++] = a[j++];
+            inversions += (mid - i); // Count the inversions
+        }
+    }
+
+    while (i <= mid - 1) {
+        temp[k++] = a[i++];
+    }
+
+    while (j <= right) {
+        temp[k++] = a[j++];
+    }
+
+    for (i = left; i <= right; i++) {
+        a[i] = temp[i];
+    }
+
+    return inversions;
+}
+```
+
+In this optimized solution, we use the Merge Sort algorithm to sort the array while counting the number of inversions. The `mergeSort` function recursively divides the array into two halves, sorts them, and then merges them while counting the inversions.
+
+The `merge` function combines the two sorted subarrays while counting the inversions. If an element from the right subarray is smaller than an element from the left subarray, it means there are `(mid - i)` inversions involving the element from the left subarray.
+
+The time complexity of this optimized solution is O(n log n), which is more efficient than the previous solution's O(n^2) time complexity, especially for large input sizes. The space complexity is O(n) due to the temporary array used for merging.
+
+This optimization significantly improves the performance of the algorithm for finding the number of inversions in an array.
