@@ -5827,3 +5827,128 @@ The `merge` function combines the two sorted subarrays while counting the invers
 The time complexity of this optimized solution is O(n log n), which is more efficient than the previous solution's O(n^2) time complexity, especially for large input sizes. The space complexity is O(n) due to the temporary array used for merging.
 
 This optimization significantly improves the performance of the algorithm for finding the number of inversions in an array.
+ 
+## 8-05-2023
+
+**37. Binary Search**
+
+Given an array of integers nums which is sorted in ascending order, and an integer target, write a function to search target in nums. If target exists, then return its index. Otherwise, return -1.
+
+You must write an algorithm with O(log n) runtime complexity.
+
+Example 1:
+
+Input: nums = [-1,0,3,5,9,12], target = 9
+Output: 4
+Explanation: 9 exists in nums and its index is 4
+Example 2:
+
+Input: nums = [-1,0,3,5,9,12], target = 2
+Output: -1
+Explanation: 2 does not exist in nums so return -1
+
+The given code is an implementation of the Binary Search algorithm, which is used to find the index of a target element in a sorted array.
+
+**Pseudocode with Explanation (Time Complexity and Space Complexity):**
+
+```
+1. Initialize l as 0 (the leftmost index of the array)
+2. Initialize h as the length of the array - 1 (the rightmost index of the array)
+3. While l is less than or equal to h:
+    a. Calculate the middle index mid as (l + h) / 2
+    b. If the element at the middle index (nums[mid]) is equal to the target:
+        i. Return mid (as the target element is found)
+    c. If the element at the middle index (nums[mid]) is greater than the target:
+        i. Update h to mid - 1 (as the target element must be in the left subarray)
+    d. Otherwise:
+        i. Update l to mid + 1 (as the target element must be in the right subarray)
+4. If the loop completes without finding the target, return -1 (as the target element is not present in the array)
+```
+
+**Time Complexity:** O(log n), where n is the length of the input array `nums`. In each iteration, the search space is halved, resulting in a logarithmic time complexity.
+
+**Space Complexity:** O(1), as the code uses constant extra space to store the variables `l`, `h`, and `mid`.
+
+**Explanation with Example:**
+
+Let's consider the example `nums = [1, 3, 5, 7, 9]` and `target = 5`.
+
+1. Initially, `l = 0` and `h = 4` (since the length of the array is 5).
+2. Iteration 1:
+   - `mid = (0 + 4) / 2 = 2`
+   - `nums[mid] = nums[2] = 5`
+   - `nums[mid] == target`, so the function returns `mid = 2` (the index of the target element).
+3. The function terminates and returns 2, which is the index of the target element 5 in the array.
+
+Now, let's consider another example `nums = [1, 3, 5, 7, 9]` and `target = 6`.
+
+1. Initially, `l = 0` and `h = 4`.
+2. Iteration 1:
+   - `mid = (0 + 4) / 2 = 2`
+   - `nums[mid] = nums[2] = 5`
+   - `nums[mid] < target`, so `l` is updated to `mid + 1 = 3`.
+3. Iteration 2:
+   - `mid = (3 + 4) / 2 = 3`
+   - `nums[mid] = nums[3] = 7`
+   - `nums[mid] > target`, so `h` is updated to `mid - 1 = 2`.
+4. Iteration 3:
+   - `mid = (3 + 2) / 2 = 2`
+   - `nums[mid] = nums[2] = 5`
+   - `nums[mid] < target`, so `l` is updated to `mid + 1 = 3`.
+5. Iteration 4:
+   - `mid = (3 + 2) / 2 = 2` (the same as the previous iteration)
+   - `l = 3` and `h = 2`, so the loop terminates as `l > h`.
+6. The function returns -1, as the target element 6 is not present in the array.
+
+
+Java Code:
+
+```java
+public int search(int[] nums, int target) {
+    int l = 0;
+    int h = nums.length - 1;
+    
+    while (l <= h) {
+        int mid = (h + l) / 2; 
+        if (nums[mid] == target) {
+            return mid;
+        } else if (nums[mid] > target) {
+            h = mid - 1;
+        } else {
+            l = mid + 1;
+        }
+    }
+    
+    return -1;
+}
+```
+
+**Possible Optimizations:**
+
+The given code is already an optimized implementation of the Binary Search algorithm. However, there is a slight optimization that can be made to handle the case where the sum of `l` and `h` overflows the maximum value of an integer.
+
+Here's the optimized code:
+
+```java
+public int search(int[] nums, int target) {
+    int l = 0;
+    int h = nums.length - 1;
+    
+    while (l <= h) {
+        int mid = l + (h - l) / 2; // Handles the case when (l + h) overflows
+        if (nums[mid] == target) {
+            return mid;
+        } else if (nums[mid] > target) {
+            h = mid - 1;
+        } else {
+            l = mid + 1;
+        }
+    }
+    
+    return -1;
+}
+```
+
+In this optimized code, we calculate the middle index `mid` as `l + (h - l) / 2` instead of `(l + h) / 2`. This ensures that the calculation does not overflow even when `l` and `h` are large integers.
+
+The time complexity and space complexity of this optimized solution remain the same: O(log n) and O(1), respectively. However, this optimization provides better handling of edge cases involving large integers and prevents potential integer overflow issues.
