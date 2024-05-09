@@ -5952,3 +5952,643 @@ public int search(int[] nums, int target) {
 In this optimized code, we calculate the middle index `mid` as `l + (h - l) / 2` instead of `(l + h) / 2`. This ensures that the calculation does not overflow even when `l` and `h` are large integers.
 
 The time complexity and space complexity of this optimized solution remain the same: O(log n) and O(1), respectively. However, this optimization provides better handling of edge cases involving large integers and prevents potential integer overflow issues.
+
+## 9-05-2024
+
+**38. Implement Lower Bound**
+
+[Implement Lower Bound](https://www.geeksforgeeks.org/problems/floor-in-a-sorted-array-1587115620/1?track=DSASP-Searching&amp%253BbatchId=154&utm_source=youtube&utm_medium=collab_striver_ytdescription&utm_campaign=floor-in-a-sorted-array)
+
+Given a sorted array arr[] of size N without duplicates, and given a value x. Floor of x is defined as the largest element K in arr[] such that K is smaller than or equal to x. Find the index of K(0-based indexing).
+
+Example 1:
+
+Input:
+N = 7, x = 0 
+
+arr[] = {1,2,8,10,11,12,19}
+
+Output: -1
+
+Explanation: No element less 
+than 0 is found. So output 
+is "-1".
+
+Example 2:
+
+Input:
+N = 7, x = 5 
+
+arr[] = {1,2,8,10,11,12,19}
+
+Output: 1
+
+Explanation: Largest Number less than 5 is
+2 (i.e K = 2), whose index is 1(0-based 
+indexing).
+
+The given code is an implementation of the Lower Bound function in Java, which finds the index of the smallest element in a sorted array that is greater than or equal to a given target value `x`.
+
+**Pseudocode with Explanation (Time Complexity and Space Complexity):**
+
+```
+1. Initialize low as 0 (the leftmost index of the array)
+2. Initialize high as n - 1 (the rightmost index of the array)
+3. Initialize ans as n (a value greater than the maximum possible index)
+4. While low is less than or equal to high:
+    a. Calculate the middle index mid as (low + high) / 2
+    b. If the element at the middle index (arr[mid]) is greater than or equal to x:
+        i. Update ans to mid (since this is a potential lower bound)
+        ii. Update high to mid - 1 (to look for a smaller index on the left)
+    c. Otherwise:
+        i. Update low to mid + 1 (to look for a greater value on the right)
+5. Return ans (the lower bound index)
+```
+
+**Time Complexity:** O(log n), where n is the length of the input array `arr`. In each iteration, the search space is halved, resulting in a logarithmic time complexity.
+
+**Space Complexity:** O(1), as the code uses constant extra space to store the variables `low`, `high`, `ans`, and `mid`.
+
+**Explanation with Example:**
+
+Let's consider the example `arr = [3, 5, 8, 15, 19]`, `n = 5`, and `x = 9`.
+
+1. Initially, `low = 0`, `high = 4`, and `ans = 5`.
+2. Iteration 1:
+   - `mid = (0 + 4) / 2 = 2`
+   - `arr[mid] = arr[2] = 8`
+   - `arr[mid] < x`, so `low` is updated to `mid + 1 = 3`.
+3. Iteration 2:
+   - `mid = (3 + 4) / 2 = 3`
+   - `arr[mid] = arr[3] = 15`
+   - `arr[mid] >= x`, so `ans` is updated to `mid = 3`, and `high` is updated to `mid - 1 = 2`.
+4. Iteration 3:
+   - `mid = (3 + 2) / 2 = 2`
+   - `arr[mid] = arr[2] = 8`
+   - `arr[mid] < x`, so `low` is updated to `mid + 1 = 3`.
+5. Iteration 4:
+   - `mid = (3 + 2) / 2 = 2` (the same as the previous iteration)
+   - `low = 3` and `high = 2`, so the loop terminates as `low > high`.
+6. The function returns `ans = 3`, which is the index of the smallest element in the array that is greater than or equal to `x = 9`.
+
+Java code:
+
+```java
+
+import java.util.*;
+
+public class tUf {
+
+    public static int lowerBound(int []arr, int n, int x) {
+        int low = 0, high = n - 1;
+        int ans = n;
+
+        while (low <= high) {
+            int mid = (low + high) / 2;
+            // maybe an answer
+            if (arr[mid] >= x) {
+                ans = mid;
+                //look for smaller index on the left
+                high = mid - 1;
+            } else {
+                low = mid + 1; // look on the right
+            }
+        }
+        return ans;
+    }
+
+    public static void main(String[] args) {
+        int[] arr = {3, 5, 8, 15, 19};
+        int n = 5, x = 9;
+        int ind = lowerBound(arr, n, x);
+        System.out.println("The lower bound is the index: " + ind);
+    }
+} 
+```
+
+**Possible Optimizations:**
+
+The given code is already an optimized implementation of the Lower Bound function. However, there is a slight optimization that can be made to handle the case where the sum of `low` and `high` overflows the maximum value of an integer.
+
+Here's the optimized code:
+
+```java
+import java.util.*;
+
+public class tUf {
+
+    public static int lowerBound(int[] arr, int n, int x) {
+        int low = 0, high = n;
+        
+        while (low < high) {
+            int mid = low + (high - low) / 2; // Handles the case when (low + high) overflows
+            
+            if (arr[mid] >= x) {
+                high = mid;
+            } else {
+                low = mid + 1;
+            }
+        }
+        
+        return high < n && arr[high] < x ? n : high;
+    }
+
+    public static void main(String[] args) {
+        int[] arr = {3, 5, 8, 15, 19};
+        int n = 5, x = 9;
+        
+        int ind = lowerBound(arr, n, x);
+        System.out.println("The lower bound is the index: " + ind);
+    }
+}
+```
+
+In this optimized code, we calculate the middle index `mid` as `low + (high - low) / 2` instead of `(low + high) / 2`. This ensures that the calculation does not overflow even when `low` and `high` are large integers.
+
+Additionally, we handle the case where the target value `x` is greater than all elements in the array. If `high` is less than `n` and the element at `high` is still less than `x`, we return `n` as the lower bound index. Otherwise, we return `high`.
+
+The time complexity and space complexity of this optimized solution remain the same: O(log n) and O(1), respectively. However, this optimization provides better handling of edge cases involving large integers and prevents potential integer overflow issues.
+
+**39. Implement Upper Bound**
+
+[Implement Upper Bound](https://www.geeksforgeeks.org/problems/ceil-the-floor2802/1?utm_source=youtube&utm_medium=collab_striver_ytdescription&utm_campaign=ceil-the-floor)
+
+Given an unsorted array Arr[] of N integers and an integer X, find floor and ceiling of X in Arr[0..N-1].
+
+Ceil of X is the smallest element which is greater than or equal to X. Ceil of X doesn’t exist if X is greater than greatest element of Arr[].
+
+Example 1:
+
+Input:
+N = 8, X = 7
+
+Arr[] = {5, 6, 8, 9, 6, 5, 5, 6}
+
+Output: 6 8
+
+Explanation:
+Floor of 7 is 6 and ceil of 7 
+is 8.
+
+Example 2:
+
+Input:
+N = 8, X = 10
+
+Arr[] = {5, 6, 8, 9, 6, 5, 5, 6}
+
+Output: 9 -1
+
+Explanation:
+Floor of 10 is 9 but ceil of 10 is not 
+possible.
+
+The given code is an implementation of the Upper Bound function in Java, which finds the index of the smallest element in a sorted array that is strictly greater than a given target value `x`.
+
+**Pseudocode with Explanation (Time Complexity and Space Complexity):**
+
+```
+1. Initialize low as 0 (the leftmost index of the array)
+2. Initialize high as n - 1 (the rightmost index of the array)
+3. Initialize ans as n (a value greater than the maximum possible index)
+4. While low is less than or equal to high:
+    a. Calculate the middle index mid as (low + high) / 2
+    b. If the element at the middle index (arr[mid]) is strictly greater than x:
+        i. Update ans to mid (since this is a potential upper bound)
+        ii. Update high to mid - 1 (to look for a smaller index on the left)
+    c. Otherwise:
+        i. Update low to mid + 1 (to look for a greater value on the right)
+5. Return ans (the upper bound index)
+```
+
+**Time Complexity:** O(log n), where n is the length of the input array `arr`. In each iteration, the search space is halved, resulting in a logarithmic time complexity.
+
+**Space Complexity:** O(1), as the code uses constant extra space to store the variables `low`, `high`, `ans`, and `mid`.
+
+**Explanation with Example:**
+
+Let's consider the example `arr = [3, 5, 8, 9, 15, 19]`, `n = 6`, and `x = 9`.
+
+1. Initially, `low = 0`, `high = 5`, and `ans = 6`.
+2. Iteration 1:
+   - `mid = (0 + 5) / 2 = 2`
+   - `arr[mid] = arr[2] = 8`
+   - `arr[mid] <= x`, so `low` is updated to `mid + 1 = 3`.
+3. Iteration 2:
+   - `mid = (3 + 5) / 2 = 4`
+   - `arr[mid] = arr[4] = 15`
+   - `arr[mid] > x`, so `ans` is updated to `mid = 4`, and `high` is updated to `mid - 1 = 3`.
+4. Iteration 3:
+   - `mid = (3 + 3) / 2 = 3`
+   - `arr[mid] = arr[3] = 9`
+   - `arr[mid] <= x`, so `low` is updated to `mid + 1 = 4`.
+5. Iteration 4:
+   - `mid = (4 + 3) / 2 = 3` (the same as the previous iteration)
+   - `low = 4` and `high = 3`, so the loop terminates as `low > high`.
+6. The function returns `ans = 4`, which is the index of the smallest element in the array that is strictly greater than `x = 9`.
+
+```java
+import java.util.*;
+
+public class tUf {
+
+    public static int upperBound(int[] arr, int x, int n) {
+        int low = 0, high = n - 1;
+        int ans = n;
+
+        while (low <= high) {
+            int mid = (low + high) / 2;
+            // maybe an answer
+            if (arr[mid] > x) {
+                ans = mid;
+                //look for smaller index on the left
+                high = mid - 1;
+            } else {
+                low = mid + 1; // look on the right
+            }
+        }
+        return ans;
+    }
+
+    public static void main(String[] args) {
+        int[] arr = {3, 5, 8, 9, 15, 19};
+        int n = 6, x = 9;
+        int ind = upperBound(arr, x, n);
+        System.out.println("The upper bound is the index: " + ind);
+    }
+}
+```
+
+**Possible Optimizations:**
+
+The given code is already an optimized implementation of the Upper Bound function. However, there is a slight optimization that can be made to handle the case where the sum of `low` and `high` overflows the maximum value of an integer.
+
+Here's the optimized code:
+
+```java
+import java.util.*;
+
+public class tUf {
+
+    public static int upperBound(int[] arr, int x, int n) {
+        int low = 0, high = n;
+        
+        while (low < high) {
+            int mid = low + (high - low) / 2; // Handles the case when (low + high) overflows
+            
+            if (arr[mid] > x) {
+                high = mid;
+            } else {
+                low = mid + 1;
+            }
+        }
+        
+        return high == n ? n : arr[high] > x ? high : n;
+    }
+
+    public static void main(String[] args) {
+        int[] arr = {3, 5, 8, 9, 15, 19};
+        int n = 6, x = 9;
+        
+        int ind = upperBound(arr, x, n);
+        System.out.println("The upper bound is the index: " + ind);
+    }
+}
+```
+
+In this optimized code, we calculate the middle index `mid` as `low + (high - low) / 2` instead of `(low + high) / 2`. This ensures that the calculation does not overflow even when `low` and `high` are large integers.
+
+Additionally, we handle the case where the target value `x` is greater than or equal to all elements in the array. If `high` is equal to `n`, we return `n` as the upper bound index. Otherwise, if the element at `high` is strictly greater than `x`, we return `high`; otherwise, we return `n`.
+
+The time complexity and space complexity of this optimized solution remain the same: O(log n) and O(1), respectively. However, this optimization provides better handling of edge cases involving large integers and prevents potential integer overflow issues.
+
+
+**40. Search Insert Position**
+
+[Search Insert Position](https://leetcode.com/problems/search-insert-position/description/)
+
+Given a sorted array of distinct integers and a target value, return the index if the target is found. If not, return the index where it would be if it were inserted in order.
+
+You must write an algorithm with O(log n) runtime complexity.
+
+Example 1:
+
+Input: nums = [1,3,5,6], target = 5
+Output: 2
+Example 2:
+
+Input: nums = [1,3,5,6], target = 2
+Output: 1
+Example 3:
+
+Input: nums = [1,3,5,6], target = 7
+Output: 4
+
+The above code is an implementation of the binary search algorithm in Java. Binary search is an efficient algorithm used to find the position of a target element in a sorted array.
+
+Pseudo-code:
+
+```
+BinarySearch(arr, target)
+    low = 0
+    high = length(arr) - 1
+    
+    while low <= high:
+        mid = (low + high) // 2
+        if arr[mid] == target:
+            return mid
+        else if arr[mid] < target:
+            low = mid + 1
+        else:
+            high = mid - 1
+    
+    return low
+```
+
+Explanation:
+1. The algorithm takes a sorted array `arr` and a target element `target` as input.
+2. It initializes two pointers `low` and `high` to the first and last indices of the array, respectively.
+3. The algorithm enters a loop that continues until `low` is greater than `high`.
+4. In each iteration of the loop, it calculates the middle index `mid` as the average of `low` and `high`.
+5. If the element at `mid` is equal to the target, the algorithm returns `mid` as the position of the target element.
+6. If the element at `mid` is less than the target, the algorithm updates `low` to `mid + 1`, effectively searching in the right half of the array.
+7. If the element at `mid` is greater than the target, the algorithm updates `high` to `mid - 1`, effectively searching in the left half of the array.
+8. If the target element is not found in the array, the algorithm returns `low`, which is the correct position to insert the target element to maintain the sorted order of the array.
+
+Time Complexity: The time complexity of the binary search algorithm is O(log n), where n is the length of the sorted array. This is because the algorithm halves the search space in each iteration, resulting in a logarithmic time complexity.
+
+Space Complexity: The space complexity of the binary search algorithm is O(1), as it uses a constant amount of extra space to store the `low`, `high`, and `mid` pointers, regardless of the size of the input array.
+
+Example:
+Let's consider the array `nums = [1, 3, 5, 6]` and the target element `target = 5`.
+
+Iteration 1:
+- `low = 0`, `high = 3`
+- `mid = (0 + 3) // 2 = 1`
+- `nums[mid] = 3 < target`, so `low = mid + 1 = 2`
+
+Iteration 2:
+- `low = 2`, `high = 3`
+- `mid = (2 + 3) // 2 = 2`
+- `nums[mid] = 5 == target`, so the algorithm returns `mid = 2`, which is the position of the target element.
+
+```java
+class Solution {
+    public int searchInsert(int[] nums, int target) 
+    {
+        int low = 0;
+        int high = nums.length - 1;
+        int ans = nums.length;
+        while(low <= high)
+        {
+            int mid = (high+low)/2;
+            if(nums[mid] >= target)
+            {
+                ans = mid;
+                high = mid - 1;
+            }
+            else
+            {
+                low = mid + 1;
+            }
+        }
+        return ans;
+    }
+}
+```
+
+Optimization:
+
+The given code is already optimized for finding the insertion position of the target element in a sorted array. However, if the goal is solely to find the position of the target element (if it exists in the array), a minor optimization can be made by returning `mid` instead of `ans` when the target is found. This would eliminate the need for the `ans` variable and slightly simplify the code.
+
+Optimized code:
+
+```java
+class Solution {
+    public int searchInsert(int[] nums, int target) {
+        int low = 0;
+        int high = nums.length - 1;
+        
+        while (low <= high) {
+            int mid = (high + low) / 2;
+            if (nums[mid] == target) {
+                return mid;
+            } else if (nums[mid] < target) {
+                low = mid + 1;
+            } else {
+                high = mid - 1;
+            }
+        }
+        
+        return low;
+    }
+}
+```
+
+This optimized code has the same time and space complexities as the original code, but it returns the position of the target element directly if it is found in the array.
+
+**41. Floor/Ceil in Sorted Array**
+
+[Floor/Ceil in Sorted Array](https://www.naukri.com/code360/problems/ceiling-in-a-sorted-array_1825401)
+
+You're given a sorted array 'a' of 'n' integers and an integer 'x'.
+
+Find the floor and ceiling of 'x' in 'a[0..n-1]'.
+
+Note:
+Floor of 'x' is the largest element in the array which is smaller than or equal to 'x'.
+Ceiling of 'x' is the smallest element in the array greater than or equal to 'x'.
+
+Example:
+Input: 
+n=6, x=5, a=[3, 4, 7, 8, 8, 10]   
+
+Output:
+4
+
+Explanation:
+The floor and ceiling of 'x' = 5 are 4 and 7, respectively.
+
+The given code defines two functions, `findFloor` and `findCeil`, which use the binary search algorithm to find the floor and ceiling values of a given number `x` in a sorted array `arr` of size `n`.
+
+The `findFloor` function returns the greatest element in the array that is less than or equal to `x`, while the `findCeil` function returns the smallest element in the array that is greater than or equal to `x`. If no such elements exist, the functions return `-1`.
+
+The `getFloorAndCeil` function calls both `findFloor` and `findCeil` and returns an array containing the floor and ceiling values.
+
+Pseudo-code:
+
+```
+FindFloor(arr, n, x):
+    low = 0
+    high = n - 1
+    ans = -1
+
+    while low <= high:
+        mid = (low + high) // 2
+        if arr[mid] <= x:
+            ans = arr[mid]
+            low = mid + 1  # Search for a smaller index on the left
+        else:
+            high = mid - 1  # Search on the right
+
+    return ans
+
+FindCeil(arr, n, x):
+    low = 0
+    high = n - 1
+    ans = -1
+
+    while low <= high:
+        mid = (low + high) // 2
+        if arr[mid] >= x:
+            ans = arr[mid]
+            high = mid - 1  # Search for a smaller index on the left
+        else:
+            low = mid + 1  # Search on the right
+
+    return ans
+
+GetFloorAndCeil(arr, n, x):
+    floor = FindFloor(arr, n, x)
+    ceil = FindCeil(arr, n, x)
+    return [floor, ceil]
+```
+
+Explanation (with an example):
+Let's consider the array `arr = [3, 4, 4, 7, 8, 10]` and the target value `x = 5`.
+
+1. The `findFloor` function is called with `arr`, `n = 6`, and `x = 5`.
+   - Iteration 1:
+     - `low = 0`, `high = 5`
+     - `mid = (0 + 5) // 2 = 2`
+     - `arr[mid] = 4 <= x`, so `ans = 4`, `low = mid + 1 = 3`
+   - Iteration 2:
+     - `low = 3`, `high = 5`
+     - `mid = (3 + 5) // 2 = 4`
+     - `arr[mid] = 8 > x`, so `high = mid - 1 = 3`
+   - The loop terminates as `low > high`.
+   - The function returns `ans = 4`, which is the floor value of `x = 5`.
+
+2. The `findCeil` function is called with `arr`, `n = 6`, and `x = 5`.
+   - Iteration 1:
+     - `low = 0`, `high = 5`
+     - `mid = (0 + 5) // 2 = 2`
+     - `arr[mid] = 4 < x`, so `low = mid + 1 = 3`
+   - Iteration 2:
+     - `low = 3`, `high = 5`
+     - `mid = (3 + 5) // 2 = 4`
+     - `arr[mid] = 8 >= x`, so `ans = 8`, `high = mid - 1 = 3`
+   - The loop terminates as `low > high`.
+   - The function returns `ans = 8`, which is the ceil value of `x = 5`.
+
+3. The `getFloorAndCeil` function calls `findFloor` and `findCeil` and returns an array `[4, 8]`, containing the floor and ceil values of `x = 5`.
+
+Time Complexity:
+The time complexity of both `findFloor` and `findCeil` is O(log n), where n is the size of the input array. This is because the binary search algorithm halves the search space in each iteration, resulting in a logarithmic time complexity.
+
+Space Complexity:
+The space complexity of both `findFloor` and `findCeil` is O(1), as they use a constant amount of extra space to store the `low`, `high`, `mid`, and `ans` variables, regardless of the size of the input array.
+
+Java code :
+
+```java
+import java.util.*;
+
+public class tUf {
+    static int findFloor(int[] arr, int n, int x) {
+        int low = 0, high = n - 1;
+        int ans = -1;
+
+        while (low <= high) {
+            int mid = (low + high) / 2;
+            // maybe an answer
+            if (arr[mid] <= x) {
+                ans = arr[mid];
+                //look for smaller index on the left
+                low = mid + 1;
+            } else {
+                high = mid - 1; // look on the right
+            }
+        }
+        return ans;
+    }
+
+    static int findCeil(int[] arr, int n, int x) {
+        int low = 0, high = n - 1;
+        int ans = -1;
+
+        while (low <= high) {
+            int mid = (low + high) / 2;
+            // maybe an answer
+            if (arr[mid] >= x) {
+                ans = arr[mid];
+                //look for smaller index on the left
+                high = mid - 1;
+            } else {
+                low = mid + 1; // look on the right
+            }
+        }
+        return ans;
+    }
+    public static int[] getFloorAndCeil(int[] arr, int n, int x) {
+        int f = findFloor(arr, n, x);
+        int c = findCeil(arr, n, x);
+        return new int[] {f, c};
+    }
+    public static void main(String[] args) {
+        int[] arr = {3, 4, 4, 7, 8, 10};
+        int n = 6, x = 5;
+        int[] ans = getFloorAndCeil(arr, n, x);
+        System.out.println("The floor and ceil are: " + ans[0]
+                           + " " + ans[1]);
+    }
+} 
+
+```
+
+Optimization:
+The given code is already optimized for finding the floor and ceiling values in a sorted array using the binary search algorithm. However, a minor optimization can be made to the `getFloorAndCeil` function to avoid redundant computations.
+
+Instead of calling `findFloor` and `findCeil` separately, we can modify the `findFloor` function to also return the ceiling value when it is not equal to `-1`. This way, we can combine the two functions into one and reduce the overall time complexity.
+
+Optimized code:
+
+```java
+import java.util.*;
+
+public class tUf {
+
+    static int[] findFloorAndCeil(int[] arr, int n, int x) {
+        int low = 0, high = n - 1;
+        int floor = -1, ceil = -1;
+
+        while (low <= high) {
+            int mid = (low + high) / 2;
+
+            if (arr[mid] == x) {
+                floor = ceil = arr[mid];
+                break;
+            } else if (arr[mid] < x) {
+                floor = arr[mid];
+                low = mid + 1;
+            } else {
+                ceil = arr[mid];
+                high = mid - 1;
+            }
+        }
+
+        return new int[] { floor, ceil };
+    }
+
+    public static void main(String[] args) {
+        int[] arr = { 3, 4, 4, 7, 8, 10 };
+        int n = 6, x = 5;
+        int[] ans = findFloorAndCeil(arr, n, x);
+        System.out.println("The floor and ceil are: " + ans[0] + " " + ans[1]);
+    }
+}
+```
+
+In the optimized code, the `findFloorAndCeil` function performs a single binary search and updates the `floor` and `ceil` variables accordingly. If the target value `x` is found in the array, both `floor` and `ceil` are set to `x`.
+
+The time complexity of the optimized `findFloorAndCeil` function is O(log n), where n is the size of the input array, since it performs a single binary search. The space complexity remains O(1), as it uses a constant amount of extra space to store the `low`, `high`, `floor`, and `ceil` variables.
