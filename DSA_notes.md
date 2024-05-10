@@ -6592,3 +6592,399 @@ public class tUf {
 In the optimized code, the `findFloorAndCeil` function performs a single binary search and updates the `floor` and `ceil` variables accordingly. If the target value `x` is found in the array, both `floor` and `ceil` are set to `x`.
 
 The time complexity of the optimized `findFloorAndCeil` function is O(log n), where n is the size of the input array, since it performs a single binary search. The space complexity remains O(1), as it uses a constant amount of extra space to store the `low`, `high`, `floor`, and `ceil` variables.
+
+## 10-05-2024
+
+**42. Find First and Last Position of Element in Sorted Array**
+
+[Find First and Last Position of Element in Sorted Array](https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/description/)
+
+The above code is a Java implementation of a solution to the "Find First and Last Position of Element in Sorted Array" problem on LeetCode. The problem asks to find the starting and ending indices of the target element in a sorted array. If the target element is not present in the array, the function should return `[-1, -1]`.
+
+The solution uses two helper functions, `findFirst` and `findLast`, to find the first and last occurrences of the target element, respectively.
+
+Pseudo-code:
+
+```
+FindFirstAndLastPosition(nums, target):
+    first = FindFirst(nums, target)
+    last = FindLast(nums, target)
+    return [first, last]
+
+FindFirst(nums, target):
+    left = 0
+    right = length(nums) - 1
+    first = -1
+
+    while left <= right:
+        mid = (left + right) // 2
+        if nums[mid] == target:
+            if mid == 0 or nums[mid - 1] != target:
+                first = mid
+                break
+            else:
+                right = mid - 1  # Look for the leftmost occurrence
+        else if nums[mid] < target:
+            left = mid + 1
+        else:
+            right = mid - 1
+
+    return first
+
+FindLast(nums, target):
+    left = 0
+    right = length(nums) - 1
+    last = -1
+
+    while left <= right:
+        mid = (left + right) // 2
+        if nums[mid] == target:
+            if mid == length(nums) - 1 or nums[mid + 1] != target:
+                last = mid
+                break
+            else:
+                left = mid + 1  # Look for the rightmost occurrence
+        else if nums[mid] < target:
+            left = mid + 1
+        else:
+            right = mid - 1
+
+    return last
+```
+
+Explanation (with an example):
+Let's consider the array `nums = [5, 7, 7, 8, 8, 10]` and the target `target = 8`.
+
+1. The `searchRange` function is called with `nums` and `target = 8`.
+2. Inside `searchRange`, it calls `findFirst(nums, 8)`.
+   - Iteration 1:
+     - `left = 0`, `right = 5`
+     - `mid = (0 + 5) // 2 = 2`
+     - `nums[mid] = 7 < target`, so `left = mid + 1 = 3`
+   - Iteration 2:
+     - `left = 3`, `right = 5`
+     - `mid = (3 + 5) // 2 = 4`
+     - `nums[mid] = 8 == target`, and since `mid != 0` and `nums[mid - 1] == 8`, `right = mid - 1 = 3`
+   - Iteration 3:
+     - `left = 3`, `right = 3`
+     - `mid = (3 + 3) // 2 = 3`
+     - `nums[mid] = 8 == target`, and since `mid != 0` and `nums[mid - 1] != 8`, `first = mid = 3`, and the loop breaks.
+   - The `findFirst` function returns `3`, which is the index of the first occurrence of `8`.
+
+3. Inside `searchRange`, it calls `findLast(nums, 8)`.
+   - Iteration 1:
+     - `left = 0`, `right = 5`
+     - `mid = (0 + 5) // 2 = 2`
+     - `nums[mid] = 7 < target`, so `left = mid + 1 = 3`
+   - Iteration 2:
+     - `left = 3`, `right = 5`
+     - `mid = (3 + 5) // 2 = 4`
+     - `nums[mid] = 8 == target`, and since `mid != nums.length - 1` and `nums[mid + 1] == 8`, `left = mid + 1 = 5`
+   - Iteration 3:
+     - `left = 5`, `right = 5`
+     - `mid = (5 + 5) // 2 = 5`
+     - `nums[mid] = 10 > target`, so `right = mid - 1 = 4`
+   - Iteration 4:
+     - `left = 4`, `right = 4`
+     - `mid = (4 + 4) // 2 = 4`
+     - `nums[mid] = 8 == target`, and since `mid == nums.length - 2` and `nums[mid + 1] != 8`, `last = mid = 4`, and the loop breaks.
+   - The `findLast` function returns `4`, which is the index of the last occurrence of `8`.
+
+4. The `searchRange` function returns `[3, 4]`, which are the starting and ending indices of the target element `8` in the array.
+
+Time Complexity:
+The time complexity of both `findFirst` and `findLast` is O(log n), where n is the length of the input array. This is because they use the binary search algorithm, which halves the search space in each iteration, resulting in a logarithmic time complexity.
+
+Space Complexity:
+The space complexity of both `findFirst` and `findLast` is O(1), as they use a constant amount of extra space to store the `left`, `right`, `mid`, and `first`/`last` variables, regardless of the size of the input array.
+
+Java code:
+
+```java
+class Solution {
+    public int[] searchRange(int[] nums, int target) {
+        int first = findFirst(nums, target);
+        int last = findLast(nums, target);
+        return new int[]{first, last};
+    }
+
+    private int findFirst(int[] nums, int target) {
+        int left = 0, right = nums.length - 1;
+        int first = -1;
+        while (left <= right) {
+            int mid = left + (right - left) / 2;
+            if (nums[mid] == target) {
+                if (mid == 0 || nums[mid - 1] != target) {
+                    first = mid;
+                    break;
+                } else {
+                    right = mid - 1;
+                }
+            } else if (nums[mid] < target) {
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
+        return first;
+    }
+
+    private int findLast(int[] nums, int target) {
+        int left = 0, right = nums.length - 1;
+        int last = -1;
+        while (left <= right) {
+            int mid = left + (right - left) / 2;
+            if (nums[mid] == target) {
+                if (mid == nums.length - 1 || nums[mid + 1] != target) {
+                    last = mid;
+                    break;
+                } else {
+                    left = mid + 1;
+                }
+            } else if (nums[mid] < target) {
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
+        return last;
+    }
+}
+```
+
+Optimization:
+The given code is already optimized for finding the first and last occurrences of the target element in a sorted array using the binary search algorithm. However, there is a potential optimization that can be made to reduce the overall time complexity.
+
+Instead of calling `findFirst` and `findLast` separately, we can combine them into a single function that performs a single binary search and keeps track of the first and last occurrences simultaneously. This approach can slightly improve the time complexity by reducing the number of iterations required.
+
+Optimized code:
+
+```java
+class Solution {
+    public int[] searchRange(int[] nums, int target) {
+        int left = 0, right = nums.length - 1;
+        int[] result = { -1, -1 };
+
+        while (left <= right) {
+            int mid = left + (right - left) / 2;
+
+            if (nums[mid] == target) {
+                result[0] = mid;
+                right = mid - 1; // Find the leftmost occurrence
+            } else if (nums[mid] < target) {
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
+
+        left = 0;
+        right = nums.length - 1;
+
+        while (left <= right) {
+            int mid = left + (right - left) / 2;
+
+            if (nums[mid] == target) {
+                result[1] = mid;
+                left = mid + 1; // Find the rightmost occurrence
+            } else if (nums[mid] < target) {
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
+
+        return result;
+    }
+}
+```
+
+In the optimized code, the `searchRange` function performs two binary searches: one to find the leftmost occurrence of the target element and the other to find the rightmost occurrence. The `result` array is used to store the starting and ending indices of the target element.
+
+The time complexity of the optimized `searchRange` function is O(log n), where n is the length of the input array, as it performs two binary searches. However, the constant factor is slightly smaller than the original implementation, as it avoids redundant computations.
+
+The space complexity remains O(1), as it uses a constant amount of extra space to store the `left`, `right`, and `result` variables.
+
+
+**43. Count Occurrences in Sorted Array**
+
+[Count Occurrences in Sorted Array](https://www.geeksforgeeks.org/problems/number-of-occurrence2259/1?utm_source=youtube&utm_medium=collab_striver_ytdescription&utm_campaign=number-of-occurrence)
+
+Given a sorted array Arr of size N and a number X, you need to find the number of occurrences of X in Arr.
+
+Example 1:
+
+Input:
+N = 7, X = 2
+
+Arr[] = {1, 1, 2, 2, 2, 2, 3}
+
+Output: 4
+
+Explanation: 2 occurs 4 times in the
+given array.
+
+Example 2:
+
+Input:
+N = 7, X = 4
+
+Arr[] = {1, 1, 2, 2, 2, 2, 3}
+
+Output: 0
+
+Explanation: 4 is not present in the
+given array.
+
+The above code is a Java implementation of a solution to find the count of occurrences of a given element `x` in a sorted array `arr` of size `n`.
+
+The solution uses a modified version of the binary search algorithm to find the first and last occurrences of the element `x` in the array. Once the first and last occurrences are known, it calculates the count by subtracting the first occurrence index from the last occurrence index and adding one.
+
+Pseudo-code:
+
+```
+CountOccurrences(arr, n, x):
+    start = 0
+    end = n - 1
+    firstOccurrence = -1
+    lastOccurrence = -1
+
+    // Find the first occurrence of x
+    while start <= end:
+        mid = (start + end) // 2
+        if arr[mid] == x:
+            firstOccurrence = mid
+            end = mid - 1  # Continue searching in the left half
+        else if x > arr[mid]:
+            start = mid + 1
+        else:
+            end = mid - 1
+
+    // Find the last occurrence of x
+    start = 0
+    end = n - 1
+    while start <= end:
+        mid = (start + end) // 2
+        if arr[mid] == x:
+            lastOccurrence = mid
+            start = mid + 1  # Continue searching in the right half
+        else if x > arr[mid]:
+            start = mid + 1
+        else:
+            end = mid - 1
+
+    // Calculate the count
+    if firstOccurrence != -1 and lastOccurrence != -1:
+        count = lastOccurrence - firstOccurrence + 1
+    else:
+        count = 0
+
+    return count
+```
+
+Explanation (with an example):
+Let's consider the array `arr = [1, 2, 2, 3, 3, 3, 4]` and the target element `x = 3`.
+
+1. The `count` function is called with `arr`, `n = 7`, and `x = 3`.
+2. Finding the first occurrence of `x = 3`:
+   - Iteration 1:
+     - `start = 0`, `end = 6`
+     - `mid = (0 + 6) // 2 = 3`
+     - `arr[mid] = 3 == x`, so `firstOccurrence = mid = 3`, `end = mid - 1 = 2`
+   - Iteration 2:
+     - `start = 0`, `end = 2`
+     - `mid = (0 + 2) // 2 = 1`
+     - `arr[mid] = 2 < x`, so `start = mid + 1 = 2`
+   - Iteration 3:
+     - `start = 2`, `end = 2`
+     - `mid = (2 + 2) // 2 = 2`
+     - `arr[mid] = 2 < x`, so `start = mid + 1 = 3`
+   - The loop terminates as `start > end`.
+   - The first occurrence of `x = 3` is found at index `3`.
+
+3. Finding the last occurrence of `x = 3`:
+   - Iteration 1:
+     - `start = 0`, `end = 6`
+     - `mid = (0 + 6) // 2 = 3`
+     - `arr[mid] = 3 == x`, so `lastOccurrence = mid = 3`, `start = mid + 1 = 4`
+   - Iteration 2:
+     - `start = 4`, `end = 6`
+     - `mid = (4 + 6) // 2 = 5`
+     - `arr[mid] = 3 == x`, so `lastOccurrence = mid = 5`, `start = mid + 1 = 6`
+   - Iteration 3:
+     - `start = 6`, `end = 6`
+     - `mid = (6 + 6) // 2 = 6`
+     - `arr[mid] = 4 > x`, so `end = mid - 1 = 5`
+   - The loop terminates as `start > end`.
+   - The last occurrence of `x = 3` is found at index `5`.
+
+4. Calculating the count:
+   - `firstOccurrence = 3`, `lastOccurrence = 5`
+   - `count = lastOccurrence - firstOccurrence + 1 = 5 - 3 + 1 = 3`
+   - The function returns `3`, which is the count of occurrences of `x = 3` in the array.
+
+Time Complexity:
+The time complexity of the `count` function is O(log n), where n is the length of the input array. This is because it uses a modified version of the binary search algorithm twice, and the time complexity of binary search is O(log n).
+
+Space Complexity:
+The space complexity of the `count` function is O(1), as it uses a constant amount of extra space to store the `start`, `end`, `firstOccurrence`, `lastOccurrence`, and `count` variables, regardless of the size of the input array.
+
+Optimization:
+The given code is already optimized for finding the count of occurrences of an element in a sorted array using a modified version of the binary search algorithm. However, there is a potential optimization that can be made to reduce the overall time complexity further.
+
+Instead of performing two separate binary searches to find the first and last occurrences of the element, we can combine them into a single binary search by keeping track of the leftmost and rightmost indices where the target element is found. This approach can slightly improve the time complexity by reducing the number of iterations required.
+
+Optimized code:
+
+```java
+class Solution {
+    int count(int[] arr, int n, int x) {
+        int start = 0;
+        int end = n - 1;
+        int firstOccurrence = -1;
+        int lastOccurrence = -1;
+
+        while (start <= end) {
+            int mid = start + (end - start) / 2;
+
+            if (arr[mid] == x) {
+                firstOccurrence = mid;
+                lastOccurrence = mid;
+
+                // Expand the range for firstOccurrence and lastOccurrence
+                int left = mid - 1;
+                int right = mid + 1;
+
+                while (left >= 0 && arr[left] == x) {
+                    firstOccurrence = left;
+                    left--;
+                }
+
+                while (right < n && arr[right] == x) {
+                    lastOccurrence = right;
+                    right++;
+                }
+
+                break;
+            } else if (x > arr[mid]) {
+                start = mid + 1;
+            } else {
+                end = mid - 1;
+            }
+        }
+
+        int count = 0;
+        if (firstOccurrence != -1 && lastOccurrence != -1) {
+            count = lastOccurrence - firstOccurrence + 1;
+        }
+
+        return count;
+    }
+}
+```
+
+In the optimized code, the `count` function performs a single binary search to find the middle index where the target element `x` is found (if it exists). Once the middle index is found, it expands the range to the left and right to find the leftmost and rightmost indices where `x` is found, respectively.
+
+The time complexity of the optimized `count` function is O(log n + k), where n is the length of the input array, and k is the count of occurrences of the target element `x`. The additional k factor is due to the expansion step, which iterates to find the leftmost and rightmost indices of `x`.
+
+The space complexity remains O(1), as it uses a constant amount of extra space to store the `start`, `end`, `firstOccurrence`, `lastOccurrence`, and `count` variables.
