@@ -6929,6 +6929,58 @@ The time complexity of the `count` function is O(log n), where n is the length o
 Space Complexity:
 The space complexity of the `count` function is O(1), as it uses a constant amount of extra space to store the `start`, `end`, `firstOccurrence`, `lastOccurrence`, and `count` variables, regardless of the size of the input array.
 
+Java code:
+
+```java
+class Solution {
+    int count(int arr[], int n, int x) {
+    int start = 0;
+    int end = n - 1;
+
+    int firstOccurrence = -1; // Initialize with -1 to handle cases where 'x' is not found
+    int lastOccurrence = -1; // Initialize with -1 to handle cases where 'x' is not found
+
+    // Finding the first occurrence of 'x'
+    while (start <= end) {
+        int mid = start + (end - start) / 2;
+
+        if (arr[mid] == x) {
+            firstOccurrence = mid;
+            end = mid - 1; // Continue searching in the left half for the first occurrence
+        } else if (x > arr[mid]) {
+            start = mid + 1;
+        } else {
+            end = mid - 1;
+        }
+    }
+
+    // Finding the last occurrence of 'x'
+    start = 0; // Reset start
+    end = n - 1; // Reset end
+    while (start <= end) {
+        int mid = start + (end - start) / 2;
+
+        if (arr[mid] == x) {
+            lastOccurrence = mid;
+            start = mid + 1; // Continue searching in the right half for the last occurrence
+        } else if (x > arr[mid]) {
+            start = mid + 1;
+        } else {
+            end = mid - 1;
+        }
+    }
+
+    // Calculating the count of occurrences
+    int count = 0;
+    if (firstOccurrence != -1 && lastOccurrence != -1) {
+        count = lastOccurrence - firstOccurrence + 1;
+    }
+
+    return count;
+}
+}
+```
+
 Optimization:
 The given code is already optimized for finding the count of occurrences of an element in a sorted array using a modified version of the binary search algorithm. However, there is a potential optimization that can be made to reduce the overall time complexity further.
 
@@ -6988,3 +7040,754 @@ In the optimized code, the `count` function performs a single binary search to f
 The time complexity of the optimized `count` function is O(log n + k), where n is the length of the input array, and k is the count of occurrences of the target element `x`. The additional k factor is due to the expansion step, which iterates to find the leftmost and rightmost indices of `x`.
 
 The space complexity remains O(1), as it uses a constant amount of extra space to store the `start`, `end`, `firstOccurrence`, `lastOccurrence`, and `count` variables.
+
+## 14-05-2024
+
+**44. Search in a rotated array 1**
+
+[Search in a rotated array 1](https://leetcode.com/problems/search-in-rotated-sorted-array/)
+
+There is an integer array nums sorted in ascending order (with distinct values).
+
+Prior to being passed to your function, nums is possibly rotated at an unknown pivot index k (1 <= k < nums.length) such that the resulting array is [nums[k], nums[k+1], ..., nums[n-1], nums[0], nums[1], ..., nums[k-1]] (0-indexed). For example, [0,1,2,4,5,6,7] might be rotated at pivot index 3 and become [4,5,6,7,0,1,2].
+
+Given the array nums after the possible rotation and an integer target, return the index of target if it is in nums, or -1 if it is not in nums.
+
+You must write an algorithm with O(log n) runtime complexity.
+
+Example 1:
+
+Input: nums = [4,5,6,7,0,1,2], target = 0
+Output: 4
+Example 2:
+
+Input: nums = [4,5,6,7,0,1,2], target = 3
+Output: -1
+Example 3:
+
+Input: nums = [1], target = 0
+Output: -1
+
+The above code is a Java implementation of the solution to the "Search in Rotated Sorted Array" problem on LeetCode. The problem asks to search for a target element in a rotated sorted array, and return its index if found. If the target element is not present in the array, the function should return `-1`.
+
+The solution uses a modified version of the binary search algorithm to handle the rotation in the sorted array. It first checks if the middle element is the target, and if not, it determines which half of the array is sorted based on the values at the low and middle indices. It then checks if the target falls within the sorted half and updates the low and high pointers accordingly.
+
+Pseudo-code:
+
+```
+SearchRotatedSortedArray(nums, target):
+    low = 0
+    high = length(nums) - 1
+
+    while low <= high:
+        mid = (low + high) // 2
+
+        if nums[mid] == target:
+            return mid
+
+        # If the left half is sorted
+        if nums[low] <= nums[mid]:
+            # If the target falls within the left sorted half
+            if nums[low] <= target < nums[mid]:
+                high = mid - 1
+            else:
+                low = mid + 1
+
+        # If the right half is sorted
+        else:
+            # If the target falls within the right sorted half
+            if nums[mid] < target <= nums[high]:
+                low = mid + 1
+            else:
+                high = mid - 1
+
+    return -1
+```
+
+Explanation (with an example):
+Let's consider the array `nums = [4, 5, 6, 7, 0, 1, 2]` and the target `target = 0`.
+
+1. The `search` function is called with `nums` and `target = 0`.
+2. Iteration 1:
+   - `low = 0`, `high = 6`
+   - `mid = (0 + 6) // 2 = 3`
+   - `nums[mid] = 7 != target`
+   - `nums[low] = 4 <= nums[mid] = 7`, so the left half is sorted
+   - `nums[low] = 4 <= target = 0`, but `target = 0 < nums[mid] = 7`, so `high = mid - 1 = 2`
+
+3. Iteration 2:
+   - `low = 0`, `high = 2`
+   - `mid = (0 + 2) // 2 = 1`
+   - `nums[mid] = 5 != target`
+   - `nums[low] = 4 <= nums[mid] = 5`, so the left half is sorted
+   - `nums[low] = 4 <= target = 0`, but `target = 0 < nums[mid] = 5`, so `high = mid - 1 = 0`
+
+4. Iteration 3:
+   - `low = 0`, `high = 0`
+   - `mid = (0 + 0) // 2 = 0`
+   - `nums[mid] = 4 != target`
+   - `nums[low] = 4 <= nums[mid] = 4`, so the left half is sorted
+   - `nums[low] = 4 > target = 0`, so `low = mid + 1 = 1`
+
+5. Iteration 4:
+   - `low = 1`, `high = 0`
+   - The loop terminates as `low > high`.
+
+6. Since the target element `0` is not found in the array, the function returns `-1`.
+
+Time Complexity:
+The time complexity of the `search` function is O(log n), where n is the length of the input array. This is because it uses a modified version of the binary search algorithm, which halves the search space in each iteration, resulting in a logarithmic time complexity.
+
+Space Complexity:
+The space complexity of the `search` function is O(1), as it uses a constant amount of extra space to store the `low`, `high`, and `mid` variables, regardless of the size of the input array.
+
+Java code:
+
+```java
+class Solution {
+    public int search(int[] nums, int target) 
+    {
+        int low = 0;
+        int high = nums.length-1;
+        while (low <= high)
+        {
+            int mid = (low+high)/2;
+            if(nums[mid]==target)
+            {
+                return mid;
+            }
+            else if(nums[low] <= nums[mid])
+            {
+                if (nums[low]<= target && target <= nums[mid])
+                {
+                    high = mid - 1;
+                }
+                else
+                {
+                    low = mid + 1;
+                }
+            }
+            else 
+            {
+                if(nums[mid]<= target && target <= nums[high])
+                {
+                    low = mid + 1;
+                }
+                else
+                {
+                    high = mid - 1;
+                }
+            }
+        }
+        return -1; 
+    }
+}
+```
+
+Optimization:
+The given code is already optimized for searching in a rotated sorted array using a modified version of the binary search algorithm. However, there is a potential optimization that can be made to simplify the code and make it more readable.
+
+Instead of checking the sorted half of the array based on the values at the low and middle indices, we can directly compare the middle element with the low and high elements to determine the sorted half. This approach can make the code more concise and easier to understand.
+
+Optimized code:
+
+```java
+class Solution {
+    public int search(int[] nums, int target) {
+        int low = 0;
+        int high = nums.length - 1;
+
+        while (low <= high) {
+            int mid = low + (high - low) / 2;
+
+            if (nums[mid] == target) {
+                return mid;
+            }
+
+            // If the left half is sorted
+            if (nums[low] <= nums[mid]) {
+                // If the target falls within the left sorted half
+                if (nums[low] <= target && target < nums[mid]) {
+                    high = mid - 1;
+                } else {
+                    low = mid + 1;
+                }
+            }
+            // If the right half is sorted
+            else {
+                // If the target falls within the right sorted half
+                if (nums[mid] < target && target <= nums[high]) {
+                    low = mid + 1;
+                } else {
+                    high = mid - 1;
+                }
+            }
+        }
+
+        return -1;
+    }
+}
+```
+
+In the optimized code, the check for the sorted half is simplified by directly comparing the middle element with the low and high elements. If `nums[low] <= nums[mid]`, the left half is sorted, and if `nums[mid] < nums[high]`, the right half is sorted.
+
+The time complexity and space complexity of the optimized code remain O(log n) and O(1), respectively, as the underlying algorithm is still the modified binary search.
+
+**45. Search in a rotated array 2**
+
+[Search in a rotated array 2](https://leetcode.com/problems/search-in-rotated-sorted-array-ii/description/)
+
+There is an integer array nums sorted in non-decreasing order (not necessarily with distinct values).
+
+Before being passed to your function, nums is rotated at an unknown pivot index k (0 <= k < nums.length) such that the resulting array is [nums[k], nums[k+1], ..., nums[n-1], nums[0], nums[1], ..., nums[k-1]] (0-indexed). For example, [0,1,2,4,4,4,5,6,6,7] might be rotated at pivot index 5 and become [4,5,6,6,7,0,1,2,4,4].
+
+Given the array nums after the rotation and an integer target, return true if target is in nums, or false if it is not in nums.
+
+You must decrease the overall operation steps as much as possible.
+
+Example 1:
+
+Input: nums = [2,5,6,0,0,1,2], 
+
+target = 0
+
+Output: true
+
+Example 2:
+
+Input: nums = [2,5,6,0,0,1,2], 
+
+target = 3
+
+Output: false
+
+The above code is a Java implementation of the solution to the "Search in Rotated Sorted Array II" problem on LeetCode. This problem is a variation of the "Search in Rotated Sorted Array" problem, where the input array may contain duplicates.
+
+The solution uses a modified version of the binary search algorithm to handle the rotation and duplicates in the sorted array. It first checks if the middle element is the target, and if not, it checks for the case where the low, middle, and high elements are all equal (due to duplicates). If this is the case, it moves the low and high pointers inward to skip the duplicates. Otherwise, it determines which half of the array is sorted based on the values at the low and middle indices, and checks if the target falls within the sorted half, updating the low and high pointers accordingly.
+
+Pseudo-code:
+
+```
+SearchRotatedSortedArrayWithDuplicates(nums, target):
+    low = 0
+    high = length(nums) - 1
+
+    while low <= high:
+        mid = (low + high) // 2
+
+        if nums[mid] == target:
+            return True
+
+        # If duplicates are found at low, mid, and high
+        if nums[low] == nums[mid] == nums[high]:
+            low += 1
+            high -= 1
+
+        # If the left half is sorted
+        elif nums[low] <= nums[mid]:
+            # If the target falls within the left sorted half
+            if nums[low] <= target < nums[mid]:
+                high = mid - 1
+            else:
+                low = mid + 1
+
+        # If the right half is sorted
+        else:
+            # If the target falls within the right sorted half
+            if nums[mid] < target <= nums[high]:
+                low = mid + 1
+            else:
+                high = mid - 1
+
+    return False
+```
+
+Explanation (with an example):
+Let's consider the array `nums = [3, 1, 1, 1, 1, 1, 3]` and the target `target = 3`.
+
+1. The `search` function is called with `nums` and `target = 3`.
+2. Iteration 1:
+   - `low = 0`, `high = 6`
+   - `mid = (0 + 6) // 2 = 3`
+   - `nums[mid] = 1 != target`
+   - `nums[low] = 3 > nums[mid] = 1`, so the left half is not sorted
+   - `nums[mid] = 1 < target = 3 <= nums[high] = 3`, so `low = mid + 1 = 4`
+
+3. Iteration 2:
+   - `low = 4`, `high = 6`
+   - `mid = (4 + 6) // 2 = 5`
+   - `nums[mid] = 1 != target`
+   - `nums[low] = 1 == nums[mid] = 1 == nums[high] = 3`, so `low = low + 1 = 5`, `high = high - 1 = 5`
+
+4. Iteration 3:
+   - `low = 5`, `high = 5`
+   - `mid = (5 + 5) // 2 = 5`
+   - `nums[mid] = 1 != target`
+   - `nums[low] = 1 == nums[mid] = 1 == nums[high] = 1`, so `low = low + 1 = 6`, `high = high - 1 = 4`
+
+5. Iteration 4:
+   - `low = 6`, `high = 4`
+   - The loop terminates as `low > high`.
+
+6. Since the target element `3` is found in the array, the function returns `True`.
+
+Time Complexity:
+The time complexity of the `search` function is O(n) in the worst case, where n is the length of the input array. This is because, in the worst case, when the entire array consists of duplicates, the algorithm needs to skip all the duplicates, resulting in a linear time complexity.
+
+Space Complexity:
+The space complexity of the `search` function is O(1), as it uses a constant amount of extra space to store the `low`, `high`, and `mid` variables, regardless of the size of the input array.
+
+```java
+class Solution {
+    public boolean search(int[] nums, int target) 
+    {
+        int low = 0;
+        int high = nums.length-1;
+        while (low <= high)
+        {
+            int mid = (low+high)/2;
+            if(nums[mid]==target)
+            {
+                return true;
+            }
+            else if(nums[mid] == nums[low] && nums[mid] == nums[high])
+            {
+                low = low + 1;
+                high = high - 1;
+            }
+            else if(nums[low] <= nums[mid])
+            {
+                if (nums[low]<= target && target <= nums[mid])
+                {
+                    high = mid - 1;
+                }
+                else
+                {
+                    low = mid + 1;
+                }
+            }
+            else 
+            {
+                if(nums[mid]<= target && target <= nums[high])
+                {
+                    low = mid + 1;
+                }
+                else
+                {
+                    high = mid - 1;
+                }
+            }
+        }
+        return false; 
+    }
+}
+```
+
+Optimization:
+The given code is already optimized for searching in a rotated sorted array with duplicates using a modified version of the binary search algorithm. However, there is a potential optimization that can be made to improve the time complexity in certain cases.
+
+Instead of blindly skipping all duplicates when `nums[low] == nums[mid] == nums[high]`, we can check if the target element is equal to the duplicate value. If it is, we can simply return `True` since the target element is present in the array.
+
+Optimized code:
+
+```java
+class Solution {
+    public boolean search(int[] nums, int target) {
+        int low = 0;
+        int high = nums.length - 1;
+
+        while (low <= high) {
+            int mid = low + (high - low) / 2;
+
+            if (nums[mid] == target) {
+                return true;
+            }
+
+            // If duplicates are found at low, mid, and high
+            if (nums[low] == nums[mid] && nums[mid] == nums[high]) {
+                // If the target is equal to the duplicate value, return true
+                if (nums[mid] == target) {
+                    return true;
+                }
+                low++;
+                high--;
+            }
+            // If the left half is sorted
+            else if (nums[low] <= nums[mid]) {
+                // If the target falls within the left sorted half
+                if (nums[low] <= target && target < nums[mid]) {
+                    high = mid - 1;
+                } else {
+                    low = mid + 1;
+                }
+            }
+            // If the right half is sorted
+            else {
+                // If the target falls within the right sorted half
+                if (nums[mid] < target && target <= nums[high]) {
+                    low = mid + 1;
+                } else {
+                    high = mid - 1;
+                }
+            }
+        }
+
+        return false;
+    }
+}
+```
+
+In the optimized code, when `nums[low] == nums[mid] == nums[high]`, it checks if the target is equal to the duplicate value. If it is, the function returns `true` since the target element is present in the array.
+
+The time complexity of the optimized `search` function is O(n) in the worst case, where n is the length of the input array. However, in certain cases where the target element is equal to the duplicate value, the time complexity can be improved to O(log n), as the algorithm can skip the duplicates and converge more quickly.
+
+The space complexity remains O(1), as it uses a constant amount of extra space to store the `low`, `high`, and `mid` variables.
+
+**46. Find Minimum in Rotated Sorted Array**
+
+[Find Minimum in Rotated Sorted Array](https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/description/)
+
+Suppose an array of length n sorted in ascending order is rotated between 1 and n times. For example, the array nums = [0,1,2,4,5,6,7] might become:
+
+[4,5,6,7,0,1,2] if it was rotated 4 times.
+[0,1,2,4,5,6,7] if it was rotated 7 times.
+Notice that rotating an array [a[0], a[1], a[2], ..., a[n-1]] 1 time results in the array [a[n-1], a[0], a[1], a[2], ..., a[n-2]].
+
+Given the sorted rotated array nums of unique elements, return the minimum element of this array.
+
+You must write an algorithm that runs in O(log n) time.
+
+Example 1:
+
+Input: nums = [3,4,5,1,2]
+
+Output: 1
+
+Explanation: The original array was [1,2,3,4,5] rotated 3 times.
+
+Example 2:
+
+Input: nums = [4,5,6,7,0,1,2]
+
+Output: 0
+
+Explanation: The original array was [0,1,2,4,5,6,7] and it was rotated 4 times.
+
+Example 3:
+
+Input: nums = [11,13,15,17]
+
+Output: 11
+
+Explanation: The original array was [11,13,15,17] and it was rotated 4 times. 
+
+The above code is a Java implementation of a solution to find the minimum element in a rotated sorted array. The problem assumes that the input array is a sorted array that has been rotated around a pivot point, and the task is to find the minimum element in the rotated array.
+
+Pseudo-code:
+
+```
+FindMinimumInRotatedSortedArray(nums):
+    n = length(nums)
+    high = n - 1
+    low = 0
+    ans = MAX_VALUE
+
+    while low <= high:
+        mid = (low + high) // 2
+
+        # If the array is not rotated (sorted)
+        if nums[low] <= nums[high]:
+            ans = min(ans, nums[low])
+            break
+
+        # If the left half is sorted
+        if nums[low] <= nums[mid]:
+            ans = min(ans, nums[low])
+            low = mid + 1
+        # If the right half is sorted
+        else:
+            ans = min(ans, nums[mid])
+            high = mid - 1
+
+    return ans
+```
+
+Explanation (with an example):
+Let's consider the array `nums = [4, 5, 6, 7, 0, 1, 2]`.
+
+1. The `findMin` function is called with `nums`.
+2. Iteration 1:
+   - `low = 0`, `high = 6`
+   - `mid = (0 + 6) // 2 = 3`
+   - `nums[low] = 4 > nums[high] = 2`, so the array is rotated
+   - `nums[low] = 4 <= nums[mid] = 7`, so the left half is sorted
+   - `ans = min(MAX_VALUE, 4) = 4`, `low = mid + 1 = 4`
+
+3. Iteration 2:
+   - `low = 4`, `high = 6`
+   - `mid = (4 + 6) // 2 = 5`
+   - `nums[low] = 0 > nums[high] = 2`, so the array is rotated
+   - `nums[low] = 0 < nums[mid] = 1`, so the right half is sorted
+   - `ans = min(4, 0) = 0`, `high = mid - 1 = 4`
+
+4. Iteration 3:
+   - `low = 4`, `high = 4`
+   - `mid = (4 + 4) // 2 = 4`
+   - `nums[low] = 0 <= nums[high] = 0`, so the array is not rotated (sorted)
+   - `ans = min(0, 0) = 0`, and the loop breaks
+
+5. The function returns `ans = 0`, which is the minimum element in the rotated sorted array.
+
+Time Complexity:
+The time complexity of the `findMin` function is O(log n), where n is the length of the input array. This is because it uses a modified version of the binary search algorithm, which halves the search space in each iteration, resulting in a logarithmic time complexity.
+
+Space Complexity:
+The space complexity of the `findMin` function is O(1), as it uses a constant amount of extra space to store the `low`, `high`, `mid`, `ans`, and `n` variables, regardless of the size of the input array.
+
+Java code:
+
+```java
+class Solution {
+    public int findMin(int[] nums) 
+    {
+        int n = nums.length;
+        int high = nums.length - 1;
+        int low = 0;
+        int ans = Integer.MAX_VALUE;
+        while (low <= high)
+        {
+            int mid = (low+high)/2;
+            if(nums[low]<=nums[high])
+            {
+                ans = ans = Math.min(ans, nums[low]);
+                break;
+            }
+            if(nums[low]<= nums[mid])
+            {
+                ans = Math.min(ans, nums[low]);
+                low = mid + 1;
+            }
+            else
+            {
+                ans = Math.min(ans, nums[mid]);
+                high = mid - 1;
+            }
+        }
+       return ans;
+    }
+}
+```
+
+Optimization:
+The given code is already optimized for finding the minimum element in a rotated sorted array using a modified version of the binary search algorithm. However, there is a potential optimization that can be made to simplify the code and make it more readable.
+
+Instead of checking if the array is sorted or rotated and then updating the `low` and `high` pointers accordingly, we can directly compare the middle element with the low and high elements to determine which half of the array is sorted, and update the pointers based on that.
+
+Optimized code:
+
+```java
+class Solution {
+    public int findMin(int[] nums) {
+        int low = 0;
+        int high = nums.length - 1;
+
+        while (low < high) {
+            int mid = low + (high - low) / 2;
+
+            // If the middle element is greater than the rightmost element,
+            // the minimum element lies in the right half
+            if (nums[mid] > nums[high]) {
+                low = mid + 1;
+            }
+            // If the middle element is less than or equal to the rightmost element,
+            // the minimum element lies in the left half or at the middle
+            else {
+                high = mid;
+            }
+        }
+
+        return nums[low];
+    }
+}
+```
+
+In the optimized code, the `findMin` function compares the middle element with the rightmost element (`nums[high]`) instead of checking if the array is sorted or rotated. If `nums[mid] > nums[high]`, the minimum element lies in the right half of the array, so the `low` pointer is updated to `mid + 1`. Otherwise, the minimum element lies in the left half or at the middle, so the `high` pointer is updated to `mid`.
+
+The time complexity and space complexity of the optimized code remain O(log n) and O(1), respectively, as the underlying algorithm is still the modified binary search.
+
+**47. Find out how many times has an array been rotated**
+
+[Find out how many times has an array been rotated](https://www.geeksforgeeks.org/problems/rotation4723/1?utm_source=youtube&utm_medium=collab_striver_ytdescription&utm_campaign=rotation)
+
+Given an ascending sorted rotated array arr of distinct integers of size n. The array is right-rotated k times. Find the value of k.
+
+Example 1:
+
+Input:
+
+n = 5
+
+arr[] = {5, 1, 2, 3, 4}
+
+Output: 1
+
+Explanation: The given array is 5 1 2 3 4. 
+The original sorted array is 1 2 3 4 5. 
+We can see that the array was rotated 
+1 times to the right.
+
+Example 2:
+
+Input:
+
+n = 5
+
+arr[] = {1, 2, 3, 4, 5}
+
+Output: 0
+
+Explanation: The given array is not rotated.
+
+The above code is a Java implementation of a solution to find the number of rotations in a rotated sorted array. The problem assumes that the input array is a sorted array that has been rotated around a pivot point, and the task is to find the number of rotations performed on the array.
+
+Pseudo-code:
+
+```
+FindNumberOfRotations(arr, n):
+    low = 0
+    high = n - 1
+
+    while low < high:
+        mid = (low + high) // 2
+
+        # If the middle element is greater than the rightmost element,
+        # the minimum element lies in the right half
+        if arr[mid] > arr[high]:
+            low = mid + 1
+        # If the middle element is less than or equal to the rightmost element,
+        # the minimum element lies in the left half or at the middle
+        else:
+            high = mid
+
+    # The low index now points to the minimum element
+    # The number of rotations is the index of the minimum element
+    return low
+```
+
+Explanation (with an example):
+Let's consider the array `arr = [5, 6, 7, 8, 9, 10, 1, 2, 3, 4]`.
+
+1. The `findKRotation` function is called with `arr` and `n = 10`.
+2. Iteration 1:
+   - `low = 0`, `high = 9`
+   - `mid = (0 + 9) // 2 = 4`
+   - `arr[mid] = 9 < arr[high] = 4`, so the minimum element lies in the left half or at the middle
+   - `high = mid = 4`
+
+3. Iteration 2:
+   - `low = 0`, `high = 4`
+   - `mid = (0 + 4) // 2 = 2`
+   - `arr[mid] = 7 < arr[high] = 9`, so the minimum element lies in the left half or at the middle
+   - `high = mid = 2`
+
+4. Iteration 3:
+   - `low = 0`, `high = 2`
+   - `mid = (0 + 2) // 2 = 1`
+   - `arr[mid] = 6 < arr[high] = 7`, so the minimum element lies in the left half or at the middle
+   - `high = mid = 1`
+
+5. Iteration 4:
+   - `low = 0`, `high = 1`
+   - `mid = (0 + 1) // 2 = 0`
+   - `arr[mid] = 5 > arr[high] = 6`, so the minimum element lies in the right half
+   - `low = mid + 1 = 1`
+
+6. Iteration 5:
+   - `low = 1`, `high = 1`
+   - The loop terminates as `low == high`.
+
+7. The function returns `low = 1`, which is the index of the minimum element `6` in the rotated sorted array.
+
+Since the array is rotated around the pivot point, the number of rotations performed is equal to the index of the minimum element. In this case, the number of rotations is `1`.
+
+Time Complexity:
+The time complexity of the `findKRotation` function is O(log n), where n is the length of the input array. This is because it uses a modified version of the binary search algorithm, which halves the search space in each iteration, resulting in a logarithmic time complexity.
+
+Space Complexity:
+The space complexity of the `findKRotation` function is O(1), as it uses a constant amount of extra space to store the `low`, `high`, and `mid` variables, regardless of the size of the input array.
+
+Java code:
+
+```java
+class Solution {
+    int findKRotation(int arr[], int n) 
+    {
+        int low = 0;
+        int high = n - 1;
+        while (low < high) {
+            int mid = low + (high - low) / 2;
+
+            // If the middle element is greater than the rightmost element,
+            // the minimum element lies in the right half
+            if (arr[mid] > arr[high]) {
+                low = mid + 1;
+            }
+            // If the middle element is less than or equal to the rightmost element,
+            // the minimum element lies in the left half or at the middle
+            else {
+                high = mid;
+            }
+        }
+
+        return low;
+    }
+}
+```
+
+Optimization:
+The given code is already optimized for finding the number of rotations in a rotated sorted array using a modified version of the binary search algorithm. However, there is a potential optimization that can be made to handle the case when the input array is not rotated (sorted).
+
+In the given implementation, the algorithm assumes that the input array is rotated and performs the binary search to find the minimum element. However, if the input array is not rotated (sorted), the minimum element will be at the first index, and the algorithm will still perform unnecessary comparisons.
+
+To optimize for this case, we can add a check at the beginning to verify if the array is sorted or not. If it is sorted, we can directly return 0 as the number of rotations.
+
+Optimized code:
+
+```java
+class Solution {
+    int findKRotation(int[] arr, int n) {
+        // Check if the array is sorted (not rotated)
+        if (arr[0] < arr[n - 1]) {
+            return 0; // No rotations
+        }
+
+        int low = 0;
+        int high = n - 1;
+
+        while (low < high) {
+            int mid = low + (high - low) / 2;
+
+            // If the middle element is greater than the rightmost element,
+            // the minimum element lies in the right half
+            if (arr[mid] > arr[high]) {
+                low = mid + 1;
+            }
+            // If the middle element is less than or equal to the rightmost element,
+            // the minimum element lies in the left half or at the middle
+            else {
+                high = mid;
+            }
+        }
+
+        // The low index now points to the minimum element
+        // The number of rotations is the index of the minimum element
+        return low;
+    }
+}
+```
+
+In the optimized code, before performing the binary search, we check if `arr[0] < arr[n - 1]`. If this condition is true, it means the array is sorted (not rotated), and we can directly return 0 as the number of rotations.
+
+If the array is rotated, the algorithm proceeds with the binary search to find the minimum element, and the number of rotations is the index of the minimum element, as in the original implementation.
+
+The time complexity of the optimized `findKRotation` function is O(log n) in the case of a rotated array, and O(1) in the case of a sorted array. The space complexity remains O(1) in both cases.
