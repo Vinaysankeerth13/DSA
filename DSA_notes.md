@@ -7791,3 +7791,360 @@ In the optimized code, before performing the binary search, we check if `arr[0] 
 If the array is rotated, the algorithm proceeds with the binary search to find the minimum element, and the number of rotations is the index of the minimum element, as in the original implementation.
 
 The time complexity of the optimized `findKRotation` function is O(log n) in the case of a rotated array, and O(1) in the case of a sorted array. The space complexity remains O(1) in both cases.
+
+## 16-5-2024
+
+**48. Single Element in a Sorted Array**
+
+[Single Element in a Sorted Array](https://leetcode.com/problems/single-element-in-a-sorted-array/description/)
+
+You are given a sorted array consisting of only integers where every element appears exactly twice, except for one element which appears exactly once.
+
+Return the single element that appears only once.
+
+Your solution must run in O(log n) time and O(1) space.
+
+Example 1:
+
+Input: nums = [1,1,2,3,3,4,4,8,8]
+
+Output: 2
+
+Example 2:
+
+Input: nums = [3,3,7,7,10,11,11]
+
+Output: 10
+
+Pseudo-code:
+
+```
+FindSingleNonDuplicate(nums):
+    n = length(nums)
+
+    # Base cases
+    if n == 1:
+        return nums[0]
+    if nums[0] != nums[1]:
+        return nums[0]
+    if nums[n - 1] != nums[n - 2]:
+        return nums[n - 1]
+
+    low = 1
+    high = n - 2
+
+    while low <= high:
+        mid = (low + high) // 2
+
+        # Check if the middle element is the single non-duplicate element
+        if nums[mid] != nums[mid + 1] and nums[mid] != nums[mid - 1]:
+            return nums[mid]
+
+        # If the middle element is part of the first pair in the duplicate group
+        if (mid % 2 == 1 and nums[mid] == nums[mid - 1]) or (mid % 2 == 0 and nums[mid] == nums[mid + 1]):
+            low = mid + 1  # Search in the right half
+        else:
+            high = mid - 1  # Search in the left half
+
+    return -1  # Should never reach this point
+```
+
+Explanation (with an example):
+Let's consider the array `nums = [1, 1, 2, 3, 3, 4, 4, 8, 8]`.
+
+1. The `singleNonDuplicate` function is called with `nums`.
+2. Since `nums[0] == nums[1]` and `nums[n - 1] == nums[n - 2]`, the function proceeds to the binary search.
+3. Iteration 1:
+   - `low = 1`, `high = 7`
+   - `mid = (1 + 7) // 2 = 4`
+   - `nums[mid] = 3 != nums[mid + 1] = 3 and nums[mid] != nums[mid - 1] = 2`, so the single non-duplicate element is not at the middle
+   - `mid % 2 = 0` and `nums[mid] != nums[mid + 1]`, so the single non-duplicate element is in the right half
+   - `low = mid + 1 = 5`
+
+4. Iteration 2:
+   - `low = 5`, `high = 7`
+   - `mid = (5 + 7) // 2 = 6`
+   - `nums[mid] = 4 != nums[mid + 1] = 8 and nums[mid] != nums[mid - 1] = 4`, so the single non-duplicate element is not at the middle
+   - `mid % 2 = 0` and `nums[mid] != nums[mid + 1]`, so the single non-duplicate element is in the right half
+   - `low = mid + 1 = 7`
+
+5. Iteration 3:
+   - `low = 7`, `high = 7`
+   - `mid = (7 + 7) // 2 = 7`
+   - `nums[mid] = 8 != nums[mid + 1] = -1 (out of bounds) and nums[mid] != nums[mid - 1] = 8`, so the single non-duplicate element is found at index 7
+   - The function returns `nums[mid] = 8`.
+
+Time Complexity:
+The time complexity of the `singleNonDuplicate` function is O(log n), where n is the length of the input array. This is because it uses a modified version of the binary search algorithm, which halves the search space in each iteration, resulting in a logarithmic time complexity.
+
+Space Complexity:
+The space complexity of the `singleNonDuplicate` function is O(1), as it uses a constant amount of extra space to store the `low`, `high`, `mid`, and `n` variables, regardless of the size of the input array.
+
+Java code:
+
+```java
+class Solution {
+    public int singleNonDuplicate(int[] nums) {
+        
+    int n = nums.length;
+    
+    if (n == 1) {
+        return nums[0];
+    }
+    
+    
+    if (nums[0] != nums[1]) {
+        return nums[0];
+    }
+    if (nums[n - 1] != nums[n - 2]) {
+        return nums[n - 1];
+    }
+    
+    int low = 1;
+    int high = n - 2;
+    
+    while (low <= high) {
+        int mid = (low + high) / 2;
+        
+        
+        if (nums[mid] != nums[mid + 1] && nums[mid] != nums[mid - 1]) {
+            return nums[mid];
+        }
+        
+        
+        if ((mid % 2 == 1 && nums[mid] == nums[mid - 1]) || 
+            (mid % 2 == 0 && nums[mid] == nums[mid + 1])) {
+            low = mid + 1;
+        } else {
+            high = mid - 1;
+        }
+    }
+    return -1;
+}
+
+}
+```
+
+Optimization:
+The given code is already optimized for finding the single non-duplicate element in a sorted array using a modified version of the binary search algorithm. However, there is a potential optimization that can be made to simplify the code and make it more readable.
+
+Instead of checking if the middle element is part of the first pair in the duplicate group using the modulo operator, we can directly compare the middle element with its neighbors to determine which half of the array contains the single non-duplicate element.
+
+Optimized code:
+
+```java
+class Solution {
+    public int singleNonDuplicate(int[] nums) {
+        int n = nums.length;
+
+        // Base cases
+        if (n == 1) {
+            return nums[0];
+        }
+        if (nums[0] != nums[1]) {
+            return nums[0];
+        }
+        if (nums[n - 1] != nums[n - 2]) {
+            return nums[n - 1];
+        }
+
+        int low = 1;
+        int high = n - 2;
+
+        while (low <= high) {
+            int mid = low + (high - low) / 2;
+
+            // Check if the middle element is the single non-duplicate element
+            if (nums[mid] != nums[mid + 1] && nums[mid] != nums[mid - 1]) {
+                return nums[mid];
+            }
+
+            // If the left neighbor is different from the middle element
+            if (nums[mid] != nums[mid - 1]) {
+                high = mid - 1; // Search in the left half
+            } else {
+                low = mid + 1; // Search in the right half
+            }
+        }
+
+        return -1; // Should never reach this point
+    }
+}
+```
+
+In the optimized code, instead of checking if the middle element is part of the first pair in the duplicate group, we directly compare `nums[mid]` with `nums[mid - 1]`. If they are different, it means the single non-duplicate element is in the left half, so we update `high` to `mid - 1`. Otherwise, the single non-duplicate element is in the right half, so we update `low` to `mid + 1`.
+
+The time complexity and space complexity of the optimized code remain O(log n) and O(1), respectively, as the underlying algorithm is still the modified binary search.
+
+**49. Find Peak Element**
+
+[Find Peak Element](https://leetcode.com/problems/find-peak-element/description/)
+
+A peak element is an element that is strictly greater than its neighbors.
+
+Given a 0-indexed integer array nums, find a peak element, and return its index. If the array contains multiple peaks, return the index to any of the peaks.
+
+You may imagine that nums[-1] = nums[n] = -∞. In other words, an element is always considered to be strictly greater than a neighbor that is outside the array.
+
+You must write an algorithm that runs in O(log n) time.
+
+Example 1:
+
+Input: nums = [1,2,3,1]
+
+Output: 2
+
+Explanation: 3 is a peak element and your function should return the index number 2.
+
+Example 2:
+
+Input: nums = [1,2,1,3,5,6,4]
+
+Output: 5
+
+Explanation: Your function can return either index number 1 where the peak element is 2, or index number 5 where the peak element is 6.
+
+The above code is a Java implementation of a solution to the "Find Peak Element" problem on LeetCode. The problem asks to find the index of a peak element in a given array of integers, where a peak element is an element that is strictly greater than its neighbors.
+
+Pseudo-code:
+
+```
+FindPeakElement(nums):
+    n = length(nums)
+
+    # Base cases
+    if n == 1:
+        return 0  # Single element is a peak
+    if nums[0] > nums[1]:
+        return 0  # First element is a peak
+    if nums[n - 1] > nums[n - 2]:
+        return n - 1  # Last element is a peak
+
+    low = 1
+    high = n - 2
+
+    while low <= high:
+        mid = (low + high) // 2
+
+        # Check if the middle element is a peak
+        if nums[mid] > nums[mid - 1] and nums[mid] > nums[mid + 1]:
+            return mid
+
+        # If the left neighbor is smaller, search in the right half
+        if nums[mid] > nums[mid - 1]:
+            low = mid + 1
+        # If the right neighbor is smaller, search in the left half
+        else:
+            high = mid - 1
+
+    # Should never reach this point
+    return 0
+```
+
+Explanation (with an example):
+Let's consider the array `nums = [1, 2, 3, 1]`.
+
+1. The `findPeakElement` function is called with `nums`.
+2. Since `n = 4`, `nums[0] = 1 < nums[1] = 2`, and `nums[n - 1] = 1 < nums[n - 2] = 3`, the function proceeds to the binary search.
+3. Iteration 1:
+   - `low = 1`, `high = 2`
+   - `mid = (1 + 2) // 2 = 1`
+   - `nums[mid] = 2 < nums[mid + 1] = 3`, so `nums[mid]` is not a peak element
+   - `nums[mid] < nums[mid + 1]`, so the function searches in the right half
+   - `low = mid + 1 = 2`
+
+4. Iteration 2:
+   - `low = 2`, `high = 2`
+   - `mid = (2 + 2) // 2 = 2`
+   - `nums[mid] = 3 > nums[mid - 1] = 2 and nums[mid] > nums[mid + 1] = 1`, so `nums[mid]` is a peak element
+   - The function returns `mid = 2`.
+
+Time Complexity:
+The time complexity of the `findPeakElement` function is O(log n), where n is the length of the input array. This is because it uses a modified version of the binary search algorithm, which halves the search space in each iteration, resulting in a logarithmic time complexity.
+
+Space Complexity:
+The space complexity of the `findPeakElement` function is O(1), as it uses a constant amount of extra space to store the `low`, `high`, `mid`, and `n` variables, regardless of the size of the input array.
+
+Java code:
+
+```java
+class Solution {
+    public int findPeakElement(int[] nums) {
+        int n = nums.length;
+        
+        if (n == 1) return 0;
+        
+        if (nums[0] > nums[1]) return 0;
+        
+        if (nums[n-1] > nums[n-2]) return n-1;
+        
+        int low = 1;
+        int high = n - 2;
+        
+        while (low <= high) {
+            int mid = (low + high) / 2;
+            
+            if (nums[mid] > nums[mid - 1] && nums[mid] > nums[mid + 1]) {
+                return mid;
+            }
+        
+            else if (nums[mid] > nums[mid - 1]) {
+                low = mid + 1;
+            }
+          
+            else {
+                high = mid - 1;
+            }
+        }
+        return 0;
+    }
+}
+```
+
+Optimization:
+The given code is already optimized for finding a peak element in an array using a modified version of the binary search algorithm. However, there is a potential optimization that can be made to simplify the code and make it more readable.
+
+Instead of checking if the middle element is a peak element by comparing it with both its neighbors, we can directly compare it with its right neighbor. If the right neighbor is smaller, it means the middle element is a peak element or the peak element is in the left half. Otherwise, the peak element is in the right half.
+
+Optimized code:
+
+```java
+class Solution {
+    public int findPeakElement(int[] nums) {
+        int n = nums.length;
+
+        // Base cases
+        if (n == 1) {
+            return 0;  // Single element is a peak
+        }
+        if (nums[0] > nums[1]) {
+            return 0;  // First element is a peak
+        }
+        if (nums[n - 1] > nums[n - 2]) {
+            return n - 1;  // Last element is a peak
+        }
+
+        int low = 0;
+        int high = n - 1;
+
+        while (low < high) {
+            int mid = low + (high - low) / 2;
+
+            // If the right neighbor is smaller, the peak is on the left side
+            if (nums[mid] > nums[mid + 1]) {
+                high = mid;
+            }
+            // Otherwise, the peak is on the right side
+            else {
+                low = mid + 1;
+            }
+        }
+
+        return low;
+    }
+}
+```
+
+In the optimized code, the function only compares the middle element with its right neighbor. If `nums[mid] > nums[mid + 1]`, it means the middle element is a peak element or the peak element is in the left half, so the function updates `high` to `mid`. Otherwise, the peak element is in the right half, so the function updates `low` to `mid + 1`.
+
+The time complexity of the optimized `findPeakElement` function remains O(log n), where n is the length of the input array, as it still uses a modified version of the binary search algorithm. The space complexity remains O(1), as it uses a constant amount of extra space to store the `low`, `high`, and `n` variables.
