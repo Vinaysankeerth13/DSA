@@ -8148,3 +8148,170 @@ class Solution {
 In the optimized code, the function only compares the middle element with its right neighbor. If `nums[mid] > nums[mid + 1]`, it means the middle element is a peak element or the peak element is in the left half, so the function updates `high` to `mid`. Otherwise, the peak element is in the right half, so the function updates `low` to `mid + 1`.
 
 The time complexity of the optimized `findPeakElement` function remains O(log n), where n is the length of the input array, as it still uses a modified version of the binary search algorithm. The space complexity remains O(1), as it uses a constant amount of extra space to store the `low`, `high`, and `n` variables.
+
+## 17-05-2024
+
+**50. Square root of a number**
+
+[Square root of a number](https://www.geeksforgeeks.org/problems/square-root/0?utm_source=youtube&utm_medium=collab_striver_ytdescription&utm_campaign=square-root)
+
+Given an integer x, find the square root of x. If x is not a perfect square, then return floor(√x).
+
+Example 1:
+
+Input:
+
+x = 5
+
+Output: 2
+
+Explanation: Since, 5 is not a perfect 
+square, floor of square_root of 5 is 2.
+
+Example 2:
+
+Input:
+
+x = 4
+
+Output: 2
+
+Explanation: Since, 4 is a perfect 
+square, so its square root is 2.
+
+Pseudo-code:
+
+```
+FloorSqrt(x):
+    if x == 0 or x == 1:
+        return x
+
+    low = 1
+    high = x
+    result = 0
+
+    while low <= high:
+        mid = (low + high) // 2
+        midSquare = mid * mid
+
+        if midSquare == x:
+            return mid  # Exact square root found
+
+        if midSquare < x:
+            low = mid + 1
+            result = mid  # Store the mid as the potential answer
+        else:
+            high = mid - 1
+
+    return result
+```
+
+Explanation (with an example):
+Let's consider `x = 15`.
+
+1. The `floorSqrt` function is called with `x = 15`.
+2. Iteration 1:
+   - `low = 1`, `high = 15`
+   - `mid = (1 + 15) // 2 = 8`
+   - `midSquare = 8 * 8 = 64 > 15`, so the square root is in the left half
+   - `high = mid - 1 = 7`
+
+3. Iteration 2:
+   - `low = 1`, `high = 7`
+   - `mid = (1 + 7) // 2 = 4`
+   - `midSquare = 4 * 4 = 16 < 15`, so the square root is in the right half
+   - `low = mid + 1 = 5`, `result = mid = 4`
+
+4. Iteration 3:
+   - `low = 5`, `high = 7`
+   - `mid = (5 + 7) // 2 = 6`
+   - `midSquare = 6 * 6 = 36 > 15`, so the square root is in the left half
+   - `high = mid - 1 = 5`
+
+5. Iteration 4:
+   - `low = 5`, `high = 5`
+   - `mid = (5 + 5) // 2 = 5`
+   - `midSquare = 5 * 5 = 25 < 15`, so the square root is in the right half
+   - `low = mid + 1 = 6`, `result = mid = 5`
+
+6. The loop terminates as `low > high`.
+7. The function returns `result = 5`, which is the floor of the square root of `x = 15`.
+
+Time Complexity:
+The time complexity of the `floorSqrt` function is O(log x), where x is the input value. This is because it uses a modified version of the binary search algorithm, which halves the search space in each iteration, resulting in a logarithmic time complexity.
+
+Space Complexity:
+The space complexity of the `floorSqrt` function is O(1), as it uses a constant amount of extra space to store the `low`, `high`, `mid`, `midSquare`, and `result` variables, regardless of the size of the input value.
+
+Java Code:
+
+```java
+long floorSqrt(long x) {
+        if (x == 0 || x == 1) {
+            return x;
+        }
+
+        long low = 1, high = x, result = 0;
+        
+        while (low <= high) {
+            long mid = (low + high) / 2;
+            long midSquare = mid * mid;
+
+            // Check if mid is the perfect square root
+            if (midSquare == x) {
+                return mid;
+            }
+
+            // If midSquare is less than x, then the square root is in the right half
+            if (midSquare < x) {
+                low = mid + 1;
+                result = mid;  // Store the mid as the potential answer
+            } else {
+                // If midSquare is greater than x, then the square root is in the left half
+                high = mid - 1;
+            }
+        }
+        return result;
+    }
+```
+
+Optimization:
+The given code is already optimized for finding the floor of the square root of a non-negative integer using a modified version of the binary search algorithm. However, there is a potential optimization that can be made to reduce the number of iterations in certain cases.
+
+Instead of initializing `low` to 1 and `high` to `x`, we can use a better initial range for the binary search. We can set `low` to 1 and `high` to the minimum of `x` and `46340` (since the square root of `46340 * 46340 = 2^31 - 1`, which is the maximum value representable by a signed 32-bit integer).
+
+Optimized code:
+
+```java
+long floorSqrt(long x) {
+    if (x == 0 || x == 1) {
+        return x;
+    }
+
+    long low = 1;
+    long high = Math.min(x, 46340); // Use a better initial range for binary search
+    long result = 0;
+
+    while (low <= high) {
+        long mid = low + (high - low) / 2;
+        long midSquare = mid * mid;
+
+        if (midSquare == x) {
+            return mid;
+        } else if (midSquare < x) {
+            low = mid + 1;
+            result = mid;
+        } else {
+            high = mid - 1;
+        }
+    }
+
+    return result;
+}
+```
+
+In the optimized code, we set `high` to `Math.min(x, 46340)` instead of `x`. This ensures that the initial range for the binary search is smaller, potentially reducing the number of iterations required to find the floor of the square root.
+
+The time complexity of the optimized `floorSqrt` function remains O(log x), where x is the input value. However, for larger values of `x`, the optimization can lead to a constant factor improvement in the running time.
+
+The space complexity remains O(1), as it uses a constant amount of extra space to store the variables.
