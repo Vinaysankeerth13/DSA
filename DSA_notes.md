@@ -8315,3 +8315,338 @@ In the optimized code, we set `high` to `Math.min(x, 46340)` instead of `x`. Thi
 The time complexity of the optimized `floorSqrt` function remains O(log x), where x is the input value. However, for larger values of `x`, the optimization can lead to a constant factor improvement in the running time.
 
 The space complexity remains O(1), as it uses a constant amount of extra space to store the variables.
+
+## 20-05-2024
+
+**51. Find the Nth root of a number using binary search**
+
+[Find the Nth root of a number using binary search](https://www.geeksforgeeks.org/problems/find-nth-root-of-m5843/1?utm_source=youtube&utm_medium=collab_striver_ytdescription&utm_campaign=find-nth-root-of-m)
+
+You are given 2 numbers (n , m); the task is to find n√m (nth root of m).
+
+Example 1:
+
+Input: n = 2, m = 9
+
+Output: 3
+
+Explanation: 3<sup>2</sup> = 9
+
+Example 2:
+
+Input: n = 3, m = 9
+
+Output: -1
+
+Explanation: 3rd root of 9 is not
+integer.
+
+Pseudo-code:
+
+```
+NthRoot(n, m):
+    if m == 1:
+        return 1  # Edge case for m = 1
+
+    low = 1
+    high = m
+
+    while low <= high:
+        mid = (low + high) // 2
+        midPower = Power(mid, n)
+
+        if midPower == m:
+            return mid  # Found the nth root
+
+        if midPower < m:
+            low = mid + 1  # Search in the right half
+        else:
+            high = mid - 1  # Search in the left half
+
+    return -1  # No nth root found
+
+Power(base, exp):
+    result = 1
+
+    while exp > 0:
+        if exp % 2 == 1:
+            result *= base
+            if result > MAX_VALUE:
+                return MAX_VALUE  # Prevent overflow
+
+        base *= base
+        exp //= 2
+
+    return result
+```
+
+Explanation (with an example):
+Let's consider finding the 3rd root of 27, i.e., `n = 3` and `m = 27`.
+
+1. The `NthRoot` function is called with `n = 3` and `m = 27`.
+2. Since `m != 1`, the function proceeds to the binary search.
+3. Iteration 1:
+   - `low = 1`, `high = 27`
+   - `mid = (1 + 27) // 2 = 14`
+   - `midPower = Power(14, 3) = 2744`
+   - `midPower > m`, so the nth root is in the left half
+   - `high = mid - 1 = 13`
+
+4. Iteration 2:
+   - `low = 1`, `high = 13`
+   - `mid = (1 + 13) // 2 = 7`
+   - `midPower = Power(7, 3) = 343`
+   - `midPower > m`, so the nth root is in the left half
+   - `high = mid - 1 = 6`
+
+5. Iteration 3:
+   - `low = 1`, `high = 6`
+   - `mid = (1 + 6) // 2 = 3`
+   - `midPower = Power(3, 3) = 27`
+   - `midPower == m`, so the function returns `mid = 3`.
+
+The `Power` function is used to calculate the power `base^exp` in an efficient way using the repeated squaring method. It iteratively multiplies the `base` by itself and halves the `exp` until the `exp` becomes 0. The time complexity of the `Power` function is O(log exp).
+
+Time Complexity:
+The time complexity of the `NthRoot` function is O(log m * log n), where m is the input value, and n is the desired root. This is because it uses a binary search, which has a time complexity of O(log m), and in each iteration, it calls the `Power` function, which has a time complexity of O(log n).
+
+Space Complexity:
+The space complexity of the `NthRoot` function is O(1), as it uses a constant amount of extra space to store the `low`, `high`, `mid`, and `midPower` variables, regardless of the input values.
+
+Java Code:
+
+```java
+class Solution {
+   
+static long power(int base, int exp) {
+        long result = 1;
+        for (int i = 1; i<=exp; i++) {
+            result *= base;
+            // Early exit if result exceeds a certain threshold to prevent overflow
+            if (result > Integer.MAX_VALUE) return Long.MAX_VALUE;
+        }
+        return result;
+    }
+    
+    public int NthRoot(int n, int m)
+    {
+        // code here
+        if (m == 1) return 1;  // Early return for edge case
+
+        int low = 1, high = m;
+        while (low <= high) {
+            int mid = low + (high - low) / 2;
+            long midN = power(mid, n);
+
+            if (midN == m) {
+                return mid;
+            } else if (midN < m) {
+                low = mid + 1;
+            } else {
+                high = mid - 1;
+            }
+        }
+        return -1;  // No integer root found
+    }
+}
+```
+
+Optimization:
+The given code is already optimized for finding the nth root of a given number using a binary search approach and an efficient implementation of the `Power` function. However, there is a potential optimization that can be made to handle overflow cases more gracefully.
+
+In the `Power` function, when the intermediate result (`result`) exceeds the maximum value of a long integer (`Long.MAX_VALUE`), it returns `Long.MAX_VALUE`. While this prevents an overflow, it may not be the desired behavior in all cases.
+
+An alternative approach is to use the BigInteger class in Java, which provides arbitrary-precision arithmetic operations. This way, the `Power` function can handle larger values without the risk of overflow.
+
+Optimized code using BigInteger:
+
+```java
+import java.math.BigInteger;
+
+class Solution {
+    public int NthRoot(int n, int m) {
+        if (m == 1) {
+            return 1; // Early return for edge case
+        }
+
+        int low = 1;
+        int high = m;
+
+        while (low <= high) {
+            int mid = low + (high - low) / 2;
+            BigInteger midPower = power(BigInteger.valueOf(mid), n);
+
+            if (midPower.equals(BigInteger.valueOf(m))) {
+                return mid;
+            } else if (midPower.compareTo(BigInteger.valueOf(m)) < 0) {
+                low = mid + 1;
+            } else {
+                high = mid - 1;
+            }
+        }
+
+        return -1;
+    }
+
+    public static BigInteger power(BigInteger base, int exp) {
+        BigInteger result = BigInteger.ONE;
+
+        while (exp > 0) {
+            if (exp % 2 == 1) {
+                result = result.multiply(base);
+            }
+
+            base = base.multiply(base);
+            exp /= 2;
+        }
+
+        return result;
+    }
+}
+```
+
+In the optimized code, the `Power` function uses the `BigInteger` class to perform arithmetic operations. The `power` function now takes a `BigInteger` as the base and returns a `BigInteger` result. The `NthRoot` function has been modified to use `BigInteger` for the `midPower` calculation and comparisons.
+
+By using `BigInteger`, the code can handle larger values without the risk of overflow. However, the trade-off is an increased memory usage and potentially slower performance for smaller values, as `BigInteger` operations are generally slower than primitive integer operations.
+
+The time complexity of the optimized `NthRoot` function remains O(log m * log n), where m is the input value, and n is the desired root. The space complexity is increased to O(log m), as the `BigInteger` class uses an internal array to store the digits of the number, which grows logarithmically with the size of the input value.
+
+**52. Koko Eating Bananas**
+
+[Koko Eating Bananas](https://leetcode.com/problems/koko-eating-bananas/description/)
+
+Koko loves to eat bananas. There are n piles of bananas, the ith pile has piles[i] bananas. The guards have gone and will come back in h hours.
+
+Koko can decide her bananas-per-hour eating speed of k. Each hour, she chooses some pile of bananas and eats k bananas from that pile. If the pile has less than k bananas, she eats all of them instead and will not eat any more bananas during this hour.
+
+Koko likes to eat slowly but still wants to finish eating all the bananas before the guards return.
+
+Return the minimum integer k such that she can eat all the bananas within h hours.
+
+Example 1:
+
+Input: piles = [3,6,7,11], h = 8
+Output: 4
+Example 2:
+
+Input: piles = [30,11,23,4,20], h = 5
+Output: 30
+Example 3:
+
+Input: piles = [30,11,23,4,20], h = 6
+Output: 23
+
+The provided code is a Java implementation to find the minimum eating speed required to eat all the piles of bananas within a given hour constraint (`h`). The approach used is binary search.
+
+Here's the pseudocode with an explanation:
+
+```
+function minEatingSpeed(piles, h):
+    max_pile_size = max(piles)  # Find the maximum value in the piles array
+
+    # Binary search to find the minimum eating speed
+    left = 1  # Minimum possible eating speed
+    right = max_pile_size  # Maximum possible eating speed
+
+    while left <= right:
+        mid = (left + right) // 2  # Calculate the middle value
+        hours_needed = findAns(piles, mid)  # Calculate the hours needed with the current speed
+
+        if hours_needed > h:  # If hours needed is more than the given constraint
+            left = mid + 1  # Increase the eating speed (search in the right half)
+        else:
+            right = mid - 1  # Decrease the eating speed (search in the left half)
+
+    # The minimum eating speed required is left
+    return left
+
+function findAns(piles, speed):
+    hours_needed = 0
+    for pile in piles:
+        # Calculate the ceil of pile_size / speed to find the hours needed for the current pile
+        hours_needed += ceil(pile / speed)
+    return hours_needed
+```
+
+**Time Complexity:**
+- The `minEatingSpeed` function uses binary search, which has a time complexity of O(log n), where n is the maximum value in the `piles` array.
+- The `findAns` function iterates over the `piles` array once, giving it a time complexity of O(n), where n is the length of the `piles` array.
+- Overall, the time complexity of the entire solution is O(n * log m), where n is the length of the `piles` array, and m is the maximum value in the `piles` array.
+
+**Space Complexity:**
+The space complexity is O(1) since the solution uses only a few constant-size variables and does not allocate any additional data structures that grow with the input size.
+
+**Example Explanation:**
+Let's consider the input `piles = [3, 6, 7, 11]` and `h = 8`.
+
+Initially, `max_pile_size` is set to 11 (the maximum value in the `piles` array).
+
+In the binary search phase:
+- `left` is initialized to 1 (minimum possible eating speed)
+- `right` is initialized to 11 (maximum possible eating speed)
+
+The binary search iterations are as follows:
+1. `mid = (1 + 11) // 2 = 6`
+2. `findAns(piles, 6)` returns 4 (ceil(3/6) + ceil(6/6) + ceil(7/6) + ceil(11/6) = 1 + 1 + 2 + 2 = 4)
+3. Since `4 <= 8` (hours needed is less than or equal to the given constraint), the search continues in the left half, and `right` is updated to `mid - 1 = 5`.
+4. `mid = (1 + 5) // 2 = 3`
+5. `findAns(piles, 3)` returns 9 (ceil(3/3) + ceil(6/3) + ceil(7/3) + ceil(11/3) = 1 + 2 + 3 + 4 = 9)
+6. Since `9 > 8` (hours needed is more than the given constraint), the search continues in the right half, and `left` is updated to `mid + 1 = 4`.
+7. `mid = (4 + 5) // 2 = 4`
+8. `findAns(piles, 4)` returns 6 (ceil(3/4) + ceil(6/4) + ceil(7/4) + ceil(11/4) = 1 + 2 + 2 + 3 = 6)
+9. Since `6 <= 8`, the search continues in the left half, and `right` is updated to `mid - 1 = 3`.
+10. `mid = (4 + 3) // 2 = 3` (same as iteration 4, so the loop terminates)
+
+The minimum eating speed required is `left = 4`.
+
+Java Code:
+
+```java
+class Solution {
+    public int minEatingSpeed(int[] piles, int h) {
+        int max=0;
+        for(int i=0;i<piles.length;i++){
+            max=Math.max(max,piles[i]);
+        }
+        int i=0;
+        int j=max;
+        while(i<=j){
+            int mid=(i+j)/2;
+            if(findAns(piles,mid)>h){
+                i=mid+1;
+            }
+            else{
+                j=mid-1;
+            }
+        }
+        return i;
+
+    }
+
+    public int findAns(int [] piles,int speed){
+        int value=0;
+        for(int i=0;i<piles.length;i++){
+            value += Math.ceil((double) piles[i] / speed);
+        }
+        return value;
+    }
+}
+```
+
+**Optimizations:**
+The provided code is already optimized for both time and space complexity. However, one potential optimization could be to use a more efficient implementation of the `ceil` function in the `findAns` method, as it is called multiple times during the binary search process. Additionally, if the input `piles` array is sorted, the binary search could be modified to take advantage of this property and potentially improve the performance.
+
+Here's an optimized version of the `findAns` method using bit manipulation instead of the `ceil` function:
+
+```java
+public int findAns(int[] piles, int speed) {
+    int value = 0;
+    for (int pile : piles) {
+        value += (pile + speed - 1) / speed;
+    }
+    return value;
+}
+```
+
+This implementation calculates `(pile + speed - 1) / speed` for each pile, which essentially performs the ceiling operation without using the `ceil` function. The time complexity remains the same, but it may provide a slight performance improvement due to the more efficient calculation.
+
