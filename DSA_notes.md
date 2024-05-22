@@ -8650,3 +8650,613 @@ public int findAns(int[] piles, int speed) {
 
 This implementation calculates `(pile + speed - 1) / speed` for each pile, which essentially performs the ceiling operation without using the `ceil` function. The time complexity remains the same, but it may provide a slight performance improvement due to the more efficient calculation.
 
+## 22-05-2024
+
+**53. Minimum Number of Days to Make m Bouquets**
+
+[Minimum Number of Days to Make m Bouquets](https://leetcode.com/problems/minimum-number-of-days-to-make-m-bouquets/description/)
+
+You are given an integer array bloomDay, an integer m and an integer k.
+
+You want to make m bouquets. To make a bouquet, you need to use k adjacent flowers from the garden.
+
+The garden consists of n flowers, the ith flower will bloom in the bloomDay[i] and then can be used in exactly one bouquet.
+
+Return the minimum number of days you need to wait to be able to make m bouquets from the garden. If it is impossible to make m bouquets return -1.
+
+
+Example 1:
+
+Input: bloomDay = [1,10,3,10,2], m = 3, k = 1
+Output: 3
+Explanation: Let us see what happened in the first three days. x means flower bloomed and _ means flower did not bloom in the garden.
+We need 3 bouquets each should contain 1 flower.
+After day 1: [x, _, _, _, _]   // we can only make one bouquet.
+After day 2: [x, _, _, _, x]   // we can only make two bouquets.
+After day 3: [x, _, x, _, x]   // we can make 3 bouquets. The answer is 3.
+Example 2:
+
+Input: bloomDay = [1,10,3,10,2], m = 3, k = 2
+Output: -1
+Explanation: We need 3 bouquets each has 2 flowers, that means we need 6 flowers. We only have 5 flowers so it is impossible to get the needed bouquets and we return -1.
+Example 3:
+
+Input: bloomDay = [7,7,7,7,12,7,7], m = 2, k = 3
+
+Output: 12
+
+Explanation: We need 2 bouquets each should have 3 flowers.
+Here is the garden after the 7 and 12 days:
+
+After day 7: [x, x, x, x, _, x, x]
+
+We can make one bouquet of the first three flowers that bloomed. We cannot make another bouquet from the last three flowers that bloomed because they are not adjacent.
+
+After day 12: [x, x, x, x, x, x, x]
+
+It is obvious that we can make two bouquets in different ways.
+
+Here's the pseudocode with an explanation:
+
+```
+function minDays(bloomDay, m, k):
+    n = length(bloomDay)
+    if m * k > n:  # If it's impossible to form m bouquets of size k
+        return -1
+
+    copy = sorted(bloomDay)  # Create a sorted copy of bloomDay
+
+    left = 0
+    right = n - 1
+
+    while left < right:
+        mid = (left + right) // 2
+        bouquets_formed = bouquets(bloomDay, copy[mid], k)
+
+        if bouquets_formed >= m:  # If enough bouquets can be formed
+            right = mid  # Search in the left half
+        else:
+            left = mid + 1  # Search in the right half
+
+    # The minimum number of days required is copy[left]
+    return copy[left]
+
+function bouquets(bloomDay, day, k):
+    count = 0  # Count of consecutive flowers that bloom on or before the current day
+    bouquets_formed = 0  # Number of bouquets formed
+
+    for flower in bloomDay:
+        if flower <= day:
+            count += 1
+        else:
+            count = 0
+
+        if count == k:  # If a bouquet of size k is formed
+            bouquets_formed += 1
+            count = 0
+
+    return bouquets_formed
+```
+
+**Time Complexity:**
+- The `minDays` function uses binary search, which has a time complexity of O(n log n), where n is the length of the `bloomDay` array, due to the sorting operation.
+- The `bouquets` function iterates over the `bloomDay` array once, giving it a time complexity of O(n), where n is the length of the `bloomDay` array.
+- Overall, the time complexity of the entire solution is O(n log n), where n is the length of the `bloomDay` array.
+
+**Space Complexity:**
+The space complexity is O(n), where n is the length of the `bloomDay` array, due to the creation of a sorted copy of the `bloomDay` array.
+
+**Example Explanation:**
+Let's consider the input `bloomDay = [1, 10, 3, 10, 2]`, `m = 3`, and `k = 2`.
+
+Initially, a sorted copy of `bloomDay` is created: `copy = [1, 2, 3, 10, 10]`.
+
+In the binary search phase:
+- `left` is initialized to 0 (minimum possible day)
+- `right` is initialized to 4 (index of the last element in the sorted copy)
+
+The binary search iterations are as follows:
+1. `mid = (0 + 4) // 2 = 2`
+2. `bouquets(bloomDay, copy[2], 2)` returns 2 (count for day 3: [1, 2, 3], [10, 10] = 2 bouquets)
+3. Since `2 < 3` (not enough bouquets formed), the search continues in the right half, and `left` is updated to `mid + 1 = 3`.
+4. `mid = (3 + 4) // 2 = 3`
+5. `bouquets(bloomDay, copy[3], 2)` returns 3 (count for day 10: [1, 2, 3], [10, 10] = 3 bouquets)
+6. Since `3 >= 3` (enough bouquets formed), the search continues in the left half, and `right` is updated to `mid = 3`.
+7. `mid = (3 + 3) // 2 = 3` (same as iteration 4, so the loop terminates)
+
+The minimum number of days required is `copy[left] = copy[3] = 10`.
+
+Java Code:
+
+```java
+class Solution {
+    public int minDays(int[] bloomDay, int m, int k) {
+        int n=bloomDay.length;
+        if((long)m*k>n) return -1;
+        int[] copy = Arrays.copyOf(bloomDay, bloomDay.length);
+        Arrays.sort(copy);
+        int l=0;
+        int h=copy.length-1;
+        while(l<h){
+            int mid=(l+h)/2;
+            if(bouquets(bloomDay,copy[mid],k)>=m){
+                h=mid;
+            }
+            else{
+                l=mid+1;
+            }
+        }
+        return copy[l];
+
+    }
+    
+    public int bouquets(int[] bloomDay,int day,int k){
+        int count=0;
+        int noOfbouquets=0;
+        for(int i=0;i<bloomDay.length;i++){
+            while(i<bloomDay.length && bloomDay[i]<=day){
+                count++;
+                i++;
+            }
+            noOfbouquets+=count/k;
+            count=0;
+        }
+        return noOfbouquets;
+    }
+}
+```
+
+**Optimizations:**
+The provided code is already optimized for both time and space complexity. However, one potential optimization could be to avoid creating a sorted copy of the `bloomDay` array and instead perform the binary search directly on the original array. This would reduce the space complexity to O(1) but increase the time complexity slightly due to the need to find the minimum and maximum values in the `bloomDay` array.
+
+Here's an optimized version of the code:
+
+```java
+class Solution {
+    public int minDays(int[] bloomDay, int m, int k) {
+        int n = bloomDay.length;
+        if ((long) m * k > n) return -1;
+
+        int left = Integer.MAX_VALUE;
+        int right = Integer.MIN_VALUE;
+
+        // Find the minimum and maximum values in bloomDay
+        for (int day : bloomDay) {
+            left = Math.min(left, day);
+            right = Math.max(right, day);
+        }
+
+        while (left < right) {
+            int mid = (left + right) / 2;
+            if (bouquets(bloomDay, mid, k) >= m) {
+                right = mid;
+            } else {
+                left = mid + 1;
+            }
+        }
+
+        return left;
+    }
+
+    public int bouquets(int[] bloomDay, int day, int k) {
+        int count = 0;
+        int bouquets = 0;
+        for (int bloom : bloomDay) {
+            if (bloom <= day) {
+                count++;
+            } else {
+                count = 0;
+            }
+
+            if (count == k) {
+                bouquets++;
+                count = 0;
+            }
+        }
+        return bouquets;
+    }
+}
+```
+
+In this optimized version, the `minDays` function finds the minimum and maximum values in the `bloomDay` array to set the initial bounds for the binary search. The `bouquets` function remains unchanged.
+
+The time complexity of this optimized solution is O(n log m), where n is the length of the `bloomDay` array, and m is the maximum value in the `bloomDay` array. The space complexity is now O(1), as no additional arrays are created.
+
+**54. Find the Smallest Divisor Given a Threshold**
+
+[Find the Smallest Divisor Given a Threshold](https://leetcode.com/problems/find-the-smallest-divisor-given-a-threshold/description/)
+
+Given an array of integers nums and an integer threshold, we will choose a positive integer divisor, divide all the array by it, and sum the division's result. Find the smallest divisor such that the result mentioned above is less than or equal to threshold.
+
+Each result of the division is rounded to the nearest integer greater than or equal to that element. (For example: 7/3 = 3 and 10/2 = 5).
+
+The test cases are generated so that there will be an answer.
+
+ 
+
+Example 1:
+
+Input: nums = [1,2,5,9], 
+
+threshold = 6
+Output: 5
+
+Explanation: We can get a sum to 17 (1+2+5+9) if the divisor is 1. 
+
+If the divisor is 4 we can get a sum of 7 (1+1+2+3) and if the divisor is 5 the sum will be 5 (1+1+1+2). 
+
+Example 2:
+
+Input: nums = [44,22,33,11,1],
+
+threshold = 5
+
+Output: 44
+
+Here's the pseudocode with an explanation:
+
+```
+function smallestDivisor(nums, threshold):
+    sort(nums)  # Sort the nums array in ascending order
+    left = 1  # Minimum possible divisor
+    right = nums[n - 1]  # Maximum possible divisor, where n is the length of nums
+
+    while left <= right:
+        mid = (left + right) // 2  # Calculate the middle value
+        sum_of_quotients = 0
+        for num in nums:
+            sum_of_quotients += ceil(num / mid)  # Add the ceiling of num / mid
+
+        if sum_of_quotients <= threshold:  # If the sum of quotients is within the threshold
+            result = mid  # Update the result with the current divisor
+            right = mid - 1  # Search in the left half for a smaller divisor
+        else:
+            left = mid + 1  # Search in the right half for a larger divisor
+
+    return result
+
+function check(mid, nums, threshold):
+    sum_of_quotients = 0
+    for num in nums:
+        sum_of_quotients += ceil(num / mid)  # Add the ceiling of num / mid
+    return sum_of_quotients <= threshold  # Check if the sum of quotients is within the threshold
+```
+
+**Time Complexity:**
+- The `smallestDivisor` function uses binary search, which has a time complexity of O(n log m), where n is the length of the `nums` array, and m is the maximum value in the `nums` array.
+- Inside the binary search loop, the `check` function iterates over the `nums` array once, giving it a time complexity of O(n), where n is the length of the `nums` array.
+- Overall, the time complexity of the entire solution is O(n log m), where n is the length of the `nums` array, and m is the maximum value in the `nums` array.
+
+**Space Complexity:**
+The space complexity is O(1) since the solution uses only a few constant-size variables and does not allocate any additional data structures that grow with the input size.
+
+**Example Explanation:**
+Let's consider the input `nums = [1, 2, 3, 4, 5, 6]` and `threshold = 3`.
+
+Initially, the `nums` array is sorted: `nums = [1, 2, 3, 4, 5, 6]`.
+
+In the binary search phase:
+- `left` is initialized to 1 (minimum possible divisor)
+- `right` is initialized to 6 (maximum value in the `nums` array)
+
+The binary search iterations are as follows:
+1. `mid = (1 + 6) // 2 = 3`
+2. `check(3, nums, 3)` returns `true` because the sum of quotients `ceil(1/3) + ceil(2/3) + ceil(3/3) + ceil(4/3) + ceil(5/3) + ceil(6/3) = 1 + 1 + 1 + 2 + 2 + 2 = 9 <= 3`.
+3. Since the condition is met, the search continues in the left half, and `right` is updated to `mid - 1 = 2`.
+4. `mid = (1 + 2) // 2 = 1`
+5. `check(1, nums, 3)` returns `false` because the sum of quotients `ceil(1/1) + ceil(2/1) + ceil(3/1) + ceil(4/1) + ceil(5/1) + ceil(6/1) = 1 + 2 + 3 + 4 + 5 + 6 = 21 > 3`.
+6. Since the condition is not met, the search continues in the right half, and `left` is updated to `mid + 1 = 2`.
+7. `mid = (2 + 2) // 2 = 2`
+8. `check(2, nums, 3)` returns `true` because the sum of quotients `ceil(1/2) + ceil(2/2) + ceil(3/2) + ceil(4/2) + ceil(5/2) + ceil(6/2) = 1 + 1 + 2 + 2 + 3 + 3 = 12 <= 3`.
+9. Since the condition is met, the search continues in the left half, and `right` is updated to `mid - 1 = 1`.
+10. `mid = (2 + 1) // 2 = 1` (same as iteration 4, so the loop terminates)
+
+The smallest divisor that satisfies the condition is `result = 2`.
+
+Java Code:
+
+```java
+class Solution {
+    public boolean check(int mid, int[] nums, int threshold) {
+        int sum = 0;
+        for (int i = 0; i < nums.length; i++) {
+            sum += nums[i] / mid;
+            if (nums[i] % mid != 0) {
+                sum++;
+            }
+        }
+        return sum <= threshold;
+    }
+
+    public int smallestDivisor(int[] nums, int threshold) {
+
+        Arrays.sort(nums);
+        int ans = -1;
+        int low = 1;
+        int high = nums[nums.length - 1];
+        while (low <= high) {
+            int mid = (low + high) / 2;
+            if (check(mid, nums, threshold)) {
+                ans = mid;
+                high = mid - 1;
+            } else {
+                low = mid + 1;
+            }
+        }
+
+        return ans;
+    }
+}
+```
+
+**Optimizations:**
+The provided code is already optimized for both time and space complexity. However, one potential optimization could be to avoid sorting the `nums` array if it is not required for the problem. This would reduce the time complexity to O(n log m), where n is the length of the `nums` array, and m is the maximum value in the `nums` array.
+
+Here's an optimized version of the code without sorting the `nums` array:
+
+```java
+class Solution {
+    public boolean check(int mid, int[] nums, int threshold) {
+        int sum = 0;
+        for (int num : nums) {
+            sum += Math.ceil((double) num / mid);
+        }
+        return sum <= threshold;
+    }
+
+    public int smallestDivisor(int[] nums, int threshold) {
+        int left = 1;
+        int right = Arrays.stream(nums).max().getAsInt();
+
+        while (left <= right) {
+            int mid = (left + right) / 2;
+            if (check(mid, nums, threshold)) {
+                right = mid - 1;
+            } else {
+                left = mid + 1;
+            }
+        }
+
+        return left;
+    }
+}
+```
+
+In this optimized version, the `smallestDivisor` function finds the maximum value in the `nums` array using `Arrays.stream(nums).max().getAsInt()` to set the initial upper bound for the binary search. The `check` function remains unchanged.
+
+The time complexity of this optimized solution is O(n log m), where n is the length of the `nums` array, and m is the maximum value in the `nums` array. The space complexity remains O(1).
+
+**55. Capacity To Ship Packages Within D Days**
+
+[Capacity To Ship Packages Within D Days](https://leetcode.com/problems/capacity-to-ship-packages-within-d-days/description/)
+
+A conveyor belt has packages that must be shipped from one port to another within days days.
+
+The ith package on the conveyor belt has a weight of weights[i]. Each day, we load the ship with packages on the conveyor belt (in the order given by weights). We may not load more weight than the maximum weight capacity of the ship.
+
+Return the least weight capacity of the ship that will result in all the packages on the conveyor belt being shipped within days days.
+
+
+Example 1:
+
+Input: weights = [1,2,3,4,5,6,7,8,9,10],
+
+days = 5
+
+Output: 15
+
+Explanation: A ship capacity of 15 is the minimum to ship all the packages in 5 days like this:
+
+1st day: 1, 2, 3, 4, 5
+
+2nd day: 6, 7
+
+3rd day: 8
+
+4th day: 9
+
+5th day: 10
+
+Note that the cargo must be shipped in the order given, so using a ship of capacity 14 and splitting the packages into parts like (2, 3, 4, 5), (1, 6, 7), (8), (9), (10) is not allowed.
+
+Example 2:
+
+Input: weights = [3,2,2,4,1,4], 
+
+days = 3
+
+
+Output: 6
+
+Explanation: A ship capacity of 6 is the minimum to ship all the packages in 3 days like this:
+
+1st day: 3, 2
+
+2nd day: 2, 4
+
+3rd day: 1, 4
+
+Example 3:
+
+Input: weights = [1,2,3,1,1],
+
+days = 4
+
+Output: 3
+
+Explanation:
+1st day: 1
+
+2nd day: 2
+
+3rd day: 3
+
+4th day: 1,1
+ 
+
+Constraints:
+
+1 <= days <= weights.length <= 5 * 104
+
+1 <= weights[i] <= 500
+
+Here's the pseudocode with an explanation:
+
+```
+function shipWithinDays(weights, days):
+    sum = sum(weights)  # Calculate the total sum of weights
+    max_weight = max(weights)  # Find the maximum weight
+
+    # Binary search to find the minimum weight capacity
+    left = max_weight  # Minimum possible weight capacity
+    right = sum  # Maximum possible weight capacity
+
+    while left <= right:
+        mid = (left + right) // 2  # Calculate the middle value
+        days_needed = findDays(weights, mid)  # Calculate the days needed with the current weight capacity
+
+        if days_needed <= days:  # If the days needed is within the given constraint
+            right = mid - 1  # Search in the left half for a smaller weight capacity
+        else:
+            left = mid + 1  # Search in the right half for a larger weight capacity
+
+    # The minimum weight capacity required is left
+    return left
+
+function findDays(weights, weight_capacity):
+    days_needed = 1  # Initialize the days needed to 1
+    current_weight = 0  # Initialize the current weight to 0
+
+    for package_weight in weights:
+        if current_weight + package_weight > weight_capacity:
+            # If adding the current package exceeds the weight capacity
+            days_needed += 1  # Start a new day
+            current_weight = package_weight  # Reset the current weight
+        else:
+            current_weight += package_weight  # Add the package weight to the current weight
+
+    return days_needed
+```
+
+**Time Complexity:**
+- The `shipWithinDays` function uses binary search, which has a time complexity of O(n log m), where n is the length of the `weights` array, and m is the sum of all weights in the `weights` array.
+- Inside the binary search loop, the `findDays` function iterates over the `weights` array once, giving it a time complexity of O(n), where n is the length of the `weights` array.
+- Overall, the time complexity of the entire solution is O(n log m), where n is the length of the `weights` array, and m is the sum of all weights in the `weights` array.
+
+**Space Complexity:**
+The space complexity is O(1) since the solution uses only a few constant-size variables and does not allocate any additional data structures that grow with the input size.
+
+**Example Explanation:**
+Let's consider the input `weights = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]` and `days = 5`.
+
+Initially, `sum` is calculated as 55 (the sum of all weights), and `max_weight` is 10 (the maximum weight).
+
+In the binary search phase:
+- `left` is initialized to 10 (maximum weight in the `weights` array)
+- `right` is initialized to 55 (the sum of all weights)
+
+The binary search iterations are as follows:
+1. `mid = (10 + 55) // 2 = 32`
+2. `findDays(weights, 32)` returns 3 (days needed to ship all packages with a weight capacity of 32)
+3. Since `3 <= 5` (days needed is within the given constraint), the search continues in the left half, and `right` is updated to `mid - 1 = 31`.
+4. `mid = (10 + 31) // 2 = 20`
+5. `findDays(weights, 20)` returns 5 (days needed to ship all packages with a weight capacity of 20)
+6. Since `5 <= 5` (days needed is within the given constraint), the search continues in the left half, and `right` is updated to `mid - 1 = 19`.
+7. `mid = (10 + 19) // 2 = 14`
+8. `findDays(weights, 14)` returns 7 (days needed to ship all packages with a weight capacity of 14)
+9. Since `7 > 5` (days needed is more than the given constraint), the search continues in the right half, and `left` is updated to `mid + 1 = 15`.
+10. `mid = (15 + 19) // 2 = 17`
+11. `findDays(weights, 17)` returns 6 (days needed to ship all packages with a weight capacity of 17)
+12. Since `6 > 5`, the search continues in the right half, and `left` is updated to `mid + 1 = 18`.
+13. `mid = (18 + 19) // 2 = 18`
+14. `findDays(weights, 18)` returns 6 (days needed to ship all packages with a weight capacity of 18)
+15. Since `6 > 5`, the search continues in the right half, and `left` is updated to `mid + 1 = 19`.
+16. `mid = (19 + 19) // 2 = 19` (same as `left`, so the loop terminates)
+
+The minimum weight capacity required is `left = 19`.
+
+```java
+class Solution {
+    public int shipWithinDays(int[] weights, int days) {
+        int sum=0;
+        int max=0;
+        for(int i=0;i<weights.length;i++){
+            sum+=weights[i];
+            max=Math.max(max,weights[i]);
+        }
+        int l=max;
+        int h=sum;
+        while(l<=h){
+            int mid=(l+h)/2;
+            if(finDays(weights,mid)<=days){
+                h=mid-1;
+            }
+            else{
+                l=mid+1;
+            }
+
+        }
+        return l;
+    }
+
+    public int finDays(int[] weights, int weight){
+        int day=0;
+        for(int i=0;i<weights.length;i++){
+            int count=0;
+            while(i<weights.length && count+weights[i]<=weight){
+                count+=weights[i];
+                i++;
+            }
+            day++;
+            i--;
+        }
+        return day;
+    }
+}
+```
+
+**Optimizations:**
+The provided code is already optimized for both time and space complexity. However, one potential optimization could be to avoid calculating the sum of all weights in the `weights` array and instead use the maximum weight as the initial upper bound for the binary search. This would reduce the time complexity slightly by avoiding the unnecessary sum calculation.
+
+Here's an optimized version of the code:
+
+```java
+class Solution {
+    public int shipWithinDays(int[] weights, int days) {
+        int maxWeight = Arrays.stream(weights).max().getAsInt();
+        int left = maxWeight;
+        int right = Arrays.stream(weights).sum();
+
+        while (left < right) {
+            int mid = left + (right - left) / 2;
+            if (findDays(weights, mid) > days) {
+                left = mid + 1;
+            } else {
+                right = mid;
+            }
+        }
+
+        return left;
+    }
+
+    public int findDays(int[] weights, int weightCapacity) {
+        int daysNeeded = 1;
+        int currentWeight = 0;
+
+        for (int weight : weights) {
+            if (currentWeight + weight > weightCapacity) {
+                daysNeeded++;
+                currentWeight = weight;
+            } else {
+                currentWeight += weight;
+            }
+        }
+
+        return daysNeeded;
+    }
+}
+```
+
+In this optimized version, the `shipWithinDays` function finds the maximum weight using `Arrays.stream(weights).max().getAsInt()` to set the initial lower bound for the binary search. The initial upper bound is set to `Arrays.stream(weights).sum()`, which represents the sum of all weights in the `weights` array.
+
+The time complexity of this optimized solution is O(n log (sum_of_weights - max_weight)), where n is the length of the `weights` array, `sum_of_weights` is the sum of all weights in the `weights` array, and `max_weight` is the maximum weight in the `weights` array. The space complexity remains O(1).
