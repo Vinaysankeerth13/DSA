@@ -8872,8 +8872,6 @@ Each result of the division is rounded to the nearest integer greater than or eq
 
 The test cases are generated so that there will be an answer.
 
- 
-
 Example 1:
 
 Input: nums = [1,2,5,9], 
@@ -9260,3 +9258,128 @@ class Solution {
 In this optimized version, the `shipWithinDays` function finds the maximum weight using `Arrays.stream(weights).max().getAsInt()` to set the initial lower bound for the binary search. The initial upper bound is set to `Arrays.stream(weights).sum()`, which represents the sum of all weights in the `weights` array.
 
 The time complexity of this optimized solution is O(n log (sum_of_weights - max_weight)), where n is the length of the `weights` array, `sum_of_weights` is the sum of all weights in the `weights` array, and `max_weight` is the maximum weight in the `weights` array. The space complexity remains O(1).
+
+## 25-05-2024
+
+**56. Kth Missing Positive Number**
+
+[Kth Missing Positive Number](https://leetcode.com/problems/kth-missing-positive-number/)
+
+Given an array arr of positive integers sorted in a strictly increasing order, and an integer k.
+
+Return the kth positive integer that is missing from this array.
+
+Example 1:
+
+Input: arr = [2,3,4,7,11], k = 5
+
+Output: 9
+
+Explanation: The missing positive integers are [1,5,6,8,9,10,12,13,...]. The 5th missing positive integer is 9.
+
+Example 2:
+
+Input: arr = [1,2,3,4], k = 2
+
+Output: 6
+
+Explanation: The missing positive integers are [5,6,7,...]. The 2nd missing positive integer is 6.
+
+Pseudocode with an explanation:
+
+```
+function findKthPositive(arr, k):
+    left = 0  # Initialize left pointer to 0
+    right = length(arr) - 1  # Initialize right pointer to the last index of arr
+
+    while left <= right:
+        mid = (left + right) // 2  # Calculate the middle index
+        missing_count = arr[mid] - (mid + 1)  # Calculate the number of missing integers before arr[mid]
+
+        if missing_count < k:
+            # If the number of missing integers before arr[mid] is less than k
+            left = mid + 1  # Update the left pointer to search in the right half
+        else:
+            right = mid - 1  # Update the right pointer to search in the left half
+
+    # The k-th missing positive integer is left + k
+    return left + k
+```
+
+**Time Complexity:**
+The time complexity of this solution is O(log n), where n is the length of the `arr` array. This is because the algorithm uses binary search, which has a time complexity of O(log n) in the average case.
+
+**Space Complexity:**
+The space complexity is O(1) since the solution uses only a few constant-size variables and does not allocate any additional data structures that grow with the input size.
+
+**Example Explanation:**
+Let's consider the input `arr = [2, 3, 4, 7, 11]` and `k = 5`.
+
+Initially, `left` is set to 0, and `right` is set to 4 (the last index of `arr`).
+
+The binary search iterations are as follows:
+1. `mid = (0 + 4) // 2 = 2`
+2. `missing_count = arr[2] - (2 + 1) = 4 - 3 = 1`
+3. Since `missing_count = 1 < k = 5`, the search continues in the right half, and `left` is updated to `mid + 1 = 3`.
+4. `mid = (3 + 4) // 2 = 3`
+5. `missing_count = arr[3] - (3 + 1) = 7 - 4 = 3`
+6. Since `missing_count = 3 < k = 5`, the search continues in the right half, and `left` is updated to `mid + 1 = 4`.
+7. `mid = (4 + 4) // 2 = 4`
+8. `missing_count = arr[4] - (4 + 1) = 11 - 5 = 6`
+9. Since `missing_count = 6 > k = 5`, the search continues in the left half, and `right` is updated to `mid - 1 = 3`.
+10. `mid = (4 + 3) // 2 = 3` (same as iteration 4, so the loop terminates)
+
+The `k`-th missing positive integer is `left + k = 4 + 5 = 9`.
+
+Java Code:
+
+```java
+class Solution {
+    public int findKthPositive(int[] arr, int k) 
+    {
+        int low = 0;
+        int high = arr.length-1;
+        while (low <= high)
+        {
+            int mid = (high+low)/2;
+            int missing = arr[mid] - (mid+1);
+            if(missing < k) low = mid+1;
+            else high = mid-1;
+        }
+        return low + k;
+    }
+}
+```
+
+**Optimizations:**
+The provided code is already optimized for both time and space complexity. However, one potential optimization could be to use a different approach that avoids the need for binary search, especially if the input array `arr` is not sorted. This alternative approach iterates through the array and keeps track of the number of missing integers encountered so far.
+
+Here's an optimized version of the code using this alternative approach:
+
+```java
+class Solution {
+    public int findKthPositive(int[] arr, int k) {
+        int missing = 0;
+        int num = 1;
+
+        for (int i = 0; i < arr.length; i++) {
+            while (arr[i] > num) {
+                missing++;
+                if (missing == k) {
+                    return num;
+                }
+                num++;
+            }
+            num++;
+        }
+
+        return num + k - 1 - missing;
+    }
+}
+```
+
+In this optimized version, the algorithm iterates through the `arr` array and keeps track of the current number `num` and the number of missing integers encountered so far `missing`. If the current number in the array `arr[i]` is greater than `num`, it means there are missing integers between `num` and `arr[i]`. The algorithm increments `num` and `missing` until `arr[i]` is reached or `missing` becomes equal to `k`. If `missing` becomes equal to `k`, the `k`-th missing positive integer is returned.
+
+If the loop completes without finding the `k`-th missing positive integer, the remaining missing integers are calculated as `num + k - 1 - missing`.
+
+The time complexity of this optimized solution is O(n), where n is the length of the `arr` array. The space complexity remains O(1).
