@@ -4,7 +4,282 @@
 
 The optimisation code for each problem is given by AI, so there might be a possibility that they're not an exact fit for the problem you're solving. Please bear that in mind and modify the code implementing the concepts that are provided for optimisation.
 
-## 25-04-20242
+First start by doing a bunch of pattern problems they'll help you build logic.
+
+Personal opinion: I hate patterns, was never comfortable with them.
+
+## 03-03-2024
+
+## Basics
+
+This section covers the basics of Math,Recursion and hashing. If you are not a beginner you can start from maybe sorting or Arrays.
+
+**1. Count Digits**
+
+[Count digits](https://www.geeksforgeeks.org/problems/count-digits5716/1)
+
+Given a number N. Count the number of digits in N which evenly divide N.
+
+Note :- Evenly divides means whether N is divisible by a digit i.e. leaves a remainder 0 when divided.
+
+Example 1:
+
+Input:
+N = 12
+
+Output:
+2
+
+Explanation:
+1, 2 both divide 12 evenly
+
+Example 2:
+
+Input:
+N = 23
+
+Output
+0
+
+Explanation:
+2 and 3, none of them
+divide 23 evenly
+
+The provided code is a Java implementation of a function `evenlyDivides` that takes an integer `N` as input and returns the count of digits in `N` that evenly divide `N`.
+
+Here's the pseudocode with an explanation:
+
+```
+function evenlyDivides(N):
+    number = N  # Store the original value of N
+    count = 0  # Initialize the count of digits that evenly divide N
+
+    while number > 0:
+        digit = number % 10  # Get the last digit of the number
+        if digit != 0 and N % digit == 0:
+            # If the digit is non-zero and N is divisible by the digit
+            count += 1  # Increment the count
+
+        number = number // 10  # Remove the last digit from the number
+
+    return count
+```
+
+**Time Complexity:**
+The time complexity of this solution is O(log N), where N is the input number. This is because the algorithm iterates over the digits of the number, and the number of digits in an integer is proportional to log N (base 10).
+
+**Space Complexity:**
+The space complexity is O(1) since the solution uses only a few constant-size variables and does not allocate any additional data structures that grow with the input size.
+
+Java Code:
+
+```java
+class Solution{
+static int evenlyDivides(int N)
+{
+int number = N;
+int count = 0;
+while (number > 0)
+{
+int digit = number % 10;
+if(digit !=0 && N % digit == 0)
+{
+count++;
+}
+number = number / 10;
+}
+return count;
+}
+}
+```
+
+**Example Explanation:**
+Let's consider the input `N = 128`.
+
+The iterations are as follows:
+
+1. `number = 128`, `count = 0`
+2. `digit = 128 % 10 = 8`
+   - Since `8 != 0` and `128 % 8 == 0`, `count` is incremented to `1`.
+   - `number = 128 // 10 = 12`
+3. `digit = 12 % 10 = 2`
+   - Since `2 != 0` and `128 % 2 == 0`, `count` is incremented to `2`.
+   - `number = 12 // 10 = 1`
+4. `digit = 1 % 10 = 1`
+   - Since `1 != 0` and `128 % 1 == 0`, `count` is incremented to `3`.
+   - `number = 1 // 10 = 0`
+5. `number = 0`, so the loop terminates.
+
+The function returns `count = 3`, which is the count of digits (8, 2, and 1) that evenly divide 128.
+
+**Optimizations:**
+The provided code is already optimized for both time and space complexity. However, there is a potential optimization that can be made to the code to handle edge cases more gracefully.
+
+Here's an optimized version of the code:
+
+```java
+class Solution {
+    static int evenlyDivides(int N) {
+        if (N == 0) {
+            return 0;  // Handle the case when N is 0
+        }
+
+        int number = Math.abs(N);  // Handle negative numbers
+        int count = 0;
+        int originalNumber = number;
+
+        while (number > 0) {
+            int digit = number % 10;
+            if (digit != 0 && originalNumber % digit == 0) {
+                count++;
+            }
+            number = number / 10;
+        }
+
+        return count;
+    }
+}
+```
+
+In this optimized version, the following changes have been made:
+
+1. The function first checks if `N` is 0. If `N` is 0, it returns 0 since there are no digits to divide by.
+2. The function uses `Math.abs(N)` to handle negative numbers. This ensures that the algorithm works correctly for both positive and negative input values.
+3. The variable `originalNumber` is introduced to store the original value of `N` before any modifications. This is because the `number` variable is modified during the loop, and we need the original value of `N` to check if it is divisible by the current digit.
+
+The time complexity and space complexity remain the same as the original implementation.
+
+**Reverse Integer**
+
+[Reversed Integer](https://leetcode.com/problems/reverse-integer/description/)
+
+Given a signed 32-bit integer x, return x with its digits reversed. If reversing x causes the value to go outside the signed 32-bit integer range [-231, 231 - 1], then return 0.
+
+Assume the environment does not allow you to store 64-bit integers (signed or unsigned).
+
+
+Example 1:
+
+Input: x = 123
+Output: 321
+Example 2:
+
+Input: x = -123
+Output: -321
+Example 3:
+
+Input: x = 120
+Output: 21
+
+The provided code is a Java implementation to reverse an integer `x` while handling overflow cases.
+
+Here's the pseudocode with an explanation:
+
+```
+function reverse(x):
+    reversed = 0  # Initialize the reversed number to 0
+
+    while x != 0:
+        last_digit = x % 10  # Get the last digit of x
+
+        # Check for overflow before performing the reverse operation
+        if reversed > MAX_INT / 10 or (reversed == MAX_INT / 10 and last_digit > 7):
+            return 0  # Return 0 for overflow case
+        if reversed < MIN_INT / 10 or (reversed == MIN_INT / 10 and last_digit < -8):
+            return 0  # Return 0 for overflow case
+
+        reversed = reversed * 10 + last_digit  # Construct the reversed number
+        x = x // 10  # Remove the last digit from x
+
+    return reversed
+```
+
+**Time Complexity:**
+The time complexity of this solution is O(log n), where n is the absolute value of the input integer `x`. This is because the algorithm iterates over the digits of the number, and the number of digits in an integer is proportional to log n (base 10).
+
+**Space Complexity:**
+The space complexity is O(1) since the solution uses only a few constant-size variables and does not allocate any additional data structures that grow with the input size.
+
+Java Code:
+
+```java
+class Solution {
+    public int reverse(int x) 
+    {
+        int reversed = 0;
+        while (x!=0)
+        {
+            int lastDigit = x % 10;
+            if (reversed > Integer.MAX_VALUE / 10 || (reversed == Integer.MAX_VALUE / 10 && lastDigit > 7)) {
+    return 0; 
+}
+if (reversed < Integer.MIN_VALUE / 10 || (reversed == Integer.MIN_VALUE / 10 && lastDigit < -8)) {
+    return 0;
+}
+            reversed = reversed*10 + lastDigit;
+            x = x/10;
+        }
+        return reversed;
+    }
+}
+```
+
+**Example Explanation:**
+Let's consider the input `x = 123`.
+
+The iterations are as follows:
+1. `reversed = 0`, `x = 123`
+2. `last_digit = 123 % 10 = 3`
+   - Since `0 <= 2147483647 / 10` and `0 == 2147483647 / 10`, the overflow condition is not met.
+   - `reversed = 0 * 10 + 3 = 3`, `x = 123 // 10 = 12`
+3. `last_digit = 12 % 10 = 2`
+   - Since `3 <= 2147483647 / 10` and `3 != 2147483647 / 10`, the overflow condition is not met.
+   - `reversed = 3 * 10 + 2 = 32`, `x = 12 // 10 = 1`
+4. `last_digit = 1 % 10 = 1`
+   - Since `32 <= 2147483647 / 10` and `32 != 2147483647 / 10`, the overflow condition is not met.
+   - `reversed = 32 * 10 + 1 = 321`, `x = 1 // 10 = 0`
+5. `x = 0`, so the loop terminates.
+
+The function returns `reversed = 321`, which is the reversed integer of 123.
+
+**Optimizations:**
+The provided code is already optimized for both time and space complexity. However, there is a potential optimization that can be made to the code to handle negative numbers more efficiently.
+
+Here's an optimized version of the code:
+
+```java
+class Solution {
+    public int reverse(int x) {
+        boolean isNegative = x < 0;
+        x = Math.abs(x);
+        int reversed = 0;
+
+        while (x != 0) {
+            int lastDigit = x % 10;
+            if (reversed > Integer.MAX_VALUE / 10 || (reversed == Integer.MAX_VALUE / 10 && lastDigit > 7)) {
+                return 0;
+            }
+            reversed = reversed * 10 + lastDigit;
+            x = x / 10;
+        }
+
+        return isNegative ? -reversed : reversed;
+    }
+}
+```
+
+In this optimized version, the following changes have been made:
+
+1. The function first checks if `x` is negative using `boolean isNegative = x < 0;`.
+2. It then converts `x` to its absolute value using `x = Math.abs(x);`.
+3. The reversal process is performed on the absolute value of `x`.
+4. After the reversal process, if `isNegative` is true, the function returns `-reversed` to handle negative numbers correctly.
+
+The time complexity and space complexity remain the same as the original implementation.
+
+## Sorting
+
+## 25-04-2024
 
 **Selection Sort**
 
@@ -670,7 +945,7 @@ Overall, Quicksort is a highly efficient and widely used sorting algorithm, part
 
 ## Array Problems
 
-### Easy:
+The Problems are chosen to cover most concepts related to array along with covering all ranges of difficulty.
 
 **1. Largest Element in the Array**
 
@@ -2550,8 +2825,6 @@ In this optimized version, we keep track of the minimum cumulative sum `minSum` 
 The time complexity of this optimized solution remains O(n), where n is the length of the input array `nums`. The space complexity is also O(n) in the worst case, where all the elements in the array are distinct, and we need to store all the remapped cumulative sums in the hash map.
 
 This optimization can improve the performance of the algorithm, especially when the input array contains negative values and the cumulative sums have a wide range.
-
-## Medium
 
 **15. Two Sum**
 
@@ -5827,7 +6100,9 @@ The `merge` function combines the two sorted subarrays while counting the invers
 The time complexity of this optimized solution is O(n log n), which is more efficient than the previous solution's O(n^2) time complexity, especially for large input sizes. The space complexity is O(n) due to the temporary array used for merging.
 
 This optimization significantly improves the performance of the algorithm for finding the number of inversions in an array.
- 
+
+## Binary Search
+
 ## 8-05-2023
 
 **37. Binary Search**
@@ -5900,16 +6175,15 @@ Now, let's consider another example `nums = [1, 3, 5, 7, 9]` and `target = 6`.
    - `l = 3` and `h = 2`, so the loop terminates as `l > h`.
 6. The function returns -1, as the target element 6 is not present in the array.
 
-
 Java Code:
 
 ```java
 public int search(int[] nums, int target) {
     int l = 0;
     int h = nums.length - 1;
-    
+
     while (l <= h) {
-        int mid = (h + l) / 2; 
+        int mid = (h + l) / 2;
         if (nums[mid] == target) {
             return mid;
         } else if (nums[mid] > target) {
@@ -5918,7 +6192,7 @@ public int search(int[] nums, int target) {
             l = mid + 1;
         }
     }
-    
+
     return -1;
 }
 ```
@@ -5933,7 +6207,7 @@ Here's the optimized code:
 public int search(int[] nums, int target) {
     int l = 0;
     int h = nums.length - 1;
-    
+
     while (l <= h) {
         int mid = l + (h - l) / 2; // Handles the case when (l + h) overflows
         if (nums[mid] == target) {
@@ -5944,7 +6218,7 @@ public int search(int[] nums, int target) {
             l = mid + 1;
         }
     }
-    
+
     return -1;
 }
 ```
@@ -5964,27 +6238,27 @@ Given a sorted array arr[] of size N without duplicates, and given a value x. Fl
 Example 1:
 
 Input:
-N = 7, x = 0 
+N = 7, x = 0
 
 arr[] = {1,2,8,10,11,12,19}
 
 Output: -1
 
-Explanation: No element less 
-than 0 is found. So output 
+Explanation: No element less
+than 0 is found. So output
 is "-1".
 
 Example 2:
 
 Input:
-N = 7, x = 5 
+N = 7, x = 5
 
 arr[] = {1,2,8,10,11,12,19}
 
 Output: 1
 
 Explanation: Largest Number less than 5 is
-2 (i.e K = 2), whose index is 1(0-based 
+2 (i.e K = 2), whose index is 1(0-based
 indexing).
 
 The given code is an implementation of the Lower Bound function in Java, which finds the index of the smallest element in a sorted array that is greater than or equal to a given target value `x`.
@@ -6063,7 +6337,7 @@ public class tUf {
         int ind = lowerBound(arr, n, x);
         System.out.println("The lower bound is the index: " + ind);
     }
-} 
+}
 ```
 
 **Possible Optimizations:**
@@ -6079,24 +6353,24 @@ public class tUf {
 
     public static int lowerBound(int[] arr, int n, int x) {
         int low = 0, high = n;
-        
+
         while (low < high) {
             int mid = low + (high - low) / 2; // Handles the case when (low + high) overflows
-            
+
             if (arr[mid] >= x) {
                 high = mid;
             } else {
                 low = mid + 1;
             }
         }
-        
+
         return high < n && arr[high] < x ? n : high;
     }
 
     public static void main(String[] args) {
         int[] arr = {3, 5, 8, 15, 19};
         int n = 5, x = 9;
-        
+
         int ind = lowerBound(arr, n, x);
         System.out.println("The lower bound is the index: " + ind);
     }
@@ -6127,7 +6401,7 @@ Arr[] = {5, 6, 8, 9, 6, 5, 5, 6}
 Output: 6 8
 
 Explanation:
-Floor of 7 is 6 and ceil of 7 
+Floor of 7 is 6 and ceil of 7
 is 8.
 
 Example 2:
@@ -6140,7 +6414,7 @@ Arr[] = {5, 6, 8, 9, 6, 5, 5, 6}
 Output: 9 -1
 
 Explanation:
-Floor of 10 is 9 but ceil of 10 is not 
+Floor of 10 is 9 but ceil of 10 is not
 possible.
 
 The given code is an implementation of the Upper Bound function in Java, which finds the index of the smallest element in a sorted array that is strictly greater than a given target value `x`.
@@ -6232,24 +6506,24 @@ public class tUf {
 
     public static int upperBound(int[] arr, int x, int n) {
         int low = 0, high = n;
-        
+
         while (low < high) {
             int mid = low + (high - low) / 2; // Handles the case when (low + high) overflows
-            
+
             if (arr[mid] > x) {
                 high = mid;
             } else {
                 low = mid + 1;
             }
         }
-        
+
         return high == n ? n : arr[high] > x ? high : n;
     }
 
     public static void main(String[] args) {
         int[] arr = {3, 5, 8, 9, 15, 19};
         int n = 6, x = 9;
-        
+
         int ind = upperBound(arr, x, n);
         System.out.println("The upper bound is the index: " + ind);
     }
@@ -6261,7 +6535,6 @@ In this optimized code, we calculate the middle index `mid` as `low + (high - lo
 Additionally, we handle the case where the target value `x` is greater than or equal to all elements in the array. If `high` is equal to `n`, we return `n` as the upper bound index. Otherwise, if the element at `high` is strictly greater than `x`, we return `high`; otherwise, we return `n`.
 
 The time complexity and space complexity of this optimized solution remain the same: O(log n) and O(1), respectively. However, this optimization provides better handling of edge cases involving large integers and prevents potential integer overflow issues.
-
 
 **40. Search Insert Position**
 
@@ -6292,7 +6565,7 @@ Pseudo-code:
 BinarySearch(arr, target)
     low = 0
     high = length(arr) - 1
-    
+
     while low <= high:
         mid = (low + high) // 2
         if arr[mid] == target:
@@ -6301,11 +6574,12 @@ BinarySearch(arr, target)
             low = mid + 1
         else:
             high = mid - 1
-    
+
     return low
 ```
 
 Explanation:
+
 1. The algorithm takes a sorted array `arr` and a target element `target` as input.
 2. It initializes two pointers `low` and `high` to the first and last indices of the array, respectively.
 3. The algorithm enters a loop that continues until `low` is greater than `high`.
@@ -6323,18 +6597,20 @@ Example:
 Let's consider the array `nums = [1, 3, 5, 6]` and the target element `target = 5`.
 
 Iteration 1:
+
 - `low = 0`, `high = 3`
 - `mid = (0 + 3) // 2 = 1`
 - `nums[mid] = 3 < target`, so `low = mid + 1 = 2`
 
 Iteration 2:
+
 - `low = 2`, `high = 3`
 - `mid = (2 + 3) // 2 = 2`
 - `nums[mid] = 5 == target`, so the algorithm returns `mid = 2`, which is the position of the target element.
 
 ```java
 class Solution {
-    public int searchInsert(int[] nums, int target) 
+    public int searchInsert(int[] nums, int target)
     {
         int low = 0;
         int high = nums.length - 1;
@@ -6368,7 +6644,7 @@ class Solution {
     public int searchInsert(int[] nums, int target) {
         int low = 0;
         int high = nums.length - 1;
-        
+
         while (low <= high) {
             int mid = (high + low) / 2;
             if (nums[mid] == target) {
@@ -6379,7 +6655,7 @@ class Solution {
                 high = mid - 1;
             }
         }
-        
+
         return low;
     }
 }
@@ -6400,8 +6676,8 @@ Floor of 'x' is the largest element in the array which is smaller than or equal 
 Ceiling of 'x' is the smallest element in the array greater than or equal to 'x'.
 
 Example:
-Input: 
-n=6, x=5, a=[3, 4, 7, 8, 8, 10]   
+Input:
+n=6, x=5, a=[3, 4, 7, 8, 8, 10]
 
 Output:
 4
@@ -6458,6 +6734,7 @@ Explanation (with an example):
 Let's consider the array `arr = [3, 4, 4, 7, 8, 10]` and the target value `x = 5`.
 
 1. The `findFloor` function is called with `arr`, `n = 6`, and `x = 5`.
+
    - Iteration 1:
      - `low = 0`, `high = 5`
      - `mid = (0 + 5) // 2 = 2`
@@ -6470,6 +6747,7 @@ Let's consider the array `arr = [3, 4, 4, 7, 8, 10]` and the target value `x = 5
    - The function returns `ans = 4`, which is the floor value of `x = 5`.
 
 2. The `findCeil` function is called with `arr`, `n = 6`, and `x = 5`.
+
    - Iteration 1:
      - `low = 0`, `high = 5`
      - `mid = (0 + 5) // 2 = 2`
@@ -6542,7 +6820,7 @@ public class tUf {
         System.out.println("The floor and ceil are: " + ans[0]
                            + " " + ans[1]);
     }
-} 
+}
 
 ```
 
@@ -6657,6 +6935,7 @@ Let's consider the array `nums = [5, 7, 7, 8, 8, 10]` and the target `target = 8
 
 1. The `searchRange` function is called with `nums` and `target = 8`.
 2. Inside `searchRange`, it calls `findFirst(nums, 8)`.
+
    - Iteration 1:
      - `left = 0`, `right = 5`
      - `mid = (0 + 5) // 2 = 2`
@@ -6672,6 +6951,7 @@ Let's consider the array `nums = [5, 7, 7, 8, 8, 10]` and the target `target = 8
    - The `findFirst` function returns `3`, which is the index of the first occurrence of `8`.
 
 3. Inside `searchRange`, it calls `findLast(nums, 8)`.
+
    - Iteration 1:
      - `left = 0`, `right = 5`
      - `mid = (0 + 5) // 2 = 2`
@@ -6805,7 +7085,6 @@ The time complexity of the optimized `searchRange` function is O(log n), where n
 
 The space complexity remains O(1), as it uses a constant amount of extra space to store the `left`, `right`, and `result` variables.
 
-
 **43. Count Occurrences in Sorted Array**
 
 [Count Occurrences in Sorted Array](https://www.geeksforgeeks.org/problems/number-of-occurrence2259/1?utm_source=youtube&utm_medium=collab_striver_ytdescription&utm_campaign=number-of-occurrence)
@@ -6887,6 +7166,7 @@ Let's consider the array `arr = [1, 2, 2, 3, 3, 3, 4]` and the target element `x
 
 1. The `count` function is called with `arr`, `n = 7`, and `x = 3`.
 2. Finding the first occurrence of `x = 3`:
+
    - Iteration 1:
      - `start = 0`, `end = 6`
      - `mid = (0 + 6) // 2 = 3`
@@ -6903,6 +7183,7 @@ Let's consider the array `arr = [1, 2, 2, 3, 3, 3, 4]` and the target element `x
    - The first occurrence of `x = 3` is found at index `3`.
 
 3. Finding the last occurrence of `x = 3`:
+
    - Iteration 1:
      - `start = 0`, `end = 6`
      - `mid = (0 + 6) // 2 = 3`
@@ -7109,6 +7390,7 @@ Let's consider the array `nums = [4, 5, 6, 7, 0, 1, 2]` and the target `target =
 
 1. The `search` function is called with `nums` and `target = 0`.
 2. Iteration 1:
+
    - `low = 0`, `high = 6`
    - `mid = (0 + 6) // 2 = 3`
    - `nums[mid] = 7 != target`
@@ -7116,6 +7398,7 @@ Let's consider the array `nums = [4, 5, 6, 7, 0, 1, 2]` and the target `target =
    - `nums[low] = 4 <= target = 0`, but `target = 0 < nums[mid] = 7`, so `high = mid - 1 = 2`
 
 3. Iteration 2:
+
    - `low = 0`, `high = 2`
    - `mid = (0 + 2) // 2 = 1`
    - `nums[mid] = 5 != target`
@@ -7123,6 +7406,7 @@ Let's consider the array `nums = [4, 5, 6, 7, 0, 1, 2]` and the target `target =
    - `nums[low] = 4 <= target = 0`, but `target = 0 < nums[mid] = 5`, so `high = mid - 1 = 0`
 
 4. Iteration 3:
+
    - `low = 0`, `high = 0`
    - `mid = (0 + 0) // 2 = 0`
    - `nums[mid] = 4 != target`
@@ -7130,6 +7414,7 @@ Let's consider the array `nums = [4, 5, 6, 7, 0, 1, 2]` and the target `target =
    - `nums[low] = 4 > target = 0`, so `low = mid + 1 = 1`
 
 5. Iteration 4:
+
    - `low = 1`, `high = 0`
    - The loop terminates as `low > high`.
 
@@ -7145,7 +7430,7 @@ Java code:
 
 ```java
 class Solution {
-    public int search(int[] nums, int target) 
+    public int search(int[] nums, int target)
     {
         int low = 0;
         int high = nums.length-1;
@@ -7167,7 +7452,7 @@ class Solution {
                     low = mid + 1;
                 }
             }
-            else 
+            else
             {
                 if(nums[mid]<= target && target <= nums[high])
                 {
@@ -7179,7 +7464,7 @@ class Solution {
                 }
             }
         }
-        return -1; 
+        return -1;
     }
 }
 ```
@@ -7247,7 +7532,7 @@ You must decrease the overall operation steps as much as possible.
 
 Example 1:
 
-Input: nums = [2,5,6,0,0,1,2], 
+Input: nums = [2,5,6,0,0,1,2],
 
 target = 0
 
@@ -7255,7 +7540,7 @@ Output: true
 
 Example 2:
 
-Input: nums = [2,5,6,0,0,1,2], 
+Input: nums = [2,5,6,0,0,1,2],
 
 target = 3
 
@@ -7307,6 +7592,7 @@ Let's consider the array `nums = [3, 1, 1, 1, 1, 1, 3]` and the target `target =
 
 1. The `search` function is called with `nums` and `target = 3`.
 2. Iteration 1:
+
    - `low = 0`, `high = 6`
    - `mid = (0 + 6) // 2 = 3`
    - `nums[mid] = 1 != target`
@@ -7314,18 +7600,21 @@ Let's consider the array `nums = [3, 1, 1, 1, 1, 1, 3]` and the target `target =
    - `nums[mid] = 1 < target = 3 <= nums[high] = 3`, so `low = mid + 1 = 4`
 
 3. Iteration 2:
+
    - `low = 4`, `high = 6`
    - `mid = (4 + 6) // 2 = 5`
    - `nums[mid] = 1 != target`
    - `nums[low] = 1 == nums[mid] = 1 == nums[high] = 3`, so `low = low + 1 = 5`, `high = high - 1 = 5`
 
 4. Iteration 3:
+
    - `low = 5`, `high = 5`
    - `mid = (5 + 5) // 2 = 5`
    - `nums[mid] = 1 != target`
    - `nums[low] = 1 == nums[mid] = 1 == nums[high] = 1`, so `low = low + 1 = 6`, `high = high - 1 = 4`
 
 5. Iteration 4:
+
    - `low = 6`, `high = 4`
    - The loop terminates as `low > high`.
 
@@ -7339,7 +7628,7 @@ The space complexity of the `search` function is O(1), as it uses a constant amo
 
 ```java
 class Solution {
-    public boolean search(int[] nums, int target) 
+    public boolean search(int[] nums, int target)
     {
         int low = 0;
         int high = nums.length-1;
@@ -7366,7 +7655,7 @@ class Solution {
                     low = mid + 1;
                 }
             }
-            else 
+            else
             {
                 if(nums[mid]<= target && target <= nums[high])
                 {
@@ -7378,7 +7667,7 @@ class Solution {
                 }
             }
         }
-        return false; 
+        return false;
     }
 }
 ```
@@ -7479,7 +7768,7 @@ Input: nums = [11,13,15,17]
 
 Output: 11
 
-Explanation: The original array was [11,13,15,17] and it was rotated 4 times. 
+Explanation: The original array was [11,13,15,17] and it was rotated 4 times.
 
 The above code is a Java implementation of a solution to find the minimum element in a rotated sorted array. The problem assumes that the input array is a sorted array that has been rotated around a pivot point, and the task is to find the minimum element in the rotated array.
 
@@ -7517,6 +7806,7 @@ Let's consider the array `nums = [4, 5, 6, 7, 0, 1, 2]`.
 
 1. The `findMin` function is called with `nums`.
 2. Iteration 1:
+
    - `low = 0`, `high = 6`
    - `mid = (0 + 6) // 2 = 3`
    - `nums[low] = 4 > nums[high] = 2`, so the array is rotated
@@ -7524,6 +7814,7 @@ Let's consider the array `nums = [4, 5, 6, 7, 0, 1, 2]`.
    - `ans = min(MAX_VALUE, 4) = 4`, `low = mid + 1 = 4`
 
 3. Iteration 2:
+
    - `low = 4`, `high = 6`
    - `mid = (4 + 6) // 2 = 5`
    - `nums[low] = 0 > nums[high] = 2`, so the array is rotated
@@ -7531,6 +7822,7 @@ Let's consider the array `nums = [4, 5, 6, 7, 0, 1, 2]`.
    - `ans = min(4, 0) = 0`, `high = mid - 1 = 4`
 
 4. Iteration 3:
+
    - `low = 4`, `high = 4`
    - `mid = (4 + 4) // 2 = 4`
    - `nums[low] = 0 <= nums[high] = 0`, so the array is not rotated (sorted)
@@ -7548,7 +7840,7 @@ Java code:
 
 ```java
 class Solution {
-    public int findMin(int[] nums) 
+    public int findMin(int[] nums)
     {
         int n = nums.length;
         int high = nums.length - 1;
@@ -7631,9 +7923,9 @@ arr[] = {5, 1, 2, 3, 4}
 
 Output: 1
 
-Explanation: The given array is 5 1 2 3 4. 
-The original sorted array is 1 2 3 4 5. 
-We can see that the array was rotated 
+Explanation: The given array is 5 1 2 3 4.
+The original sorted array is 1 2 3 4 5.
+We can see that the array was rotated
 1 times to the right.
 
 Example 2:
@@ -7679,30 +7971,35 @@ Let's consider the array `arr = [5, 6, 7, 8, 9, 10, 1, 2, 3, 4]`.
 
 1. The `findKRotation` function is called with `arr` and `n = 10`.
 2. Iteration 1:
+
    - `low = 0`, `high = 9`
    - `mid = (0 + 9) // 2 = 4`
    - `arr[mid] = 9 < arr[high] = 4`, so the minimum element lies in the left half or at the middle
    - `high = mid = 4`
 
 3. Iteration 2:
+
    - `low = 0`, `high = 4`
    - `mid = (0 + 4) // 2 = 2`
    - `arr[mid] = 7 < arr[high] = 9`, so the minimum element lies in the left half or at the middle
    - `high = mid = 2`
 
 4. Iteration 3:
+
    - `low = 0`, `high = 2`
    - `mid = (0 + 2) // 2 = 1`
    - `arr[mid] = 6 < arr[high] = 7`, so the minimum element lies in the left half or at the middle
    - `high = mid = 1`
 
 5. Iteration 4:
+
    - `low = 0`, `high = 1`
    - `mid = (0 + 1) // 2 = 0`
    - `arr[mid] = 5 > arr[high] = 6`, so the minimum element lies in the right half
    - `low = mid + 1 = 1`
 
 6. Iteration 5:
+
    - `low = 1`, `high = 1`
    - The loop terminates as `low == high`.
 
@@ -7720,7 +8017,7 @@ Java code:
 
 ```java
 class Solution {
-    int findKRotation(int arr[], int n) 
+    int findKRotation(int arr[], int n)
     {
         int low = 0;
         int high = n - 1;
@@ -7855,6 +8152,7 @@ Let's consider the array `nums = [1, 1, 2, 3, 3, 4, 4, 8, 8]`.
 1. The `singleNonDuplicate` function is called with `nums`.
 2. Since `nums[0] == nums[1]` and `nums[n - 1] == nums[n - 2]`, the function proceeds to the binary search.
 3. Iteration 1:
+
    - `low = 1`, `high = 7`
    - `mid = (1 + 7) // 2 = 4`
    - `nums[mid] = 3 != nums[mid + 1] = 3 and nums[mid] != nums[mid - 1] = 2`, so the single non-duplicate element is not at the middle
@@ -7862,6 +8160,7 @@ Let's consider the array `nums = [1, 1, 2, 3, 3, 4, 4, 8, 8]`.
    - `low = mid + 1 = 5`
 
 4. Iteration 2:
+
    - `low = 5`, `high = 7`
    - `mid = (5 + 7) // 2 = 6`
    - `nums[mid] = 4 != nums[mid + 1] = 8 and nums[mid] != nums[mid - 1] = 4`, so the single non-duplicate element is not at the middle
@@ -7885,34 +8184,34 @@ Java code:
 ```java
 class Solution {
     public int singleNonDuplicate(int[] nums) {
-        
+
     int n = nums.length;
-    
+
     if (n == 1) {
         return nums[0];
     }
-    
-    
+
+
     if (nums[0] != nums[1]) {
         return nums[0];
     }
     if (nums[n - 1] != nums[n - 2]) {
         return nums[n - 1];
     }
-    
+
     int low = 1;
     int high = n - 2;
-    
+
     while (low <= high) {
         int mid = (low + high) / 2;
-        
-        
+
+
         if (nums[mid] != nums[mid + 1] && nums[mid] != nums[mid - 1]) {
             return nums[mid];
         }
-        
-        
-        if ((mid % 2 == 1 && nums[mid] == nums[mid - 1]) || 
+
+
+        if ((mid % 2 == 1 && nums[mid] == nums[mid - 1]) ||
             (mid % 2 == 0 && nums[mid] == nums[mid + 1])) {
             low = mid + 1;
         } else {
@@ -8047,6 +8346,7 @@ Let's consider the array `nums = [1, 2, 3, 1]`.
 1. The `findPeakElement` function is called with `nums`.
 2. Since `n = 4`, `nums[0] = 1 < nums[1] = 2`, and `nums[n - 1] = 1 < nums[n - 2] = 3`, the function proceeds to the binary search.
 3. Iteration 1:
+
    - `low = 1`, `high = 2`
    - `mid = (1 + 2) // 2 = 1`
    - `nums[mid] = 2 < nums[mid + 1] = 3`, so `nums[mid]` is not a peak element
@@ -8071,27 +8371,27 @@ Java code:
 class Solution {
     public int findPeakElement(int[] nums) {
         int n = nums.length;
-        
+
         if (n == 1) return 0;
-        
+
         if (nums[0] > nums[1]) return 0;
-        
+
         if (nums[n-1] > nums[n-2]) return n-1;
-        
+
         int low = 1;
         int high = n - 2;
-        
+
         while (low <= high) {
             int mid = (low + high) / 2;
-            
+
             if (nums[mid] > nums[mid - 1] && nums[mid] > nums[mid + 1]) {
                 return mid;
             }
-        
+
             else if (nums[mid] > nums[mid - 1]) {
                 low = mid + 1;
             }
-          
+
             else {
                 high = mid - 1;
             }
@@ -8165,7 +8465,7 @@ x = 5
 
 Output: 2
 
-Explanation: Since, 5 is not a perfect 
+Explanation: Since, 5 is not a perfect
 square, floor of square_root of 5 is 2.
 
 Example 2:
@@ -8176,7 +8476,7 @@ x = 4
 
 Output: 2
 
-Explanation: Since, 4 is a perfect 
+Explanation: Since, 4 is a perfect
 square, so its square root is 2.
 
 Pseudo-code:
@@ -8211,24 +8511,28 @@ Let's consider `x = 15`.
 
 1. The `floorSqrt` function is called with `x = 15`.
 2. Iteration 1:
+
    - `low = 1`, `high = 15`
    - `mid = (1 + 15) // 2 = 8`
    - `midSquare = 8 * 8 = 64 > 15`, so the square root is in the left half
    - `high = mid - 1 = 7`
 
 3. Iteration 2:
+
    - `low = 1`, `high = 7`
    - `mid = (1 + 7) // 2 = 4`
    - `midSquare = 4 * 4 = 16 < 15`, so the square root is in the right half
    - `low = mid + 1 = 5`, `result = mid = 4`
 
 4. Iteration 3:
+
    - `low = 5`, `high = 7`
    - `mid = (5 + 7) // 2 = 6`
    - `midSquare = 6 * 6 = 36 > 15`, so the square root is in the left half
    - `high = mid - 1 = 5`
 
 5. Iteration 4:
+
    - `low = 5`, `high = 5`
    - `mid = (5 + 5) // 2 = 5`
    - `midSquare = 5 * 5 = 25 < 15`, so the square root is in the right half
@@ -8252,7 +8556,7 @@ long floorSqrt(long x) {
         }
 
         long low = 1, high = x, result = 0;
-        
+
         while (low <= high) {
             long mid = (low + high) / 2;
             long midSquare = mid * mid;
@@ -8386,6 +8690,7 @@ Let's consider finding the 3rd root of 27, i.e., `n = 3` and `m = 27`.
 1. The `NthRoot` function is called with `n = 3` and `m = 27`.
 2. Since `m != 1`, the function proceeds to the binary search.
 3. Iteration 1:
+
    - `low = 1`, `high = 27`
    - `mid = (1 + 27) // 2 = 14`
    - `midPower = Power(14, 3) = 2744`
@@ -8393,6 +8698,7 @@ Let's consider finding the 3rd root of 27, i.e., `n = 3` and `m = 27`.
    - `high = mid - 1 = 13`
 
 4. Iteration 2:
+
    - `low = 1`, `high = 13`
    - `mid = (1 + 13) // 2 = 7`
    - `midPower = Power(7, 3) = 343`
@@ -8408,7 +8714,7 @@ Let's consider finding the 3rd root of 27, i.e., `n = 3` and `m = 27`.
 The `Power` function is used to calculate the power `base^exp` in an efficient way using the repeated squaring method. It iteratively multiplies the `base` by itself and halves the `exp` until the `exp` becomes 0. The time complexity of the `Power` function is O(log exp).
 
 Time Complexity:
-The time complexity of the `NthRoot` function is O(log m * log n), where m is the input value, and n is the desired root. This is because it uses a binary search, which has a time complexity of O(log m), and in each iteration, it calls the `Power` function, which has a time complexity of O(log n).
+The time complexity of the `NthRoot` function is O(log m \* log n), where m is the input value, and n is the desired root. This is because it uses a binary search, which has a time complexity of O(log m), and in each iteration, it calls the `Power` function, which has a time complexity of O(log n).
 
 Space Complexity:
 The space complexity of the `NthRoot` function is O(1), as it uses a constant amount of extra space to store the `low`, `high`, `mid`, and `midPower` variables, regardless of the input values.
@@ -8417,7 +8723,7 @@ Java Code:
 
 ```java
 class Solution {
-   
+
 static long power(int base, int exp) {
         long result = 1;
         for (int i = 1; i<=exp; i++) {
@@ -8427,7 +8733,7 @@ static long power(int base, int exp) {
         }
         return result;
     }
-    
+
     public int NthRoot(int n, int m)
     {
         // code here
@@ -8509,7 +8815,7 @@ In the optimized code, the `Power` function uses the `BigInteger` class to perfo
 
 By using `BigInteger`, the code can handle larger values without the risk of overflow. However, the trade-off is an increased memory usage and potentially slower performance for smaller values, as `BigInteger` operations are generally slower than primitive integer operations.
 
-The time complexity of the optimized `NthRoot` function remains O(log m * log n), where m is the input value, and n is the desired root. The space complexity is increased to O(log m), as the `BigInteger` class uses an internal array to store the digits of the number, which grows logarithmically with the size of the input value.
+The time complexity of the optimized `NthRoot` function remains O(log m \* log n), where m is the input value, and n is the desired root. The space complexity is increased to O(log m), as the `BigInteger` class uses an internal array to store the digits of the number, which grows logarithmically with the size of the input value.
 
 **52. Koko Eating Bananas**
 
@@ -8569,9 +8875,10 @@ function findAns(piles, speed):
 ```
 
 **Time Complexity:**
+
 - The `minEatingSpeed` function uses binary search, which has a time complexity of O(log n), where n is the maximum value in the `piles` array.
 - The `findAns` function iterates over the `piles` array once, giving it a time complexity of O(n), where n is the length of the `piles` array.
-- Overall, the time complexity of the entire solution is O(n * log m), where n is the length of the `piles` array, and m is the maximum value in the `piles` array.
+- Overall, the time complexity of the entire solution is O(n \* log m), where n is the length of the `piles` array, and m is the maximum value in the `piles` array.
 
 **Space Complexity:**
 The space complexity is O(1) since the solution uses only a few constant-size variables and does not allocate any additional data structures that grow with the input size.
@@ -8582,10 +8889,12 @@ Let's consider the input `piles = [3, 6, 7, 11]` and `h = 8`.
 Initially, `max_pile_size` is set to 11 (the maximum value in the `piles` array).
 
 In the binary search phase:
+
 - `left` is initialized to 1 (minimum possible eating speed)
 - `right` is initialized to 11 (maximum possible eating speed)
 
 The binary search iterations are as follows:
+
 1. `mid = (1 + 11) // 2 = 6`
 2. `findAns(piles, 6)` returns 4 (ceil(3/6) + ceil(6/6) + ceil(7/6) + ceil(11/6) = 1 + 1 + 2 + 2 = 4)
 3. Since `4 <= 8` (hours needed is less than or equal to the given constraint), the search continues in the left half, and `right` is updated to `mid - 1 = 5`.
@@ -8664,16 +8973,15 @@ The garden consists of n flowers, the ith flower will bloom in the bloomDay[i] a
 
 Return the minimum number of days you need to wait to be able to make m bouquets from the garden. If it is impossible to make m bouquets return -1.
 
-
 Example 1:
 
 Input: bloomDay = [1,10,3,10,2], m = 3, k = 1
 Output: 3
 Explanation: Let us see what happened in the first three days. x means flower bloomed and _ means flower did not bloom in the garden.
 We need 3 bouquets each should contain 1 flower.
-After day 1: [x, _, _, _, _]   // we can only make one bouquet.
-After day 2: [x, _, _, _, x]   // we can only make two bouquets.
-After day 3: [x, _, x, _, x]   // we can make 3 bouquets. The answer is 3.
+After day 1: [x, _, _, _, _] // we can only make one bouquet.
+After day 2: [x, _, _, _, x] // we can only make two bouquets.
+After day 3: [x, _, x, _, x] // we can make 3 bouquets. The answer is 3.
 Example 2:
 
 Input: bloomDay = [1,10,3,10,2], m = 3, k = 2
@@ -8739,6 +9047,7 @@ function bouquets(bloomDay, day, k):
 ```
 
 **Time Complexity:**
+
 - The `minDays` function uses binary search, which has a time complexity of O(n log n), where n is the length of the `bloomDay` array, due to the sorting operation.
 - The `bouquets` function iterates over the `bloomDay` array once, giving it a time complexity of O(n), where n is the length of the `bloomDay` array.
 - Overall, the time complexity of the entire solution is O(n log n), where n is the length of the `bloomDay` array.
@@ -8752,10 +9061,12 @@ Let's consider the input `bloomDay = [1, 10, 3, 10, 2]`, `m = 3`, and `k = 2`.
 Initially, a sorted copy of `bloomDay` is created: `copy = [1, 2, 3, 10, 10]`.
 
 In the binary search phase:
+
 - `left` is initialized to 0 (minimum possible day)
 - `right` is initialized to 4 (index of the last element in the sorted copy)
 
 The binary search iterations are as follows:
+
 1. `mid = (0 + 4) // 2 = 2`
 2. `bouquets(bloomDay, copy[2], 2)` returns 2 (count for day 3: [1, 2, 3], [10, 10] = 2 bouquets)
 3. Since `2 < 3` (not enough bouquets formed), the search continues in the right half, and `left` is updated to `mid + 1 = 3`.
@@ -8789,7 +9100,7 @@ class Solution {
         return copy[l];
 
     }
-    
+
     public int bouquets(int[] bloomDay,int day,int k){
         int count=0;
         int noOfbouquets=0;
@@ -8874,14 +9185,14 @@ The test cases are generated so that there will be an answer.
 
 Example 1:
 
-Input: nums = [1,2,5,9], 
+Input: nums = [1,2,5,9],
 
 threshold = 6
 Output: 5
 
-Explanation: We can get a sum to 17 (1+2+5+9) if the divisor is 1. 
+Explanation: We can get a sum to 17 (1+2+5+9) if the divisor is 1.
 
-If the divisor is 4 we can get a sum of 7 (1+1+2+3) and if the divisor is 5 the sum will be 5 (1+1+1+2). 
+If the divisor is 4 we can get a sum of 7 (1+1+2+3) and if the divisor is 5 the sum will be 5 (1+1+1+2).
 
 Example 2:
 
@@ -8921,6 +9232,7 @@ function check(mid, nums, threshold):
 ```
 
 **Time Complexity:**
+
 - The `smallestDivisor` function uses binary search, which has a time complexity of O(n log m), where n is the length of the `nums` array, and m is the maximum value in the `nums` array.
 - Inside the binary search loop, the `check` function iterates over the `nums` array once, giving it a time complexity of O(n), where n is the length of the `nums` array.
 - Overall, the time complexity of the entire solution is O(n log m), where n is the length of the `nums` array, and m is the maximum value in the `nums` array.
@@ -8934,10 +9246,12 @@ Let's consider the input `nums = [1, 2, 3, 4, 5, 6]` and `threshold = 3`.
 Initially, the `nums` array is sorted: `nums = [1, 2, 3, 4, 5, 6]`.
 
 In the binary search phase:
+
 - `left` is initialized to 1 (minimum possible divisor)
 - `right` is initialized to 6 (maximum value in the `nums` array)
 
 The binary search iterations are as follows:
+
 1. `mid = (1 + 6) // 2 = 3`
 2. `check(3, nums, 3)` returns `true` because the sum of quotients `ceil(1/3) + ceil(2/3) + ceil(3/3) + ceil(4/3) + ceil(5/3) + ceil(6/3) = 1 + 1 + 1 + 2 + 2 + 2 = 9 <= 3`.
 3. Since the condition is met, the search continues in the left half, and `right` is updated to `mid - 1 = 2`.
@@ -9034,7 +9348,6 @@ The ith package on the conveyor belt has a weight of weights[i]. Each day, we lo
 
 Return the least weight capacity of the ship that will result in all the packages on the conveyor belt being shipped within days days.
 
-
 Example 1:
 
 Input: weights = [1,2,3,4,5,6,7,8,9,10],
@@ -9059,10 +9372,9 @@ Note that the cargo must be shipped in the order given, so using a ship of capac
 
 Example 2:
 
-Input: weights = [3,2,2,4,1,4], 
+Input: weights = [3,2,2,4,1,4],
 
 days = 3
-
 
 Output: 6
 
@@ -9090,11 +9402,10 @@ Explanation:
 3rd day: 3
 
 4th day: 1,1
- 
 
 Constraints:
 
-1 <= days <= weights.length <= 5 * 104
+1 <= days <= weights.length <= 5 \* 104
 
 1 <= weights[i] <= 500
 
@@ -9137,6 +9448,7 @@ function findDays(weights, weight_capacity):
 ```
 
 **Time Complexity:**
+
 - The `shipWithinDays` function uses binary search, which has a time complexity of O(n log m), where n is the length of the `weights` array, and m is the sum of all weights in the `weights` array.
 - Inside the binary search loop, the `findDays` function iterates over the `weights` array once, giving it a time complexity of O(n), where n is the length of the `weights` array.
 - Overall, the time complexity of the entire solution is O(n log m), where n is the length of the `weights` array, and m is the sum of all weights in the `weights` array.
@@ -9150,10 +9462,12 @@ Let's consider the input `weights = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]` and `days =
 Initially, `sum` is calculated as 55 (the sum of all weights), and `max_weight` is 10 (the maximum weight).
 
 In the binary search phase:
+
 - `left` is initialized to 10 (maximum weight in the `weights` array)
 - `right` is initialized to 55 (the sum of all weights)
 
 The binary search iterations are as follows:
+
 1. `mid = (10 + 55) // 2 = 32`
 2. `findDays(weights, 32)` returns 3 (days needed to ship all packages with a weight capacity of 32)
 3. Since `3 <= 5` (days needed is within the given constraint), the search continues in the left half, and `right` is updated to `mid - 1 = 31`.
@@ -9318,6 +9632,7 @@ Let's consider the input `arr = [2, 3, 4, 7, 11]` and `k = 5`.
 Initially, `left` is set to 0, and `right` is set to 4 (the last index of `arr`).
 
 The binary search iterations are as follows:
+
 1. `mid = (0 + 4) // 2 = 2`
 2. `missing_count = arr[2] - (2 + 1) = 4 - 3 = 1`
 3. Since `missing_count = 1 < k = 5`, the search continues in the right half, and `left` is updated to `mid + 1 = 3`.
@@ -9335,7 +9650,7 @@ Java Code:
 
 ```java
 class Solution {
-    public int findKthPositive(int[] arr, int k) 
+    public int findKthPositive(int[] arr, int k)
     {
         int low = 0;
         int high = arr.length-1;
