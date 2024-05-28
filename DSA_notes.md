@@ -149,7 +149,7 @@ In this optimized version, the following changes have been made:
 
 The time complexity and space complexity remain the same as the original implementation.
 
-**Reverse Integer**
+**2. Reverse Integer**
 
 [Reversed Integer](https://leetcode.com/problems/reverse-integer/description/)
 
@@ -276,6 +276,692 @@ In this optimized version, the following changes have been made:
 4. After the reversal process, if `isNegative` is true, the function returns `-reversed` to handle negative numbers correctly.
 
 The time complexity and space complexity remain the same as the original implementation.
+
+**3. Palindrome**
+
+[Palindrome](https://leetcode.com/problems/palindrome-number/description/)
+
+Given an integer x, return true if x is a 
+palindrome, and false otherwise.
+
+
+Example 1:
+
+Input: x = 121
+
+Output: true
+
+Explanation: 121 reads as 121 from left to right and from right to left.
+
+Example 2:
+
+Input: x = -121
+
+Output: false
+
+Explanation: From left to right, it reads -121. From right to left, it becomes 121-. Therefore it is not a palindrome.
+
+Example 3:
+
+Input: x = 10
+
+Output: false
+
+Explanation: Reads 01 from right to left. Therefore it is not a palindrome.
+
+The provided code is a Java implementation to determine whether an integer `x` is a palindrome or not.
+
+Here's the pseudocode with an explanation:
+
+```
+function isPalindrome(x):
+    reversed = 0  # Initialize the reversed number to 0
+    original = x  # Store the original value of x
+
+    while x > 0:
+        last_digit = x % 10  # Get the last digit of x
+        reversed = reversed * 10 + last_digit  # Construct the reversed number
+        x = x // 10  # Remove the last digit from x
+
+    if reversed == original:
+        return true  # x is a palindrome
+    else:
+        return false  # x is not a palindrome
+```
+
+**Time Complexity:**
+The time complexity of this solution is O(log n), where n is the absolute value of the input integer `x`. This is because the algorithm iterates over the digits of the number, and the number of digits in an integer is proportional to log n (base 10).
+
+**Space Complexity:**
+The space complexity is O(1) since the solution uses only a few constant-size variables and does not allocate any additional data structures that grow with the input size.
+
+```java
+class Solution {
+    public boolean isPalindrome(int x) 
+    {
+        int reversed = 0;
+        int original = x;
+        while (x > 0)
+        {
+            int lastDigit = x%10;
+            reversed = (reversed*10) + lastDigit;
+            x = x/10;
+        }
+        if (reversed == original) return true;
+        else return false;
+    }
+}
+```
+
+**Example Explanation:**
+
+Let's consider the input `x = 12321`.
+
+The iterations are as follows:
+1. `reversed = 0`, `original = 12321`, `x = 12321`
+2. `last_digit = 12321 % 10 = 1`
+   - `reversed = 0 * 10 + 1 = 1`, `x = 12321 // 10 = 1232`
+3. `last_digit = 1232 % 10 = 2`
+   - `reversed = 1 * 10 + 2 = 12`, `x = 1232 // 10 = 123`
+4. `last_digit = 123 % 10 = 3`
+   - `reversed = 12 * 10 + 3 = 123`, `x = 123 // 10 = 12`
+5. `last_digit = 12 % 10 = 2`
+   - `reversed = 123 * 10 + 2 = 1232`, `x = 12 // 10 = 1`
+6. `last_digit = 1 % 10 = 1`
+   - `reversed = 1232 * 10 + 1 = 12321`, `x = 1 // 10 = 0`
+7. `x = 0`, so the loop terminates.
+8. Since `reversed = 12321 == original = 12321`, the function returns `true`, indicating that the input `x` is a palindrome.
+
+**Optimizations:**
+The provided code is already optimized for both time and space complexity. However, there is a potential optimization that can be made to the code to handle negative numbers and numbers ending with 0 more efficiently.
+
+Here's an optimized version of the code:
+
+```java
+class Solution {
+    public boolean isPalindrome(int x) {
+        // Check for negative numbers and numbers ending with 0 (except 0 itself)
+        if (x < 0 || (x % 10 == 0 && x != 0)) {
+            return false;
+        }
+
+        int reversed = 0;
+
+        while (x > reversed) {
+            reversed = reversed * 10 + x % 10;
+            x = x / 10;
+        }
+
+        // When the length is an odd number, we need to remove the middle digit from the reversed number
+        return x == reversed || x == reversed / 10;
+    }
+}
+```
+
+In this optimized version, the following changes have been made:
+
+1. The function first checks if `x` is negative or if it ends with 0 (except for 0 itself) using `if (x < 0 || (x % 10 == 0 && x != 0))`. If this condition is true, the function returns `false` since negative numbers and numbers ending with 0 (except 0 itself) are not palindromes.
+2. The reversal process is performed until `x` becomes less than or equal to `reversed`. This is because once `x` becomes smaller than `reversed`, the remaining digits of `x` have already been processed.
+3. After the reversal process, the function checks if `x` is equal to `reversed` or if `x` is equal to `reversed / 10`. The latter condition is necessary to handle cases where the length of the original number is odd, and the middle digit needs to be removed from the reversed number.
+
+The time complexity remains O(log n), where n is the absolute value of the input integer `x`. The space complexity remains O(1).
+
+This optimized version handles negative numbers and numbers ending with 0 (except 0 itself) more efficiently and also takes care of the case where the length of the original number is odd.
+
+**4. LCM and GCD**
+
+Given two numbers A and B. The task is to find out their LCM and GCD.
+
+ 
+Example 1:
+
+Input:
+A = 5 , B = 10
+
+Output:
+10 5
+
+Explanation:
+LCM of 5 and 10 is 10, while
+thier GCD is 5.
+
+Example 2:
+
+Input:
+A = 14 , B = 8
+
+Output:
+56 2
+
+Explanation:
+LCM of 14 and 8 is 56, while
+thier GCD is 2.
+
+The provided code is a Java implementation of a function `lcmAndGcd` that takes two long integers `A` and `B` as input and returns an array containing the least common multiple (LCM) and the greatest common divisor (GCD) of `A` and `B`.
+
+Here's the pseudocode with an explanation:
+
+```
+function lcmAndGcd(A, B):
+    gcd = 1  # Initialize the GCD to 1
+    a = A  # Store a copy of A
+    b = B  # Store a copy of B
+
+    while b != 0:
+        temp = b  # Store the current value of b
+        b = a % b  # Update b to the remainder of a divided by b
+        a = temp  # Update a to the previous value of b
+
+    gcd = a  # The final value of a is the GCD
+
+    lcm = (A * B) / gcd  # Calculate the LCM using the formula: LCM(A, B) = (A * B) / GCD(A, B)
+
+    sol = [lcm, gcd]  # Create an array containing the LCM and GCD
+    return sol
+```
+
+**Time Complexity:**
+The time complexity of this solution is O(log(min(A, B))), which is the time complexity of the Euclidean algorithm used to calculate the GCD. The Euclidean algorithm is based on the principle that if `a` and `b` are two non-zero integers, then `gcd(a, b) = gcd(b, a % b)`. By repeatedly applying this principle, the algorithm converges to the GCD.
+
+**Space Complexity:**
+The space complexity is O(1) since the solution uses only a few constant-size variables and does not allocate any additional data structures that grow with the input size.
+
+Java Code:
+
+```java
+class Solution {
+    static Long[] lcmAndGcd(Long A , Long B) 
+    {
+        long gcd = 1;
+        long a = A;
+        long b = B;
+        while(b!=0)
+        {
+            long temp = b;
+            b = a % b;
+            a = temp;
+        }
+        
+        gcd = a;
+        long lcm = (A*B)/gcd;
+        
+        Long[] sol = {lcm,gcd};
+        return sol;
+    }
+};
+```
+
+**Example Explanation:**
+
+Let's consider the input `A = 12` and `B = 18`.
+
+The iterations are as follows:
+1. `gcd = 1`, `a = 12`, `b = 18`
+2. `temp = 18`, `b = 12 % 18 = 12`, `a = 18`
+3. `temp = 12`, `b = 18 % 12 = 6`, `a = 12`
+4. `temp = 6`, `b = 12 % 6 = 0`, `a = 6`
+5. `b = 0`, so the loop terminates.
+6. `gcd = a = 6`
+7. `lcm = (12 * 18) / 6 = 36`
+8. `sol = [36, 6]`
+
+The function returns `sol = [36, 6]`, where 36 is the LCM of 12 and 18, and 6 is their GCD.
+
+**Optimizations:**
+The provided code is already optimized for both time and space complexity. However, there is a potential optimization that can be made to the code to handle edge cases more gracefully.
+
+Here's an optimized version of the code:
+
+```java
+class Solution {
+    static Long[] lcmAndGcd(Long A, Long B) {
+        if (A == 0 && B == 0) {
+            return new Long[]{0L, 0L};  // Handle the case when both A and B are 0
+        }
+
+        long a = Math.abs(A);
+        long b = Math.abs(B);
+        long gcd = gcd(a, b);
+        long lcm = (a * b) / gcd;
+
+        return new Long[]{lcm, gcd};
+    }
+
+    static long gcd(long a, long b) {
+        while (b != 0) {
+            long temp = b;
+            b = a % b;
+            a = temp;
+        }
+        return a;
+    }
+}
+```
+
+In this optimized version, the following changes have been made:
+
+1. The function first checks if both `A` and `B` are 0. If both are 0, it returns an array containing `[0L, 0L]` since the GCD and LCM of 0 and 0 are both 0.
+2. The function uses `Math.abs(A)` and `Math.abs(B)` to handle negative numbers. This ensures that the algorithm works correctly for both positive and negative input values.
+3. The GCD calculation is moved to a separate function `gcd(a, b)` for better code readability and reusability.
+
+The time complexity and space complexity remain the same as the original implementation.
+
+**5. Armstrong Numbers**
+
+For a given 3 digit number, find whether it is armstrong number or not. An Armstrong number of three digits is a number such that the sum of the cubes of its digits is equal to the number itself. Return "Yes" if it is a armstrong number else return "No".
+
+NOTE: 371 is an Armstrong number since 33 + 73 + 13 = 371
+
+Example 1:
+
+Input: N = 153
+
+Output: "Yes"
+
+Explanation: 153 is an Armstrong number
+since 13 + 53 + 33 = 153.
+
+Hence answer is "Yes".
+
+Example 2:
+
+Input: N = 372
+
+Output: "No"
+
+Explanation: 372 is not an Armstrong number
+since 33 + 73 + 23 = 378.
+
+Hence answer is "No".
+
+The provided code is a Java implementation of a function `armstrongNumber` that takes an integer `n` as input and determines whether it is an Armstrong number or not.
+
+Here's the pseudocode with an explanation:
+
+```
+function armstrongNumber(n):
+    original = n  # Store the original value of n
+    armstrong_num = 0  # Initialize the Armstrong number to 0
+
+    while n != 0:
+        last_digit = n % 10  # Get the last digit of n
+        armstrong_num += last_digit^3  # Add the cube of the last digit to armstrong_num
+        n = n // 10  # Remove the last digit from n
+
+    if armstrong_num == original:
+        return "Yes"  # n is an Armstrong number
+    else:
+        return "No"  # n is not an Armstrong number
+```
+
+**Time Complexity:**
+The time complexity of this solution is O(log n), where n is the input number. This is because the algorithm iterates over the digits of the number, and the number of digits in an integer is proportional to log n (base 10).
+
+**Space Complexity:**
+The space complexity is O(1) since the solution uses only a few constant-size variables and does not allocate any additional data structures that grow with the input size.
+
+Java Code:
+
+```java
+class Solution {
+static String armstrongNumber(int n)
+{
+double original = n;
+double armstrongNum = 0;
+while (n != 0)
+{
+double lastDigit = n%10;
+armstrongNum = armstrongNum + (Math.pow(lastDigit, 3));
+n = n/10;
+}
+if (armstrongNum == original) return "Yes";
+else return "No";
+}
+}
+```
+
+**Example Explanation:**
+Let's consider the input `n = 153`.
+
+The iterations are as follows:
+1. `original = 153`, `armstrong_num = 0`, `n = 153`
+2. `last_digit = 153 % 10 = 3`
+   - `armstrong_num = 0 + 3^3 = 0 + 27 = 27`, `n = 153 // 10 = 15`
+3. `last_digit = 15 % 10 = 5`
+   - `armstrong_num = 27 + 5^3 = 27 + 125 = 152`, `n = 15 // 10 = 1`
+4. `last_digit = 1 % 10 = 1`
+   - `armstrong_num = 152 + 1^3 = 152 + 1 = 153`, `n = 1 // 10 = 0`
+5. `n = 0`, so the loop terminates.
+6. Since `armstrong_num = 153 == original = 153`, the function returns `"Yes"`, indicating that the input `n` is an Armstrong number.
+
+**Optimizations:**
+The provided code is already optimized for both time and space complexity. However, there are a few potential optimizations that can be made to the code:
+
+1. **Use integer operations instead of double/float operations:** Since the input is an integer, it's more efficient to use integer operations instead of double or float operations. This can be achieved by using `Math.pow(int, int)` instead of `Math.pow(double, double)`.
+
+2. **Early termination:** If the `armstrong_num` becomes greater than the `original` number during the iterations, there's no need to continue the loop since the condition `armstrong_num == original` can never be true. The loop can be terminated early in such cases.
+
+3. **Avoid redundant calculations:** Instead of calculating the cube of each digit repeatedly, the cubes of digits from 0 to 9 can be pre-calculated and stored in an array or a map for efficient access.
+
+Here's an optimized version of the code incorporating these optimizations:
+
+```java
+class Solution {
+    static String armstrongNumber(int n) {
+        int original = n;
+        int armstrong_num = 0;
+        int[] cubes = new int[10];  // Array to store cubes of digits from 0 to 9
+
+        // Pre-calculate cubes of digits from 0 to 9
+        for (int i = 0; i < 10; i++) {
+            cubes[i] = i * i * i;
+        }
+
+        while (n != 0) {
+            int last_digit = n % 10;
+            armstrong_num += cubes[last_digit];  // Use the pre-calculated cube
+
+            // Early termination if armstrong_num becomes greater than original
+            if (armstrong_num > original) {
+                return "No";
+            }
+
+            n = n / 10;
+        }
+
+        return armstrong_num == original ? "Yes" : "No";
+    }
+}
+```
+
+In this optimized version:
+
+- Integer operations are used instead of double/float operations.
+- An array `cubes` is used to store the pre-calculated cubes of digits from 0 to 9.
+- The loop is terminated early if `armstrong_num` becomes greater than `original`.
+- The final result is returned using a ternary operator for better readability.
+
+The time complexity remains O(log n), where n is the input number, and the space complexity is now O(1) since the size of the `cubes` array is constant (10 elements).
+
+**6. Sum of all divisors from 1 to n**
+
+[Sum of all divisors from 1 to n](https://www.geeksforgeeks.org/problems/sum-of-all-divisors-from-1-to-n4738/1)
+
+Given a positive integer N., The task is to find the value of Σi from 1 to N F(i) where function F(i) for the number i is defined as the sum of all divisors of i.
+
+Example 1:
+
+Input:
+N = 4
+
+Output:
+15
+
+Explanation:
+F(1) = 1
+
+F(2) = 1 + 2 = 3
+
+F(3) = 1 + 3 = 4
+
+F(4) = 1 + 2 + 4 = 7
+
+ans = F(1) + F(2) + F(3) + F(4)
+    = 1 + 3 + 4 + 7
+    = 15
+
+Example 2:
+
+Input:
+N = 5
+
+Output:
+21
+
+Explanation:
+
+F(1) = 1
+
+F(2) = 1 + 2 = 3
+
+F(3) = 1 + 3 = 4
+
+F(4) = 1 + 2 + 4 = 7
+
+F(5) = 1 + 5 = 6
+
+ans = F(1) + F(2) + F(3) + F(4) + F(5)
+    = 1 + 3 + 4 + 7 + 6
+    = 21
+
+The provided code is a Java implementation of a function `sumOfDivisors` that takes an integer `N` as input and calculates the sum of all divisors of `N`.
+
+Here's the pseudocode with an explanation:
+
+```
+function sumOfDivisors(N):
+    sum = 0  # Initialize the sum to 0
+
+    for i from 1 to N:
+        sum += (N / i) * i  # Add the product of (N / i) and i to the sum
+
+    return sum
+```
+
+**Time Complexity:**
+The time complexity of this solution is O(N), where N is the input number. This is because the algorithm iterates from 1 to N, performing a constant-time operation (addition) in each iteration.
+
+**Space Complexity:**
+The space complexity is O(1) since the solution uses only a few constant-size variables and does not allocate any additional data structures that grow with the input size.
+
+Java Code:
+
+```java
+class Solution{
+    static long sumOfDivisors(int N)
+    {
+        long sum = 0;
+        for(int i=1 ; i<=N; i++)
+        {
+            sum = (sum + (N/i)*i);
+        }
+        return sum;
+    }
+}
+```
+
+**Example Explanation:**
+Let's consider the input `N = 6`.
+
+The iterations are as follows:
+1. `sum = 0`, `i = 1`
+   - `sum = 0 + (6 / 1) * 1 = 0 + 6 = 6`
+2. `i = 2`
+   - `sum = 6 + (6 / 2) * 2 = 6 + 6 = 12`
+3. `i = 3`
+   - `sum = 12 + (6 / 3) * 3 = 12 + 6 = 18`
+4. `i = 4`
+   - `sum = 18 + (6 / 4) * 4 = 18 + 6 = 24`
+5. `i = 5`
+   - `sum = 24 + (6 / 5) * 5 = 24 + 6 = 30`
+6. `i = 6`
+   - `sum = 30 + (6 / 6) * 6 = 30 + 6 = 36`
+
+The function returns `sum = 36`, which is the sum of all divisors of 6 (1, 2, 3, 6).
+
+**Optimizations:**
+The provided code can be optimized to reduce the time complexity from O(N) to O(sqrt(N)). This optimization is based on the observation that for any divisor `i` of `N`, there exists a corresponding divisor `N/i` (except when `i` is the square root of `N`). Therefore, we only need to iterate until the square root of `N` and calculate the sum of divisors and their corresponding divisors.
+
+Here's an optimized version of the code:
+
+```java
+class Solution {
+    static long sumOfDivisors(int N) {
+        long sum = 0;
+        int sqrt = (int) Math.sqrt(N);
+
+        for (int i = 1; i <= sqrt; i++) {
+            if (N % i == 0) {
+                sum += i;
+                if (i != N / i) {
+                    sum += N / i;
+                }
+            }
+        }
+
+        return sum;
+    }
+}
+```
+
+In this optimized version:
+
+- The loop iterates from 1 to the square root of `N` (`sqrt`).
+- For each `i` that divides `N`, the sum is incremented by `i` and `N/i` (if `i` is not the square root of `N`).
+- If `i` is the square root of `N`, the sum is incremented by `i` only once to avoid double-counting.
+
+The time complexity of this optimized solution is O(sqrt(N)), and the space complexity remains O(1).
+
+This optimization significantly improves the performance for large values of `N`, as the number of iterations is reduced from `N` to approximately `sqrt(N)`.
+
+
+**7. Prime number**
+
+[Prime Number](https://www.geeksforgeeks.org/problems/prime-number2314/1)
+
+For a given number N check if it is prime or not. A prime number is a number which is only divisible by 1 and itself.
+ 
+
+Example 1:
+
+Input:
+N = 5
+
+Output:
+1
+
+Explanation:
+5 has 2 factors 1 and 5 only.
+
+Example 2:
+
+Input:
+N = 25
+
+Output:
+0
+
+Explanation:
+25 has 3 factors 1, 5, 25
+
+The provided code is a Java implementation of a function `isPrime` that takes an integer `N` as input and determines whether it is a prime number or not.
+
+Here's the pseudocode with an explanation:
+
+```
+function isPrime(N):
+    if N == 1:
+        return 0  # 1 is not considered a prime number
+
+    n = sqrt(N)  # Calculate the square root of N (for optimization)
+
+    for i from 2 to n:
+        if N % i == 0:
+            return 0  # N is divisible by i, hence not prime
+
+    return 1  # N is prime
+```
+
+**Time Complexity:**
+The time complexity of this solution is O(sqrt(N)). This is because the algorithm only needs to check for divisors up to the square root of `N`. Any factor greater than the square root of `N` would have a corresponding factor less than the square root, which has already been checked.
+
+**Space Complexity:**
+The space complexity is O(1) since the solution uses only a few constant-size variables and does not allocate any additional data structures that grow with the input size.
+
+Java Code:
+
+```java
+class Solution{
+    static int isPrime(int N){
+        if(N==1){
+            return 0;
+        }
+        int n=(int)Math.sqrt(N);
+        for(int i=2;i<=n;i++){
+            if(N%i==0){
+                return 0;
+            }
+        }
+        return 1;
+    }
+}
+```
+
+**Example Explanation:**
+Let's consider the input `N = 17`.
+
+The iterations are as follows:
+1. `N = 17` is not equal to 1, so the execution continues.
+2. `n = sqrt(17) = 4.12` (the integer part is 4).
+3. `i = 2`
+   - `17 % 2 != 0`, so the loop continues.
+4. `i = 3`
+   - `17 % 3 != 0`, so the loop continues.
+5. `i = 4`
+   - `17 % 4 != 0`, so the loop continues.
+6. `i > n = 4`, so the loop terminates.
+
+Since the loop completed without finding any divisor of `N`, the function returns `1`, indicating that `N = 17` is a prime number.
+
+**Optimizations:**
+The provided code is already optimized in terms of time complexity by checking for divisors only up to the square root of `N`. However, there are a few potential optimizations that can be made to the code:
+
+1. **Avoid redundant calculations:** Instead of calculating the square root of `N` inside the function, it can be calculated once and passed as an argument to the function.
+
+2. **Early termination:** If `N` is even and greater than 2, the loop can be terminated early since even numbers (except 2) are not prime.
+
+3. **Avoid checking for divisibility by 1:** Since 1 divides all numbers, there's no need to check for divisibility by 1.
+
+Here's an optimized version of the code incorporating these optimizations:
+
+```java
+class Solution {
+    static int isPrime(int N, int sqrt) {
+        if (N == 1) {
+            return 0;  // 1 is not considered a prime number
+        }
+
+        if (N == 2 || N == 3) {
+            return 1;  // 2 and 3 are prime numbers
+        }
+
+        if (N % 2 == 0 || N % 3 == 0) {
+            return 0;  // N is divisible by 2 or 3, hence not prime
+        }
+
+        for (int i = 5; i <= sqrt; i += 6) {
+            if (N % i == 0 || N % (i + 2) == 0) {
+                return 0;  // N is divisible by i or (i + 2), hence not prime
+            }
+        }
+
+        return 1;  // N is prime
+    }
+}
+```
+
+In this optimized version:
+
+- The square root of `N` is calculated outside the function and passed as an argument (`sqrt`).
+- The function first checks for the base cases of `N` being 1, 2, or 3.
+- The function then checks if `N` is divisible by 2 or 3 and returns early if it is.
+- The loop starts from 5 and increments by 6 (since all primes greater than 3 are of the form 6k ± 1).
+- The loop checks for divisibility by `i` and `i + 2` since these are the only possible factors to be checked at each iteration.
+
+The time complexity of this optimized solution remains O(sqrt(N)), and the space complexity remains O(1).
+
+This optimization improves the performance by avoiding redundant calculations and early termination in certain cases. It also reduces the number of iterations by checking for divisibility by `i` and `i + 2` in each iteration.
+
 
 ## Sorting
 
