@@ -962,6 +962,366 @@ The time complexity of this optimized solution remains O(sqrt(N)), and the space
 
 This optimization improves the performance by avoiding redundant calculations and early termination in certain cases. It also reduces the number of iterations by checking for divisibility by `i` and `i + 2` in each iteration.
 
+## 04-03-2024
+
+**8. Print 1 to N without using loops**
+
+[Print 1 to N without using loops](https://www.geeksforgeeks.org/problems/print-1-to-n-without-using-loops-1587115620/1?utm_source=youtube&utm_medium=collab_striver_ytdescription&utm_campaign=print-1-to-n-without-using-loops)
+
+Print numbers from 1 to N without the help of loops.
+
+Example 1:
+
+Input:
+
+N = 10
+
+Output: 1 2 3 4 5 6 7 8 9 10
+
+The provided code is a Java implementation of a recursive function `printNos` that takes an integer `N` as input and prints the numbers from 1 to `N` in ascending order, separated by spaces.
+
+Here's the pseudocode with an explanation:
+
+```
+function printNos(N):
+    if N == 0:
+        return  # Base case: do nothing and return
+
+    printNos(N - 1)  # Recursive call with N - 1
+    print(N + " ")  # Print the current number followed by a space
+```
+
+**Time Complexity:**
+The time complexity of this solution is O(N), where N is the input number. This is because the function makes N recursive calls, and each recursive call performs a constant-time operation (printing a number).
+
+**Space Complexity:**
+The space complexity is O(N) due to the recursive nature of the function. Each recursive call adds a new stack frame to the call stack, and the maximum depth of the call stack is N (when N reaches 1).
+
+Java Code:
+
+```java
+class Solution
+{
+    
+  public void printNos(int N)
+    {
+        if(N ==0)return;
+        else
+        printNos(N-1);
+        System.out.print(N+" ");
+    }
+}
+```
+
+**Example Explanation:**
+Let's consider the input `N = 5`.
+
+The function calls are as follows:
+1. `printNos(5)` is called.
+2. Since `N` is not 0, the function calls `printNos(4)`.
+3. `printNos(4)` calls `printNos(3)`.
+4. `printNos(3)` calls `printNos(2)`.
+5. `printNos(2)` calls `printNos(1)`.
+6. `printNos(1)` calls `printNos(0)`.
+7. `printNos(0)` hits the base case and returns.
+8. `printNos(1)` prints `1 ` and returns.
+9. `printNos(2)` prints `2 ` and returns.
+10. `printNos(3)` prints `3 ` and returns.
+11. `printNos(4)` prints `4 ` and returns.
+12. `printNos(5)` prints `5 ` and returns.
+
+The output printed is: `1 2 3 4 5 `.
+
+**Optimizations:**
+The provided code is a recursive implementation, which may not be optimal for large values of `N` due to the overhead of creating and maintaining multiple stack frames. An optimized version can be implemented using an iterative approach, which eliminates the need for recursion and reduces the space complexity.
+
+Here's an optimized version of the code using an iterative approach:
+
+```java
+class Solution {
+    public void printNos(int N) {
+        for (int i = 1; i <= N; i++) {
+            System.out.print(i + " ");
+        }
+    }
+}
+```
+
+In this optimized version, the function uses a simple `for` loop to iterate from 1 to `N`, printing each number followed by a space.
+
+The time complexity of this optimized solution remains O(N), as it still needs to perform N iterations to print all the numbers. However, the space complexity is now O(1) since it does not use recursion and does not create any additional data structures that grow with the input size.
+
+This optimization is more efficient for large values of `N`, as it avoids the overhead of creating and maintaining multiple stack frames during recursion.
+
+
+**9. Print GFG n times**
+
+[Print GFG n times](https://www.geeksforgeeks.org/problems/print-gfg-n-times/1?utm_source=youtube&utm_medium=collab_striver_ytdescription&utm_campaign=print-gfg-n-times)
+
+Print GFG n times without the loop.
+
+Example:
+
+Input:
+5
+
+Output:
+GFG GFG GFG GFG GFG
+
+The provided code is a Java implementation of a recursive function `printGfg` that takes an integer `N` as input and prints the string "GFG" `N` times, separated by spaces.
+
+Here's the pseudocode with an explanation:
+
+```
+function printGfg(N):
+    if N == 0:
+        return  # Base case: do nothing and return
+
+    print("GFG" + " ")  # Print "GFG" followed by a space
+    printGfg(N - 1)  # Recursive call with N - 1
+```
+
+**Time Complexity:**
+The time complexity of this solution is O(N), where N is the input number. This is because the function makes N recursive calls, and each recursive call performs a constant-time operation (printing a string).
+
+**Space Complexity:**
+The space complexity is O(N) due to the recursive nature of the function. Each recursive call adds a new stack frame to the call stack, and the maximum depth of the call stack is N (when N reaches 1).
+
+Java code:
+
+```java
+class Solution {
+
+    void printGfg(int N) 
+    {
+        if(N==0)
+        {
+            return;
+        }
+        else
+        {
+            System.out.print("GFG" + " ");
+            printGfg(N-1);
+        }
+    }
+}
+```
+
+**Example Explanation:**
+Let's consider the input `N = 3`.
+
+The function calls are as follows:
+1. `printGfg(3)` is called.
+2. Since `N` is not 0, the function prints `"GFG "` and calls `printGfg(2)`.
+3. `printGfg(2)` prints `"GFG "` and calls `printGfg(1)`.
+4. `printGfg(1)` prints `"GFG "` and calls `printGfg(0)`.
+5. `printGfg(0)` hits the base case and returns.
+6. The function calls return in the reverse order, without any further operations.
+
+The output printed is: `"GFG GFG GFG "`.
+
+**Optimizations:**
+The provided code is a recursive implementation, which may not be optimal for large values of `N` due to the overhead of creating and maintaining multiple stack frames. An optimized version can be implemented using an iterative approach, which eliminates the need for recursion and reduces the space complexity.
+
+Here's an optimized version of the code using an iterative approach:
+
+```java
+class Solution {
+    public void printGfg(int N) {
+        for (int i = 0; i < N; i++) {
+            System.out.print("GFG" + " ");
+        }
+    }
+}
+```
+
+In this optimized version, the function uses a simple `for` loop to iterate from 0 to `N - 1`, printing the string "GFG" followed by a space in each iteration.
+
+The time complexity of this optimized solution remains O(N), as it still needs to perform N iterations to print "GFG" N times. However, the space complexity is now O(1) since it does not use recursion and does not create any additional data structures that grow with the input size.
+
+This optimization is more efficient for large values of `N`, as it avoids the overhead of creating and maintaining multiple stack frames during recursion.
+
+**10. Print N to 1 using recursion**
+
+[Print N to 1 using recursion](https://www.geeksforgeeks.org/problems/print-n-to-1-without-loop/1?utm_source=youtube&utm_medium=collab_striver_ytdescription&utm_campaign=print-n-to-1-without-loop)
+
+Print numbers from N to 1 (space separated) without the help of loops.
+
+Example 1:
+
+Input:
+N = 10
+Output: 10 9 8 7 6 5 4 3 2 1
+
+The provided code is a Java implementation of a recursive function `printNos` that takes an integer `N` as input and prints the numbers from `N` to 1 in descending order, separated by spaces.
+
+Here's the pseudocode with an explanation:
+
+```
+function printNos(N):
+    if N == 1:
+        print(1)  # Base case: print 1 and return
+    else:
+        print(N + " ")  # Print the current number followed by a space
+        printNos(N - 1)  # Recursive call with N - 1
+```
+
+**Time Complexity:**
+The time complexity of this solution is O(N), where N is the input number. This is because the function makes N recursive calls, and each recursive call performs a constant-time operation (printing a number).
+
+**Space Complexity:**
+The space complexity is O(N) due to the recursive nature of the function. Each recursive call adds a new stack frame to the call stack, and the maximum depth of the call stack is N (when N reaches 1).
+
+Java code:
+
+```java
+class Solution {
+
+    void printNos(int N) 
+    {
+        if(N==1)
+        {
+            System.out.print(1);
+        }
+        else
+        {
+           System.out.print(N + " ");
+           printNos(N-1);
+        }
+    }
+}
+```
+
+**Example Explanation:**
+Let's consider the input `N = 5`.
+
+The function calls are as follows:
+1. `printNos(5)` is called.
+2. Since `N` is not 1, the function prints `5 ` and calls `printNos(4)`.
+3. `printNos(4)` prints `4 ` and calls `printNos(3)`.
+4. `printNos(3)` prints `3 ` and calls `printNos(2)`.
+5. `printNos(2)` prints `2 ` and calls `printNos(1)`.
+6. `printNos(1)` hits the base case and prints `1`.
+7. The function calls return in the reverse order, without any further operations.
+
+The output printed is: `5 4 3 2 1`.
+
+**Optimizations:**
+The provided code is a recursive implementation, which may not be optimal for large values of `N` due to the overhead of creating and maintaining multiple stack frames. An optimized version can be implemented using an iterative approach, which eliminates the need for recursion and reduces the space complexity.
+
+Here's an optimized version of the code using an iterative approach:
+
+```java
+class Solution {
+    public void printNos(int N) {
+        for (int i = N; i >= 1; i--) {
+            if (i == 1) {
+                System.out.print(1);
+            } else {
+                System.out.print(i + " ");
+            }
+        }
+    }
+}
+```
+
+In this optimized version, the function uses a simple `for` loop to iterate from `N` to 1 in descending order. It prints each number followed by a space, except for the last number (1), which is printed without a trailing space.
+
+The time complexity of this optimized solution remains O(N), as it still needs to perform N iterations to print all the numbers. However, the space complexity is now O(1) since it does not use recursion and does not create any additional data structures that grow with the input size.
+
+This optimization is more efficient for large values of `N`, as it avoids the overhead of creating and maintaining multiple stack frames during recursion.
+
+**11. Sum of first n terms**
+
+Given an integer n, calculate the sum of series 13 + 23 + 33 + 43 + … till n-th term.
+
+Example 1:
+
+Input:
+n=5
+
+Output:
+225
+
+Explanation:
+
+1<sup>3</sup> + 2<sup>3</sup> + 3<sup>3</sup> + 4<sup>3</sup> + 5<sup>3</sup> = 225
+
+The provided code is a Java implementation of a recursive function `sumOfSeries` that takes a long integer `n` as input and calculates the sum of the series: `n^3 + (n-1)^3 + (n-2)^3 + ... + 1^3`.
+
+Here's the pseudocode with an explanation:
+
+```
+function sumOfSeries(n):
+    if n == 0:
+        return 0  # Base case: return 0 for n = 0
+
+    return (n * n * n) + sumOfSeries(n - 1)  # Return n^3 plus the sum of the remaining series
+```
+
+**Time Complexity:**
+The time complexity of this solution is O(n), where n is the input number. This is because the function makes n recursive calls, and each recursive call performs a constant-time operation (addition and multiplication).
+
+**Space Complexity:**
+The space complexity is O(n) due to the recursive nature of the function. Each recursive call adds a new stack frame to the call stack, and the maximum depth of the call stack is n (when n reaches 1).
+
+Java Code:
+
+```java
+class Solution 
+{
+    long sumOfSeries(long n) 
+    {
+        if(n==0)
+        {
+           return 0;
+        }
+        else
+        {
+            return (n*n*n)+sumOfSeries(n-1);
+        }
+    }
+    
+}
+```
+
+**Example Explanation:**
+Let's consider the input `n = 3`.
+
+The function calls are as follows:
+1. `sumOfSeries(3)` is called.
+2. Since `n` is not 0, the function calculates `3^3 = 27` and calls `sumOfSeries(2)`.
+3. `sumOfSeries(2)` calculates `2^3 = 8` and calls `sumOfSeries(1)`.
+4. `sumOfSeries(1)` calculates `1^3 = 1` and calls `sumOfSeries(0)`.
+5. `sumOfSeries(0)` hits the base case and returns 0.
+6. `sumOfSeries(1)` returns `1 + 0 = 1`.
+7. `sumOfSeries(2)` returns `8 + 1 = 9`.
+8. `sumOfSeries(3)` returns `27 + 9 = 36`.
+
+The function returns `36`, which is the sum of the series `3^3 + 2^3 + 1^3`.
+
+**Optimizations:**
+The provided code is a recursive implementation, which may not be optimal for large values of `n` due to the overhead of creating and maintaining multiple stack frames. An optimized version can be implemented using an iterative approach, which eliminates the need for recursion and reduces the space complexity.
+
+Here's an optimized version of the code using an iterative approach:
+
+```java
+class Solution {
+    long sumOfSeries(long n) {
+        long sum = 0;
+        for (long i = 1; i <= n; i++) {
+            sum += i * i * i;
+        }
+        return sum;
+    }
+}
+```
+
+In this optimized version, the function uses a simple `for` loop to iterate from 1 to `n`. In each iteration, it calculates the cube of the current value (`i * i * i`) and adds it to the `sum` variable.
+
+The time complexity of this optimized solution remains O(n), as it still needs to perform n iterations to calculate the sum of the series. However, the space complexity is now O(1) since it does not use recursion and does not create any additional data structures that grow with the input size.
+
+This optimization is more efficient for large values of `n`, as it avoids the overhead of creating and maintaining multiple stack frames during recursion.
 
 ## Sorting
 
