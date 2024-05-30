@@ -1323,6 +1323,428 @@ The time complexity of this optimized solution remains O(n), as it still needs t
 
 This optimization is more efficient for large values of `n`, as it avoids the overhead of creating and maintaining multiple stack frames during recursion.
 
+**12. Find all factorial numbers less than or equal to N**
+
+A number N is called a factorial number if it is the factorial of a positive integer. For example, the first few factorial numbers are 1, 2, 6, 24, 120,
+Given a number N, the task is to return the list/vector of the factorial numbers smaller than or equal to N.
+
+Example 1:
+
+Input: N = 3
+
+Output: 1 2
+
+Explanation: The first factorial number is 1 which is less than equal to N. The second number is 2 which is less than equal to N,but the third factorial number is 6 which is greater than N. So we print only 1 and 2.
+
+Example 2:
+
+Input: N = 6
+
+Output: 1 2 6
+
+Explanation: The first three factorial numbers are less than equal to N but the fourth factorial number 24 is 
+greater than N. So we print only first three factorial numbers.
+
+Here's the pseudocode with an explanation:
+
+```
+function factorialNumbers(N):
+    res = empty ArrayList  # Initialize an empty ArrayList to store factorial numbers
+    fact = 1  # Initialize the initial factorial value to 1
+    factorial(N, res, 2, 1)  # Call the recursive helper function with initial values
+    return res  # Return the ArrayList containing factorial numbers
+
+function factorial(n, res, i, fact):
+    if fact > n:
+        return  # Base case: If the current factorial exceeds n, return
+
+    res.add(fact)  # Add the current factorial to the ArrayList
+    fact *= i  # Calculate the next factorial by multiplying the current factorial with i
+    factorial(n, res, i + 1, fact)  # Recursive call with updated values of i and fact
+
+```
+
+**Time Complexity:**
+The time complexity of this solution is O(n * k), where n is the input number `N`, and k is the number of factorial numbers generated. This is because the `factorial` function is called recursively for each factorial number, and each recursive call performs a constant-time operation (addition and multiplication).
+
+**Space Complexity:**
+The space complexity is O(k), where k is the number of factorial numbers generated. This is because the ArrayList `res` stores all the factorial numbers, and its size grows linearly with the number of factorial numbers generated.
+
+Java Code:
+
+```java
+class Solution{
+    static ArrayList<Long> factorialNumbers(long N){
+        // code here
+        ArrayList<Long> res=new ArrayList<>();
+        long fact=1;
+        factorial(N,res,2,1);
+        return res;
+        
+    }
+    static void factorial(long n,ArrayList<Long> res,long i,long fact){
+        if(fact>n)
+        return;
+        res.add(fact);
+        fact*=i;
+        factorial(n,res,i+1,fact);
+        return;
+    }
+}
+```
+
+**Example Explanation:**
+Let's consider the input `N = 10`.
+
+The function calls are as follows:
+1. `factorialNumbers(10)` is called.
+2. `res` is initialized as an empty ArrayList.
+3. `fact` is initialized to 1.
+4. `factorial(10, res, 2, 1)` is called.
+5. `factorial(10, res, 2, 1)`:
+   - `fact = 1` is not greater than `n = 10`, so `res.add(1)` is executed, and `res` becomes `[1]`.
+   - `fact *= 2`, so `fact` becomes 2.
+   - `factorial(10, res, 3, 2)` is called.
+6. `factorial(10, res, 3, 2)`:
+   - `fact = 2` is not greater than `n = 10`, so `res.add(2)` is executed, and `res` becomes `[1, 2]`.
+   - `fact *= 3`, so `fact` becomes 6.
+   - `factorial(10, res, 4, 6)` is called.
+7. This process continues recursively until `fact` becomes greater than `n = 10`.
+
+The final `res` ArrayList contains the factorial numbers up to `N = 10`, which are `[1, 2, 6, 24, 120, 720, 5040]`.
+
+**Optimizations:**
+The provided code can be optimized in several ways:
+
+1. **Avoid Redundant Calculations:**
+   Instead of recalculating the factorial for each recursive call, the factorial values can be calculated iteratively and stored in an ArrayList or an array. This optimization avoids redundant calculations and improves the time complexity.
+
+2. **Early Termination:**
+   The recursive function can be modified to terminate early if the current factorial value exceeds `N`. This optimization can potentially reduce the number of recursive calls and improve the time complexity for certain inputs.
+
+Here's an optimized version of the code incorporating these optimizations:
+
+```java
+class Solution {
+    static ArrayList<Long> factorialNumbers(long N) {
+        ArrayList<Long> res = new ArrayList<>();
+        long fact = 1;
+        res.add(fact);  // Add the initial factorial value (1)
+
+        for (long i = 2; fact <= N; i++) {
+            fact *= i;
+            if (fact <= N) {
+                res.add(fact);
+            } else {
+                break;  // Early termination if the current factorial exceeds N
+            }
+        }
+
+        return res;
+    }
+}
+```
+
+In this optimized version:
+
+- The factorial values are calculated iteratively using a `for` loop instead of recursion.
+- The initial factorial value (1) is added to the `res` ArrayList.
+- The `for` loop iterates from 2 until the current factorial `fact` exceeds `N`.
+- Each iteration calculates the next factorial value by multiplying `fact` with `i`.
+- If the current `fact` is less than or equal to `N`, it is added to the `res` ArrayList.
+- If the current `fact` exceeds `N`, the loop terminates early using the `break` statement.
+
+The time complexity of this optimized solution is O(k), where k is the number of factorial numbers generated. The space complexity remains O(k), as the ArrayList `res` still needs to store all the factorial numbers.
+
+This optimization avoids redundant calculations and potential stack overflows due to excessive recursion, making it more efficient and scalable for larger input values of `N`.
+
+**13. Valid palindrome**
+
+[Valid palindrome](https://leetcode.com/problems/valid-palindrome/submissions/1198233142/)
+
+A phrase is a palindrome if, after converting all uppercase letters into lowercase letters and removing all non-alphanumeric characters, it reads the same forward and backward. Alphanumeric characters include letters and numbers.
+
+Given a string s, return true if it is a palindrome, or false otherwise.
+
+Example 1:
+
+Input: s = "A man, a plan, a canal: Panama"
+
+Output: true
+
+Explanation: "amanaplanacanalpanama" is a palindrome.
+
+Example 2:
+
+Input: s = "race a car"
+
+Output: false
+
+Explanation: "raceacar" is not a palindrome.
+
+Example 3:
+
+Input: s = " "
+
+Output: true
+
+Explanation: s is an empty string "" after removing non-alphanumeric characters.Since an empty string reads the same forward and backward, it is a palindrome.
+
+**Pseudocode with Explanation (Time and Space Complexity):**
+
+```
+function isPalindrome(s):
+  lowercase_s = toLowerCase(s)  // Time: O(n), Space: O(n) (new string)
+  filtered_s = filter(lowercase_s, isAlphaNumeric)  // Time: O(n), Space: O(n) (new string)
+  left = 0
+  right = length(filtered_s) - 1
+  while left < right:
+    if filtered_s[left] != filtered_s[right]:
+      return False
+    left += 1
+    right -= 1
+  return True
+
+function isAlphaNumeric(char):
+  return (char >= 'a' and char <= 'z') or (char >= 'A' and char <= 'Z') or (char >= '0' and char <= '9')
+```
+
+**Time Complexity:** O(n), where n is the length of the input string. This is because the dominant operations (`toLowerCase`, `filter`, character comparisons in the loop) all iterate through the string once in the worst case.
+
+**Space Complexity:** O(n), due to the creation of temporary strings in `toLowerCase` and `filter`.
+
+Java code:
+
+```java
+class Solution {
+    public boolean isPalindrome(String s) {
+       s = s.toLowerCase();
+        s = s.replaceAll("[^a-zA-Z0-9]","");
+        int st = 0;
+        int e = s.length()-1;
+        while(st<e){
+            if(s.charAt(st) != s.charAt(e)){
+                return false;
+            }
+            st++;
+            e--;
+        }
+        return true; 
+    }
+}
+```
+
+**Explanation with Example:**
+
+**Input:** "Race a Car"
+
+1. **Lowercase Conversion (`toLowerCase`):**
+   - `lowercase_s = "race a car"` (Time: O(n), Space: O(n))
+2. **Non-Alphanumeric Character Removal (`filter`):**
+   - `filtered_s = "racecar"` (Time: O(n), Space: O(n))
+3. **Two-Pointer Comparison (`while` loop):**
+   - Iteration 1: `filtered_s[left] ('r')` matches `filtered_s[right] ('r')`
+   - Iteration 2: `filtered_s[left] ('a')` matches `filtered_s[right] ('a')`
+   - Iteration 3: `filtered_s[left] ('c')` matches `filtered_s[right] ('c')`
+   - Iteration 4: `left` (4) reaches `right` (0), loop ends.
+
+**Output:** `True` (since "racecar" is a palindrome)
+
+**Optimizations:**
+
+1. **In-Place Lowercasing:** Modify the loop to lowercase characters directly instead of creating a new string:
+
+   ```java
+   int st = 0;
+   int e = s.length() - 1;
+   while (st < e) {
+       char leftChar = Character.toLowerCase(s.charAt(st));
+       char rightChar = Character.toLowerCase(s.charAt(e));
+       if (leftChar != rightChar) {
+           return false;
+       }
+       st++;
+       e--;
+   }
+   ```
+
+   - Time Complexity remains O(n)
+   - Space Complexity improves to O(1)
+
+2. **Early Termination:** If a mismatch is found, there's no need to continue iterating. Stop the loop after the first non-matching pair:
+
+   ```java
+   while (st < e && s.charAt(st) == s.charAt(e)) {
+       st++;
+       e--;
+   }
+   return st >= e;
+   ```
+
+   - Time Complexity can potentially improve in some cases, especially for longer strings with mismatches in the beginning.
+   - Space Complexity remains O(1).
+
+**Incorporating Optimizations:**
+
+```java
+class Solution {
+    public boolean isPalindrome(String s) {
+        int st = 0;
+        int e = s.length() - 1;
+        while (st < e) {
+            char leftChar = Character.toLowerCase(s.charAt(st));
+            char rightChar = Character.toLowerCase(s.charAt(e));
+            if (leftChar != rightChar) {
+                return false;
+            }
+            st++;
+            e--;
+        }
+        return true;  // Optimized: Early termination not needed here
+    }
+}
+```
+
+Choose the optimization that best suits your performance requirements and potential input characteristics.
+
+**14. Fibbonaci Series**
+
+The Fibonacci numbers, commonly denoted F(n) form a sequence, called the Fibonacci sequence, such that each number is the sum of the two preceding ones, starting from 0 and 1. That is,
+
+F(0) = 0, F(1) = 1
+F(n) = F(n - 1) + F(n - 2), for n > 1.
+Given n, calculate F(n).
+
+
+Example 1:
+
+Input: n = 2
+Output: 1
+Explanation: F(2) = F(1) + F(0) = 1 + 0 = 1.
+Example 2:
+
+Input: n = 3
+Output: 2
+Explanation: F(3) = F(2) + F(1) = 1 + 1 = 2.
+Example 3:
+
+Input: n = 4
+Output: 3
+Explanation: F(4) = F(3) + F(2) = 2 + 1 = 3.
+
+**Pseudocode with Explanation (Time and Space Complexity):**
+
+```
+function fib(n):
+  if n == 0:
+    return 0
+  elif n == 1 or n == 2:
+    return 1
+  else:
+    return fib(n-1) + fib(n-2)
+```
+
+**Time Complexity:** O(2^n), where n is the input number. This is because the `fib` function makes two recursive calls for each `n` value, leading to exponential growth.
+
+**Space Complexity:** O(n) in the worst case due to the function call stack (although technically tail-recursive, most Java implementations don't optimize for tail recursion).
+
+Java Code:
+
+```java
+class Solution {
+    public int fib(int n) {
+        if (n == 0)
+            return 0;
+        else if (n == 1 || n == 2)
+            return 1;
+        else
+            return fib(n - 1) + fib(n - 2);
+    }
+}
+```
+
+**Explanation with Example (Iteration breakdown):**
+
+**Input:** `n = 4` (calculate the 4th Fibonacci number)
+
+1. **Initial Call:** `fib(4)`
+   - `n` is not 0, 1, or 2, so the recursive case applies.
+   - Calls `fib(3)` and `fib(2)`.
+
+2. **fib(3) Call:**
+   - `n` is not 0, 1, or 2, so calls `fib(2)` and `fib(1)`.
+
+3. **fib(2) Call (1st):** from `fib(3)`
+   - `n` is 2, so the base case returns 1.
+
+4. **fib(2) Call (2nd):** from `fib(4)`
+   - This is a redundant call because `fib(2)` was already calculated in step 3. This highlights the inefficiency of recursion for Fibonacci numbers.
+
+5. **fib(1) Call:** from `fib(3)`
+   - `n` is 1, so the base case returns 1.
+
+6. **Stack Unwinding:**
+   - `fib(3)` returns 1 (1 + 1 from redundant `fib(2)` calls).
+   - `fib(4)` returns 3 (1 from `fib(3)` + 2 from the first `fib(2)` call).
+
+**Optimizations:**
+
+1. **Memoization:** Store previously calculated Fibonacci numbers in a dictionary to avoid redundant calculations. Here's the optimized code:
+
+   ```java
+   class Solution {
+       private final Map<Integer, Integer> memo = new HashMap<>();
+
+       public int fib(int n) {
+           if (memo.containsKey(n)) {
+               return memo.get(n);
+           }
+
+           if (n == 0) {
+               return 0;
+           } else if (n == 1 || n == 2) {
+               return 1;
+           } else {
+               int result = fib(n - 1) + fib(n - 2);
+               memo.put(n, result);
+               return result;
+           }
+       }
+   }
+   ```
+
+   - Memoization reduces time complexity to O(n) in practice as most values are calculated only once.
+   - Space complexity remains O(n) due to the `memo` dictionary.
+
+2. **Iterative Approach:** Use a loop to calculate Fibonacci numbers bottom-up, eliminating recursion and function call overhead.
+
+   ```java
+   class Solution {
+       public int fib(int n) {
+           if (n <= 1) {
+               return n;
+           }
+
+           int a = 0, b = 1, c;
+           for (int i = 2; i <= n; i++) {
+               c = a + b;
+               a = b;
+               b = c;
+           }
+           return b;
+       }
+   }
+   ```
+
+   - Time complexity improves to O(n) due to the efficient loop structure.
+   - Space complexity reduces to O(1) as only a few variables are used for calculations.
+
+**Choosing the Best Optimization:**
+
+- If memory usage is a concern, use the iterative approach.
+- If speed is more important for larger `n` values, memoization is a good choice.
+
+
 ## Sorting
 
 ## 25-04-2024
