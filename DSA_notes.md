@@ -1744,6 +1744,256 @@ class Solution {
 - If memory usage is a concern, use the iterative approach.
 - If speed is more important for larger `n` values, memoization is a good choice.
 
+**15. Frequencies of Limited Range Array Elements**
+
+Given an array arr[] of N positive integers which can contain integers from 1 to P where elements can be repeated or can be absent from the array. Your task is to count the frequency of all numbers from 1 to N. Make in-place changes in arr[], such that arr[i] = frequency(i). Assume 1-based indexing.
+Note: The elements greater than N in the array can be ignored for counting and do modify the array in-place. 
+
+Example 1:
+
+Input:
+N = 5
+
+arr[] = {2, 3, 2, 3, 5}
+
+P = 5
+
+Output:
+
+0 2 2 0 1
+
+Explanation: 
+
+Counting frequencies of each array element
+We have:
+
+1 occurring 0 times.
+
+2 occurring 2 times.
+
+3 occurring 2 times.
+
+4 occurring 0 times.
+
+5 occurring 1 time.
+
+Certainly! Let's break this down:
+
+**Pseudo Code:**
+
+```
+frequencyCount(arr, N, P):
+    Create a map to store frequency of elements
+    Iterate through the array:
+        If the element is present in the map:
+            Increment its frequency count in the map
+        Else:
+            Add the element to the map with frequency 1
+    Iterate from 1 to N:
+        Replace arr[i-1] with the frequency of i in the map (getOrDefault)
+```
+
+**Explanation of the Code:**
+The `frequencyCount` function takes an integer array `arr`, the size of the array `N`, and an integer `P` (which is not used in the provided code). The function aims to modify the array `arr` such that `arr[i]` contains the frequency of the element `i+1` in the original array.
+
+The code uses a `HashMap` (`mp`) to store the frequency of each element in the array. It iterates through the array once, and for each element `arr[i]`, it checks if the element is already present in the map. If present, it increments the count; otherwise, it adds the element to the map with a count of 1.
+
+After populating the map with frequencies, the code iterates again from 0 to `N-1` and replaces `arr[i]` with the frequency of the element `i+1` from the map using `getOrDefault`. If the element `i+1` is not present in the map, `getOrDefault` returns 0.
+
+**Time Complexity:** The time complexity of this solution is O(N), where N is the size of the input array. The first loop iterates through the array once to populate the map, and the second loop iterates again to update the array with frequencies.
+
+**Space Complexity:** The space complexity is O(min(N, M)), where M is the range of values in the input array. In the worst case, if all elements are distinct, the map will store N key-value pairs, resulting in a space complexity of O(N).
+
+Java Code:
+
+```java
+class Solution{
+    public static void frequencyCount(int arr[], int N, int P)
+    {
+        Map<Integer, Integer> mp = new HashMap<>();
+        
+        for(int i = 0; i < arr.length; i++){
+            if(mp.containsKey(arr[i])){
+                mp.put(arr[i], mp.get(arr[i])+1);
+            }
+            else{
+                mp.put(arr[i], 1);
+            }
+        }
+        
+        for(int i = 0; i < arr.length; i++){
+            arr[i] = mp.getOrDefault(i+1, 0);
+        }
+        
+    }
+}
+```
+
+**Example with Iterations:**
+Let's consider the input array `arr = [1, 2, 3, 2, 1, 4, 3]` and `N = 7`.
+
+1. Initially, the map `mp` is empty.
+2. After the first loop:
+   - `mp = {1: 2, 2: 2, 3: 2, 4: 1}`
+
+3. In the second loop:
+   - `arr[0]` is replaced with the frequency of 1, which is 2 (from `mp.get(1)`).
+   - `arr[1]` is replaced with the frequency of 2, which is 2 (from `mp.get(2)`).
+   - `arr[2]` is replaced with the frequency of 3, which is 2 (from `mp.get(3)`).
+   - `arr[3]` is replaced with the frequency of 4, which is 1 (from `mp.get(4)`).
+   - `arr[4]` is replaced with the frequency of 5, which is 0 (from `mp.getOrDefault(5, 0)` since 5 is not present in the map).
+   - `arr[5]` is replaced with the frequency of 6, which is 0 (from `mp.getOrDefault(6, 0)` since 6 is not present in the map).
+   - `arr[6]` is replaced with the frequency of 7, which is 0 (from `mp.getOrDefault(7, 0)` since 7 is not present in the map).
+
+4. The final array will be `arr = [2, 2, 2, 1, 0, 0, 0]`.
+
+**Optimizations:**
+The provided code is already optimized for time complexity and uses a HashMap for efficient frequency counting and retrieval. However, if the range of values in the input array is known to be small (e.g., all values are between 1 and 1000), an array or a more space-efficient data structure like a `BitSet` can be used instead of a `HashMap` to reduce the space complexity further.
+
+**16. Frequency of the Most Frequent Element**
+
+The frequency of an element is the number of times it occurs in an array.
+
+You are given an integer array nums and an integer k. In one operation, you can choose an index of nums and increment the element at that index by 1.
+
+Return the maximum possible frequency of an element after performing at most k operations.
+
+
+Example 1:
+
+Input: nums = [1,2,4], k = 5
+
+Output: 3
+
+Explanation: Increment the first element three times and the second element two times to make nums = [4,4,4].
+4 has a frequency of 3.
+
+Example 2:
+
+Input: nums = [1,4,8,13], k = 5
+
+Output: 2
+
+Explanation: There are multiple optimal solutions:
+- Increment the first element three times to make nums = [4,4,8,13]. 4 has a frequency of 2.
+- Increment the second element four times to make nums = [1,8,8,13]. 8 has a frequency of 2.
+- Increment the third element five times to make nums = [1,4,13,13]. 13 has a frequency of 2.
+Example 3:
+
+Input: nums = [3,9,6], k = 2
+
+Output: 1
+
+Certainly! Let's break this down:
+
+**Pseudo Code:**
+
+```
+maxFrequency(nums, k):
+    Sort the input array nums in non-decreasing order
+    Initialize left and right pointers to 0
+    Initialize result (res) and total sum (total) to 0
+    While right is within the array bounds:
+        Add nums[right] to total
+        While the product of nums[right] and the length of the current subarray (right - left + 1) is greater than total + k:
+            Subtract nums[left] from total
+            Move the left pointer one step ahead
+        Update the maximum length of the subarray (res) with the length of the current subarray (right - left + 1)
+        Move the right pointer one step ahead
+    Return the maximum length of the subarray (res)
+```
+
+**Explanation of the Code:**
+The `maxFrequency` function takes an integer array `nums` and an integer `k`. It aims to find the length of the longest subarray of `nums` such that the frequency of its most frequent element multiplied by its length is at most `nums.length + k`.
+
+The code first sorts the input array `nums` in non-decreasing order using `Arrays.sort(nums)`. This step is crucial for the sliding window approach used in the solution.
+
+Next, it initializes two pointers, `left` and `right`, to 0, representing the start and end indices of the current subarray under consideration. It also initializes `res` to store the maximum length of the subarray found so far and `total` to keep track of the running sum of the current subarray.
+
+The code then enters a loop that continues until the `right` pointer reaches the end of the array. In each iteration:
+
+1. It adds `nums[right]` to the `total` sum.
+2. It enters an inner loop that continues as long as the product of `nums[right]` and the length of the current subarray (`right - left + 1L`) is greater than `total + k`. In this inner loop, it subtracts `nums[left]` from `total` and moves the `left` pointer one step ahead, effectively shrinking the subarray from the left.
+3. After the inner loop, it updates `res` with the maximum of `res` and the length of the current subarray (`right - left + 1L`).
+4. It moves the `right` pointer one step ahead.
+
+Finally, the code returns the maximum length of the subarray found, which is stored in `res`.
+
+**Time Complexity:** The time complexity of this solution is O(n log n), where n is the length of the input array `nums`. This is because the sorting step using `Arrays.sort(nums)` takes O(n log n) time in the average case. The subsequent sliding window approach takes O(n) time, but it is dominated by the sorting step.
+
+**Space Complexity:** The space complexity is O(1) since the solution uses a constant amount of extra space to store the pointers and variables, regardless of the input size.
+
+Java Code:
+
+```java
+class Solution {
+    public int maxFrequency(int[] nums, int k) {
+        Arrays.sort(nums);
+        int left = 0, right = 0;
+        long res = 0, total = 0;
+        while (right < nums.length) {
+            total += nums[right];
+            while (nums[right] * (right - left + 1L) > total + k) {
+                total -= nums[left];
+                left += 1;
+            }
+            res = Math.max(res, right - left + 1L);
+            right += 1;
+        }
+        return (int) res;
+    }
+}
+```
+
+**Example with Iterations:**
+Let's consider the input array `nums = [1, 2, 3, 4]` and `k = 5`.
+
+1. After sorting, `nums` becomes `[1, 2, 3, 4]`.
+2. Initially, `left = 0`, `right = 0`, `res = 0`, and `total = 0`.
+3. Iteration 1:
+   - `total += nums[0] = 1`, `total = 1`.
+   - The inner loop condition is not satisfied since `1 * (0 - 0 + 1) ≤ 1 + 5`.
+   - `res = max(res, 0 - 0 + 1) = 1`.
+   - `right = 1`.
+4. Iteration 2:
+   - `total += nums[1] = 3`, `total = 3`.
+   - The inner loop condition is not satisfied since `2 * (1 - 0 + 1) ≤ 3 + 5`.
+   - `res = max(res, 1 - 0 + 1) = 2`.
+   - `right = 2`.
+5. Iteration 3:
+   - `total += nums[2] = 6`, `total = 6`.
+   - The inner loop condition is not satisfied since `3 * (2 - 0 + 1) ≤ 6 + 5`.
+   - `res = max(res, 2 - 0 + 1) = 3`.
+   - `right = 3`.
+6. Iteration 4:
+   - `total += nums[3] = 10`, `total = 10`.
+   - The inner loop condition is satisfied since `4 * (3 - 0 + 1) > 10 + 5`.
+   - The inner loop runs:
+     - `total -= nums[0] = 9`, `total = 9`.
+     - The inner loop condition is still satisfied since `4 * (3 - 1 + 1) > 9 + 5`.
+     - `total -= nums[1] = 7`, `total = 7`.
+     - The inner loop condition is now false since `4 * (3 - 2 + 1) ≤ 7 + 5`.
+   - `res = max(res, 3 - 2 + 1) = 3`.
+   - `right = 4` (out of bounds, loop terminates).
+
+7. The function returns `res = 3`.
+
+**Optimizations:**
+The provided code is already optimized for time and space complexity. However, there is a minor optimization that can be made to the inner loop condition:
+
+Instead of checking `nums[right] * (right - left + 1L) > total + k`, we can check `(right - left + 1L) > (total + k) / nums[right]`. This avoids the potential overflow that can occur when multiplying two large numbers.
+
+The optimized inner loop condition would be:
+
+```java
+while ((right - left + 1L) > (total + k) / nums[right]) {
+    total -= nums[left];
+    left += 1;
+}
+```
+
+This optimization does not change the time or space complexity of the solution but provides a safer way to handle large values in the input.
+
 
 ## Sorting
 
