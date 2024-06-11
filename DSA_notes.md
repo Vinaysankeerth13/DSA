@@ -11416,3 +11416,179 @@ In this optimized version, the algorithm iterates through the `arr` array and ke
 If the loop completes without finding the `k`-th missing positive integer, the remaining missing integers are calculated as `num + k - 1 - missing`.
 
 The time complexity of this optimized solution is O(n), where n is the length of the `arr` array. The space complexity remains O(1).
+
+## 11-06-2024
+
+**57. Aggresive Cows**
+
+You are given an array consisting of n integers which denote the position of a stall. You are also given an integer k which denotes the number of aggressive cows. You are given the task of assigning stalls to k cows such that the minimum distance between any two of them is the maximum possible.
+The first line of input contains two space-separated integers n and k.
+The second line contains n space-separated integers denoting the position of the stalls.
+
+Example 1:
+
+Input:
+n=5 
+
+k=3
+
+stalls = [1 2 4 8 9]
+
+Output:
+
+3
+
+Explanation:
+
+The first cow can be placed at stalls[0], 
+the second cow can be placed at stalls[2] and 
+the third cow can be placed at stalls[3]. 
+The minimum distance between cows, in this case, is 3, 
+which also is the largest among all possible ways.
+
+Example 2:
+
+Input:
+
+n=5 
+
+k=3
+
+stalls = [10 1 2 7 5]
+
+Output:
+4
+
+Explanation:
+The first cow can be placed at stalls[0],
+the second cow can be placed at stalls[1] and
+the third cow can be placed at stalls[4].
+The minimum distance between cows, in this case, is 4,
+which also is the largest among all possible ways.
+
+### Pseudo Code
+```
+1. **isvalid Function:**
+   - Input: `st`, `n`, `k`, `mid`
+   - Initialize `cow` to 1 and `last` to `st[0]`
+   - For each stall from index 1 to `n-1`:
+     - If the distance between the current stall and `last` stall is at least `mid`:
+       - Increment the number of cows (`cow`)
+       - Update `last` to the current stall
+   - If the number of cows placed is at least `k`, return `true`, otherwise return `false`
+
+2. **solve Function:**
+   - Input: `n`, `k`, `stalls`
+   - Sort the `stalls` array
+   - Initialize `low` to 1 and `high` to the last element in `stalls`
+   - While `low` is less than or equal to `high`:
+     - Calculate `mid` as the average of `low` and `high`
+     - If `isvalid` returns `true` for `mid`, set `low` to `mid + 1`
+     - Otherwise, set `high` to `mid - 1`
+   - Return `high`
+```
+
+### Explanation
+
+#### Time Complexity
+- **Sorting:** `O(n log n)` - Sorting the stalls array.
+- **Binary Search:** `O(log(max_distance))` - The binary search runs on the range of possible distances, where `max_distance` is the difference between the highest and lowest stall positions.
+- **isvalid Function:** `O(n)` - Checking the validity for each middle distance during the binary search.
+- **Overall Complexity:** `O(n log n + n log(max_distance))`
+
+#### Space Complexity
+- **Space Complexity:** `O(1)` - No additional space other than input storage.
+
+Java Code:
+
+```java
+class Solution {
+    public static boolean isvalid(int[] st,int n,int k,int mid){
+        int cow=1;
+        int last=st[0];
+        for(int i=1; i<n; i++){
+            if(st[i]-last>=mid){
+                cow++;
+                last=st[i];
+            }
+        }
+        
+        if(cow>=k){
+            return true;
+        }
+        
+        return false;
+        
+    }
+    public static int solve(int n, int k, int[] stalls) {
+        Arrays.sort(stalls);
+        int low=1;
+        int high=stalls[n-1];
+        
+        while(low<=high){
+            int mid=(low+high)/2;
+            
+            if(isvalid(stalls,n,k,mid)==true){
+                low=mid+1;
+            }
+            else{
+                high=mid-1;
+            }
+        }
+        return high;
+    }
+}
+```
+
+### Explanation with Example
+
+Given:
+- `n = 5` (number of stalls)
+- `k = 3` (number of cows)
+- `stalls = [1, 2, 8, 4, 9]`
+
+**Step-by-Step Execution:**
+
+1. **Sort the `stalls` array:**
+   - Sorted stalls: `[1, 2, 4, 8, 9]`
+
+2. **Binary Search Initialization:**
+   - `low = 1`
+   - `high = 9`
+
+3. **Iterations of Binary Search:**
+
+   - **Iteration 1:**
+     - `mid = (1 + 9) / 2 = 5`
+     - Call `isvalid([1, 2, 4, 8, 9], 5, 3, 5)`
+     - Place cows at stalls: 1, 8 -> Only 2 cows placed (not valid)
+     - `high = mid - 1 = 4`
+
+   - **Iteration 2:**
+     - `mid = (1 + 4) / 2 = 2`
+     - Call `isvalid([1, 2, 4, 8, 9], 5, 3, 2)`
+     - Place cows at stalls: 1, 4, 8 -> 3 cows placed (valid)
+     - `low = mid + 1 = 3`
+
+   - **Iteration 3:**
+     - `mid = (3 + 4) / 2 = 3`
+     - Call `isvalid([1, 2, 4, 8, 9], 5, 3, 3)`
+     - Place cows at stalls: 1, 4, 8 -> 3 cows placed (valid)
+     - `low = mid + 1 = 4`
+
+   - **Iteration 4:**
+     - `mid = (4 + 4) / 2 = 4`
+     - Call `isvalid([1, 2, 4, 8, 9], 5, 3, 4)`
+     - Place cows at stalls: 1, 4, 8 -> 3 cows placed (valid)
+     - `low = mid + 1 = 5`
+
+4. **End of Binary Search:**
+   - The loop exits as `low > high`
+   - The largest minimum distance is `high = 4`
+
+### Optimizations
+
+- **Early Exit:** You can optimize by adding an early exit in the `isvalid` function if the number of cows already exceeds `k`.
+- **Mid Calculation:** Using `mid = low + (high - low) / 2` to prevent overflow, though it's already done in the provided code.
+- **Edge Cases:** Handling cases where `n` or `k` is very small directly.
+
