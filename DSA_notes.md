@@ -11421,6 +11421,8 @@ The time complexity of this optimized solution is O(n), where n is the length of
 
 **57. Aggresive Cows**
 
+[Aggresive Cows](https://www.geeksforgeeks.org/problems/aggressive-cows/0)
+
 You are given an array consisting of n integers which denote the position of a stall. You are also given an integer k which denotes the number of aggressive cows. You are given the task of assigning stalls to k cows such that the minimum distance between any two of them is the maximum possible.
 The first line of input contains two space-separated integers n and k.
 The second line contains n space-separated integers denoting the position of the stalls.
@@ -11591,4 +11593,333 @@ Given:
 - **Early Exit:** You can optimize by adding an early exit in the `isvalid` function if the number of cows already exceeds `k`.
 - **Mid Calculation:** Using `mid = low + (high - low) / 2` to prevent overflow, though it's already done in the provided code.
 - **Edge Cases:** Handling cases where `n` or `k` is very small directly.
+
+## 13-06-2024
+
+**58. Book Allocation**
+
+[Book Allocation](https://www.naukri.com/code360/problems/allocate-books_1090540?utm_source=youtube&utm_medium=affiliate&utm_campaign=codestudio_Striver_BinarySeries)
+
+Given an array ‘arr’ of integer numbers, ‘arr[i]’ represents the number of pages in the ‘i-th’ book.
+
+
+
+There are ‘m’ number of students, and the task is to allocate all the books to the students.
+
+
+
+Allocate books in such a way that:
+
+1. Each student gets at least one book.
+2. Each book should be allocated to only one student.
+3. Book allocation should be in a contiguous manner.
+
+
+You have to allocate the book to ‘m’ students such that the maximum number of pages assigned to a student is minimum.
+
+
+
+If the allocation of books is not possible, return -1.
+
+
+
+Example:
+Input: ‘n’ = 4 ‘m’ = 2 
+‘arr’ = [12, 34, 67, 90]
+
+Output: 113
+
+Explanation: All possible ways to allocate the ‘4’ books to '2' students are:
+
+12 | 34, 67, 90 - the sum of all the pages of books allocated to student 1 is ‘12’, and student two is ‘34+ 67+ 90 = 191’, so the maximum is ‘max(12, 191)= 191’.
+
+12, 34 | 67, 90 - the sum of all the pages of books allocated to student 1 is ‘12+ 34 = 46’, and student two is ‘67+ 90 = 157’, so the maximum is ‘max(46, 157)= 157’.
+
+12, 34, 67 | 90 - the sum of all the pages of books allocated to student 1 is ‘12+ 34 +67 = 113’, and student two is ‘90’, so the maximum is ‘max(113, 90)= 113’.
+
+We are getting the minimum in the last case.
+
+Hence answer is ‘113’.
+
+Sure, let's break it down.
+
+**Pseudo Code:**
+
+```
+function findPages(arr, n, m):
+    if m > n: # if number of students is greater than number of books
+        return -1 # not possible to distribute
+
+    low = maximum value in arr
+    high = sum of all values in arr
+
+    while low <= high:
+        mid = (low + high) / 2
+        if countStudents(arr, mid) <= m: # if the number of students required for mid pages is less than or equal to m
+            high = mid - 1 # search for a lower value of pages
+        else:
+            low = mid + 1 # search for a higher value of pages
+
+    return low # minimum number of pages required
+
+function countStudents(arr, pages):
+    students = 1
+    current_pages = 0
+
+    for each book in arr:
+        if current_pages + book <= pages: # if the current book can be added to the current student's pages
+            current_pages += book
+        else: # if the current book cannot be added
+            students += 1 # assign a new student
+            current_pages = book # assign the current book to the new student
+
+    return students
+```
+
+**Explanation:**
+
+The code solves the problem of finding the minimum number of pages that can be assigned to `m` students, given an array of book page counts `arr` and the total number of books `n`. It uses a binary search approach to find the minimum number of pages required.
+
+The `findPages` function first checks if the number of students `m` is greater than the number of books `n`. If so, it returns -1 since it's not possible to distribute the books among the students.
+
+It then initializes the search range for the binary search. The lower bound `low` is set to the maximum value in the `arr` array, and the upper bound `high` is set to the sum of all values in the `arr` array. This is because the minimum number of pages required must be greater than or equal to the maximum book size, and it cannot exceed the total number of pages.
+
+The binary search loop continues until `low` is greater than `high`. In each iteration, it calculates the midpoint `mid` and calls the `countStudents` function to determine the number of students required for `mid` pages. If the number of students required is less than or equal to `m`, it updates `high` to `mid - 1` to search for a lower value. Otherwise, it updates `low` to `mid + 1` to search for a higher value.
+
+The `countStudents` function takes the `arr` array and the target number of pages `pages`. It initializes a variable `students` to 1 and `current_pages` to 0. It iterates through the `arr` array, and for each book, it checks if adding the book's pages to `current_pages` exceeds the target `pages`. If it does, it increments `students` (assigns a new student) and sets `current_pages` to the current book's pages. Otherwise, it adds the current book's pages to `current_pages`.
+
+**Time Complexity:**
+- `findPages` function: O(n * log(sum(arr))), where n is the size of the `arr` array. The binary search takes O(log(sum(arr))) time, and the `countStudents` function takes O(n) time.
+- `countStudents` function: O(n), where n is the size of the `arr` array, as it iterates through the array once.
+
+**Space Complexity:**
+- O(1), as the functions use a constant amount of extra space regardless of the input size.
+
+Java Code:
+
+```java
+import java.util.ArrayList;
+import java.util.Collections;
+public class Solution {
+    public static int findPages(ArrayList<Integer> arr, int n, int m) 
+    {
+        if(m>n) return -1;
+        int low = Collections.max(arr);
+        int high = arr.stream().mapToInt(Integer::intValue).sum();
+
+        while(low<=high)
+        {
+            int mid = (low+high)/2;
+            if(countStudents(arr,mid)<=m)
+            {
+                high = mid-1;
+            }
+            else 
+            {
+                low = mid+1;
+            }
+        }
+        return low;
+    }
+
+    public static int countStudents (ArrayList<Integer>arr,int pages)
+    {
+        int s = 1;
+        int page = 0;
+        for(int i=0 ;i < arr.size();i++)
+        {
+            if(arr.get(i)+page <= pages)
+            {
+                page = page + arr.get(i);
+            }
+            else
+            {
+                s++;
+                page = arr.get(i);
+            }
+        } 
+        return s;
+    }
+}
+```
+
+**Example with Iterations:**
+
+Let's consider the example where `arr = [12, 34, 67, 90]`, `n = 4`, and `m = 2`.
+
+In the `findPages` function:
+1. `m` (2) is not greater than `n` (4), so the function proceeds.
+2. `low` is initialized to `max(arr)` = 90.
+3. `high` is initialized to `sum(arr)` = 12 + 34 + 67 + 90 = 203.
+
+Binary Search iterations:
+1. `mid = (90 + 203) / 2 = 146`.
+2. `countStudents(arr, 146)` returns 2 (student 1: 12 + 34 = 46, student 2: 67 + 90 = 157).
+3. Since 2 <= 2, `high` is updated to 146 - 1 = 145.
+4. `mid = (90 + 145) / 2 = 117`.
+5. `countStudents(arr, 117)` returns 3 (student 1: 12 + 34 = 46, student 2: 67, student 3: 90).
+6. Since 3 > 2, `low` is updated to 117 + 1 = 118.
+7. `mid = (118 + 145) / 2 = 131`.
+8. `countStudents(arr, 131)` returns 2 (student 1: 12 + 34 + 67 = 113, student 2: 90).
+9. Since 2 <= 2, `high` is updated to 131 - 1 = 130.
+10. `mid = (118 + 130) / 2 = 124`.
+11. `countStudents(arr, 124)` returns 2 (student 1: 12 + 34 + 67 = 113, student 2: 90).
+12. Since 2 <= 2, `high` is updated to 124 - 1 = 123.
+13. The loop continues until `low` becomes 124, which is the minimum number of pages required to distribute the books among 2 students.
+
+**Optimizations:**
+
+The code is already optimal in terms of time complexity, as it uses a binary search approach, which has a time complexity of O(n * log(sum(arr))). However, there are a few potential optimizations:
+
+1. **Early Termination:** In the `countStudents` function, if the current book's pages exceed the target `pages`, the function can immediately return the number of students required so far plus 1 (to account for the current book). This optimization can potentially save some iterations in certain cases.
+
+2. **Parallel Processing:** If multiple processors are available, the `countStudents` function can be parallelized to distribute the workload across multiple threads or processes. This can potentially improve performance, especially for large input sizes.
+
+3. **Caching:** If the function needs to be called repeatedly with the same input, the results can be cached to avoid redundant computations. However, this optimization may not be applicable in all scenarios.
+
+Overall, the provided code is an efficient solution to the problem, achieving the optimal time complexity for the given problem statement.
+
+**59. Split Array Largest Sum**
+
+Given an integer array nums and an integer k, split nums into k non-empty subarrays such that the largest sum of any subarray is minimized.
+
+Return the minimized largest sum of the split.
+
+A subarray is a contiguous part of the array.
+
+ 
+
+Example 1:
+
+Input: nums = [7,2,5,10,8], k = 2
+
+Output: 18
+
+Explanation: There are four ways to split nums into two subarrays.
+
+The best way is to split it into [7,2,5] and [10,8], where the largest sum among the two subarrays is only 18.
+
+Example 2:
+
+Input: nums = [1,2,3,4,5], k = 2
+
+Output: 9
+
+Explanation: There are four ways to split nums into two subarrays.
+The best way is to split it into [1,2,3] and [4,5], where the largest sum among the two subarrays is only 9.
+
+Sure, let's break it down.
+
+**Pseudo Code:**
+
+```
+function cntNoOfSplits(nums, maxSum):
+    noOfSplits = 1
+    sum = 0
+    for each num in nums:
+        if sum + num <= maxSum:
+            sum += num
+        else:
+            noOfSplits += 1
+            sum = num
+    return noOfSplits
+
+function splitArray(nums, k):
+    start = minimum value in nums
+    end = sum of all values in nums
+    while start <= end:
+        mid = (start + end) / 2
+        noOfSplits = cntNoOfSplits(nums, mid)
+        if noOfSplits <= k:
+            end = mid - 1
+        else:
+            start = mid + 1
+    return start
+```
+
+**Explanation:**
+
+The code solves the problem of splitting an array `nums` into at most `k` non-empty subarrays, such that the sum of the maximum subarray is minimized.
+
+The `cntNoOfSplits` function takes an array `nums` and a maximum sum `maxSum`. It initializes `noOfSplits` to 1 and `sum` to 0. It iterates through the array `nums` and checks if adding the current element to `sum` exceeds `maxSum`. If it doesn't, it adds the current element to `sum`. Otherwise, it increments `noOfSplits` (creates a new subarray) and resets `sum` to the current element. The function returns the total number of subarrays required for the given `maxSum`.
+
+The `splitArray` function implements a binary search approach to find the minimum possible maximum subarray sum. It initializes `start` to the minimum value in the `nums` array and `end` to the sum of all values in the `nums` array. The minimum possible maximum subarray sum must lie between these bounds.
+
+The binary search loop continues until `start` is greater than `end`. In each iteration, it calculates the midpoint `mid` and calls the `cntNoOfSplits` function to determine the number of subarrays required for `mid` as the maximum subarray sum. If the number of subarrays required is less than or equal to `k`, it updates `end` to `mid - 1` to search for a lower value. Otherwise, it updates `start` to `mid + 1` to search for a higher value.
+
+After the loop terminates, the function returns `start`, which represents the minimum possible maximum subarray sum that can be achieved by splitting the array into at most `k` non-empty subarrays.
+
+**Time Complexity:**
+- `cntNoOfSplits` function: O(n), where n is the size of the `nums` array, as it iterates through the array once.
+- `splitArray` function: O(n * log(sum(nums))), where n is the size of the `nums` array. The binary search takes O(log(sum(nums))) time, and the `cntNoOfSplits` function takes O(n) time.
+
+**Space Complexity:**
+- O(1), as the functions use a constant amount of extra space regardless of the input size.
+
+Java code:
+
+```java
+class Solution {
+    public int cntNoOfSplits(int []nums,int maxSum){
+        int noOfSplits=1,sum=0;
+        for(int x:nums){
+            if(sum+x<=maxSum) sum+=x;
+            else{
+                noOfSplits++;
+                sum=x;
+            }
+        }
+        return noOfSplits;
+    }
+    public int splitArray(int[] nums, int k) {
+        int start=Integer.MIN_VALUE,end=0,mid=0;
+        for(int x:nums){
+            start=Math.max(start,x);
+            end+=x;
+        }
+        while(start<=end){
+            mid = (start+end)/2;
+            int noOfSplits = cntNoOfSplits(nums,mid);
+            if(noOfSplits<=k) end=mid-1;
+            else start=mid+1;
+        }
+        return start;
+    }
+}
+```
+
+**Example with Iterations:**
+
+Let's consider the example where `nums = [7, 2, 5, 10, 8]` and `k = 2`.
+
+In the `splitArray` function:
+1. `start` is initialized to `min(nums)` = 2.
+2. `end` is initialized to `sum(nums)` = 7 + 2 + 5 + 10 + 8 = 32.
+
+Binary Search iterations:
+1. `mid = (2 + 32) / 2 = 17`.
+2. `cntNoOfSplits(nums, 17)` returns 2 (subarray 1: 7 + 2 + 5 = 14, subarray 2: 10 + 8 = 18).
+3. Since 2 <= 2, `end` is updated to 17 - 1 = 16.
+4. `mid = (2 + 16) / 2 = 9`.
+5. `cntNoOfSplits(nums, 9)` returns 3 (subarray 1: 7 + 2 = 9, subarray 2: 5, subarray 3: 10 + 8 = 18).
+6. Since 3 > 2, `start` is updated to 9 + 1 = 10.
+7. `mid = (10 + 16) / 2 = 13`.
+8. `cntNoOfSplits(nums, 13)` returns 2 (subarray 1: 7 + 2 + 5 = 14, subarray 2: 10 + 8 = 18).
+9. Since 2 <= 2, `end` is updated to 13 - 1 = 12.
+10. `mid = (10 + 12) / 2 = 11`.
+11. `cntNoOfSplits(nums, 11)` returns 3 (subarray 1: 7 + 2 = 9, subarray 2: 5, subarray 3: 10 + 8 = 18).
+12. Since 3 > 2, `start` is updated to 11 + 1 = 12.
+13. The loop continues until `start` becomes 18, which is the minimum possible maximum subarray sum that can be achieved by splitting the array into at most 2 non-empty subarrays.
+
+**Optimizations:**
+
+The code is already optimal in terms of time complexity, as it uses a binary search approach, which has a time complexity of O(n * log(sum(nums))). However, there are a few potential optimizations:
+
+1. **Early Termination:** In the `cntNoOfSplits` function, if the sum of all remaining elements in the array is less than or equal to `maxSum`, the function can immediately return `noOfSplits + 1` (to account for the remaining subarray). This optimization can potentially save some iterations in certain cases.
+
+2. **Parallel Processing:** If multiple processors are available, the `cntNoOfSplits` function can be parallelized to distribute the workload across multiple threads or processes. This can potentially improve performance, especially for large input sizes.
+
+3. **Caching:** If the function needs to be called repeatedly with the same input, the results can be cached to avoid redundant computations. However, this optimization may not be applicable in all scenarios.
+
+Overall, the provided code is an efficient solution to the problem, achieving the optimal time complexity for the given problem statement.
 
