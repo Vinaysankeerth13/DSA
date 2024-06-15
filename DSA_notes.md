@@ -11594,7 +11594,7 @@ Given:
 - **Mid Calculation:** Using `mid = low + (high - low) / 2` to prevent overflow, though it's already done in the provided code.
 - **Edge Cases:** Handling cases where `n` or `k` is very small directly.
 
-## 13-06-2024
+## 14-06-2024
 
 **58. Book Allocation**
 
@@ -11787,7 +11787,6 @@ Return the minimized largest sum of the split.
 
 A subarray is a contiguous part of the array.
 
- 
 
 Example 1:
 
@@ -11923,3 +11922,153 @@ The code is already optimal in terms of time complexity, as it uses a binary sea
 
 Overall, the provided code is an efficient solution to the problem, achieving the optimal time complexity for the given problem statement.
 
+## 15-05-2024
+
+**60. Painter's Partition**
+
+[Painter's Partition](https://www.naukri.com/code360/problems/painter-s-partition-problem_1089557?utm_source=striver&utm_medium=website&utm_campaign=a_zcoursetuf)
+
+Given an array/list of length ‘n’, where the array/list represents the boards and each element of the given array/list represents the length of each board. Some ‘k’ numbers of painters are available to paint these boards. Consider that each unit of a board takes 1 unit of time to paint.
+
+You are supposed to return the area of the minimum time to get this job done of painting all the ‘n’ boards under a constraint that any painter will only paint the continuous sections of boards.
+
+Example :
+
+Input: arr = [2, 1, 5, 6, 2, 3], k = 2
+
+Output: 11
+
+Explanation:
+
+First painter can paint boards 1 to 3 in 8 units of time and the second painter can paint boards 4-6 in 11 units of time. Thus both painters will paint all the boards in max(8,11) = 11 units of time. It can be shown that all the boards can't be painted in less than 11 units of time.
+
+
+Sure, let's break it down.
+
+**Pseudo Code:**
+
+```
+function countPainters(arr, max):
+    currBoards = 0
+    painterCount = 1
+    for each board in arr:
+        if currBoards + board <= max:
+            currBoards += board
+        else:
+            painterCount += 1
+            currBoards = board
+    return painterCount
+
+function findLargestMinDistance(boards, k):
+    low = minimum value in boards
+    high = sum of all values in boards
+    while low <= high:
+        mid = (low + high) / 2
+        painters = countPainters(boards, mid)
+        if painters > k:
+            low = mid + 1
+        else:
+            high = mid - 1
+    return low
+```
+
+**Explanation:**
+
+The code solves the problem of finding the minimum time required to paint all the boards if `k` painters are available. Each painter must paint consecutive boards, and the time taken by a painter is determined by the sum of the time required to paint the boards assigned to them.
+
+The `countPainters` function takes an array `arr` and a maximum allowed time `max`. It initializes `currBoards` to 0 and `painterCount` to 1. It iterates through the `arr` array and checks if adding the current board's time to `currBoards` exceeds `max`. If it doesn't, it adds the current board's time to `currBoards`. Otherwise, it increments `painterCount` (assigns a new painter) and resets `currBoards` to the current board's time. The function returns the total number of painters required for the given `max` time.
+
+The `findLargestMinDistance` function implements a binary search approach to find the minimum time required to paint all boards using `k` painters. It initializes `low` to the minimum value in the `boards` array and `high` to the sum of all values in the `boards` array. The minimum time required must lie between these bounds.
+
+The binary search loop continues until `low` is greater than `high`. In each iteration, it calculates the midpoint `mid` and calls the `countPainters` function to determine the number of painters required for `mid` as the maximum allowed time. If the number of painters required is greater than `k`, it updates `low` to `mid + 1` to search for a higher value. Otherwise, it updates `high` to `mid - 1` to search for a lower value.
+
+After the loop terminates, the function returns `low`, which represents the minimum time required to paint all boards using at most `k` painters.
+
+**Time Complexity:**
+- `countPainters` function: O(n), where n is the size of the `arr` array, as it iterates through the array once.
+- `findLargestMinDistance` function: O(n * log(sum(boards))), where n is the size of the `boards` array. The binary search takes O(log(sum(boards))) time, and the `countPainters` function takes O(n) time.
+
+**Space Complexity:**
+- O(1), as the functions use a constant amount of extra space regardless of the input size.
+
+Java Code :
+
+```java
+import java.util.ArrayList;
+
+public class Solution 
+{
+    static long countPainters( ArrayList<Integer> arr, long max ){
+        long currBoards = 0;
+        long painterCount = 1;
+        for( int i = 0 ; i < arr.size() ; i++ )
+        {
+            if( currBoards + arr.get(i) <= max )
+            {
+                currBoards += arr.get(i);
+            }
+            else
+            {
+                painterCount++;
+                currBoards = arr.get(i);
+            }
+        }
+        return painterCount;
+    }
+    public static int findLargestMinDistance(ArrayList<Integer> boards, int k)
+    {
+        long low = 0;
+        long high = 0;
+        for( int i = 0; i < boards.size(); i++ )
+        {
+            low = Math.max( low, boards.get(i) );
+            high += boards.get(i);
+        }
+
+        while( low <= high ){
+            long mid = ( low + high ) / 2;
+            long painters = countPainters(boards, mid);
+            if( painters > k )
+            {
+                low = mid + 1;
+            }
+            else
+            {
+                high = mid - 1;               
+            }
+        }
+        return (int)low;
+    }
+}
+```
+**Example with Iterations:**
+
+Let's consider the example where `boards = [5, 5, 5, 5]` and `k = 3`.
+
+In the `findLargestMinDistance` function:
+1. `low` is initialized to `min(boards)` = 5.
+2. `high` is initialized to `sum(boards)` = 5 + 5 + 5 + 5 = 20.
+
+Binary Search iterations:
+1. `mid = (5 + 20) / 2 = 12`.
+2. `countPainters(boards, 12)` returns 2 (painter 1: 5 + 5 = 10, painter 2: 5 + 5 = 10).
+3. Since 2 < 3, `high` is updated to 12 - 1 = 11.
+4. `mid = (5 + 11) / 2 = 8`.
+5. `countPainters(boards, 8)` returns 3 (painter 1: 5, painter 2: 5, painter 3: 5 + 5 = 10).
+6. Since 3 <= 3, `high` is updated to 8 - 1 = 7.
+7. `mid = (5 + 7) / 2 = 6`.
+8. `countPainters(boards, 6)` returns 4 (painter 1: 5, painter 2: 5, painter 3: 5, painter 4: 5).
+9. Since 4 > 3, `low` is updated to 6 + 1 = 7.
+10. The loop continues until `low` becomes 10, which is the minimum time required to paint all boards using at most 3 painters.
+
+**Optimizations:**
+
+The code is already optimal in terms of time complexity, as it uses a binary search approach, which has a time complexity of O(n * log(sum(boards))). However, there are a few potential optimizations:
+
+1. **Early Termination:** In the `countPainters` function, if the sum of all remaining boards in the array is less than or equal to `max`, the function can immediately return `painterCount + 1` (to account for the remaining boards). This optimization can potentially save some iterations in certain cases.
+
+2. **Parallel Processing:** If multiple processors are available, the `countPainters` function can be parallelized to distribute the workload across multiple threads or processes. This can potentially improve performance, especially for large input sizes.
+
+3. **Caching:** If the function needs to be called repeatedly with the same input, the results can be cached to avoid redundant computations. However, this optimization may not be applicable in all scenarios.
+
+Overall, the provided code is an efficient solution to the problem, achieving the optimal time complexity for the given problem statement.
