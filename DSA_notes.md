@@ -12072,3 +12072,177 @@ The code is already optimal in terms of time complexity, as it uses a binary sea
 3. **Caching:** If the function needs to be called repeatedly with the same input, the results can be cached to avoid redundant computations. However, this optimization may not be applicable in all scenarios.
 
 Overall, the provided code is an efficient solution to the problem, achieving the optimal time complexity for the given problem statement.
+
+## 19-05-2024
+
+**61. Minimize Max Distance to Gas Station**
+
+You are given a sorted array ‘arr’ of length ‘n’, which contains positive integer positions of ‘n’ gas stations on the X-axis. You are also given an integer ‘k’. You have to place 'k' new gas stations on the X-axis. You can place them anywhere on the non-negative side of the X-axis, even on non-integer positions. Let 'dist' be the maximum value of the distance between adjacent gas stations after adding k new gas stations.
+Find the minimum value of ‘dist’.
+
+Note: Answers within 10^-6 of the actual answer will be accepted. For example, if the actual answer is 0.65421678124, it is okay to return 0.654216. Our answer will be accepted if that is the same as the actual answer up to the 6th decimal place.
+
+Example 1:
+
+Input Format:
+ N = 5, 
+ 
+arr[] = {1,2,3,4,5}, 
+
+k = 4
+
+Result:
+ 0.5
+
+Explanation:
+ One of the possible ways to place 4 gas stations is {1,1.5,2,2.5,3,3.5,4,4.5,5}. Thus the maximum difference between adjacent gas stations is 0.5. Hence, the value of ‘dist’ is 0.5. It can be shown that there is no possible way to add 4 gas stations in such a way that the value of ‘dist’ is lower than this. 
+
+
+Example 2:
+
+Input Format:
+
+ N = 10,
+
+arr[] = {1,2,3,4,5,6,7,8,9,10}, 
+
+k = 1
+
+Result: 1
+
+Explanation:
+
+ One of the possible ways to place 1 gas station is {1,1.5,2,3,4,5,6,7,8,9,10}. Thus the maximum difference between adjacent gas stations is still 1. Hence, the value of ‘dist’ is 1. It can be shown that there is no possible way to add 1 gas station in such a way that the value of ‘dist’ is lower than this. 
+
+Sure, let's break it down.
+
+**Pseudo Code:**
+
+```
+function numberOfGasStationsRequired(dist, arr):
+    n = length of arr
+    cnt = 0
+    for i from 1 to n - 1:
+        numberInBetween = floor((arr[i] - arr[i - 1]) / dist)
+        if (arr[i] - arr[i - 1]) is exactly divisible by dist:
+            numberInBetween -= 1
+        cnt += numberInBetween
+    return cnt
+
+function minimiseMaxDistance(arr, k):
+    n = length of arr
+    low = 0
+    high = maximum distance between any two consecutive points in arr
+    diff = 1e-6 (small value to ensure convergence)
+    while high - low > diff:
+        mid = (low + high) / 2
+        cnt = numberOfGasStationsRequired(mid, arr)
+        if cnt > k:
+            low = mid
+        else:
+            high = mid
+    return high
+```
+
+**Explanation:**
+
+The code solves the problem of finding the minimum distance between gas stations such that no two adjacent gas stations are more than that distance apart, and at most `k` additional gas stations are required along the route.
+
+The `numberOfGasStationsRequired` function takes a distance `dist` and an array `arr` representing the positions of existing gas stations. It calculates the number of additional gas stations required if the maximum distance between any two adjacent gas stations is `dist`. It iterates through the array from index 1 to n - 1 and calculates the number of gas stations required between consecutive existing gas stations. If the distance between two consecutive gas stations is exactly divisible by `dist`, it subtracts 1 from the number of gas stations required between them. The function returns the total count of additional gas stations required.
+
+The `minimiseMaxDistance` function implements a binary search approach to find the minimum distance between gas stations that satisfies the constraint of at most `k` additional gas stations. It initializes `low` to 0 and `high` to the maximum distance between any two consecutive points in the `arr` array. The binary search loop continues until `high - low` is less than a small value `diff` (to ensure convergence).
+
+In each iteration, it calculates the midpoint `mid` and calls the `numberOfGasStationsRequired` function to determine the number of additional gas stations required for `mid` as the maximum distance. If the number of additional gas stations required is greater than `k`, it updates `low` to `mid` to search for a higher value. Otherwise, it updates `high` to `mid` to search for a lower value.
+
+After the loop terminates, the function returns `high`, which represents the minimum distance between gas stations that satisfies the constraint of at most `k` additional gas stations.
+
+**Time Complexity:**
+- `numberOfGasStationsRequired` function: O(n), where n is the size of the `arr` array, as it iterates through the array once.
+- `minimiseMaxDistance` function: O(n * log(max_distance)), where n is the size of the `arr` array, and `max_distance` is the maximum distance between any two consecutive points in the array. The binary search takes O(log(max_distance)) time, and the `numberOfGasStationsRequired` function takes O(n) time.
+
+**Space Complexity:**
+- O(1), as the functions use a constant amount of extra space regardless of the input size.
+
+Java Code:
+
+```java
+import java.util.*;
+public class tUf {
+    public static int numberOfGasStationsRequired(double dist, int[] arr) {
+        int n = arr.length; // size of the array
+        int cnt = 0;
+        for (int i = 1; i < n; i++) {
+            int numberInBetween = (int)((arr[i] - arr[i - 1]) / dist);
+            if ((arr[i] - arr[i - 1]) == (dist * numberInBetween)) {
+                numberInBetween--;
+            }
+            cnt += numberInBetween;
+        }
+        return cnt;
+    }
+
+    public static double minimiseMaxDistance(int[] arr, int k) {
+        int n = arr.length; // size of the array
+        double low = 0;
+        double high = 0;
+
+        //Find the maximum distance:
+        for (int i = 0; i < n - 1; i++) {
+            high = Math.max(high, (double)(arr[i + 1] - arr[i]));
+        }
+
+        //Apply Binary search:
+        double diff = 1e-6 ;
+        while (high - low > diff) {
+            double mid = (low + high) / (2.0);
+            int cnt = numberOfGasStationsRequired(mid, arr);
+            if (cnt > k) {
+                low = mid;
+            } else {
+                high = mid;
+            }
+        }
+        return high;
+    }
+
+    public static void main(String[] args) {
+        int[] arr = {1, 2, 3, 4, 5};
+        int k = 4;
+        double ans = minimiseMaxDistance(arr, k);
+        System.out.println("The answer is: " + ans);
+    }
+}
+```
+
+**Example with Iterations:**
+
+Let's consider the example where `arr = [1, 2, 3, 4, 5]` and `k = 4`.
+
+In the `minimiseMaxDistance` function:
+1. `n` is 5.
+2. `low` is initialized to 0.
+3. `high` is initialized to the maximum distance between any two consecutive points, which is 4 - 1 = 3.
+
+Binary Search iterations:
+1. `mid = (0 + 3) / 2 = 1.5`.
+2. `numberOfGasStationsRequired(1.5, arr)` returns 3 (between 1 and 2: 1 station, between 2 and 3: 1 station, between 3 and 4: 1 station).
+3. Since 3 <= 4, `high` is updated to 1.5.
+4. `mid = (0 + 1.5) / 2 = 0.75`.
+5. `numberOfGasStationsRequired(0.75, arr)` returns 6 (between 1 and 2: 2 stations, between 2 and 3: 2 stations, between 3 and 4: 2 stations).
+6. Since 6 > 4, `low` is updated to 0.75.
+7. `mid = (0.75 + 1.5) / 2 = 1.125`.
+8. `numberOfGasStationsRequired(1.125, arr)` returns 4 (between 1 and 2: 1 station, between 2 and 3: 1 station, between 3 and 4: 2 stations).
+9. Since 4 <= 4, `high` is updated to 1.125.
+10. The loop continues until `high` converges to 1.0, which is the minimum distance between gas stations that satisfies the constraint of at most 4 additional gas stations.
+
+**Optimizations:**
+
+The code is already optimal in terms of time complexity, as it uses a binary search approach, which has a time complexity of O(n * log(max_distance)). However, there are a few potential optimizations:
+
+1. **Parallel Processing:** If multiple processors are available, the `numberOfGasStationsRequired` function can be parallelized to distribute the workload across multiple threads or processes. This can potentially improve performance, especially for large input sizes.
+
+2. **Caching:** If the function needs to be called repeatedly with the same input, the results can be cached to avoid redundant computations. However, this optimization may not be applicable in all scenarios.
+
+3. **Early Termination:** If the distance between any two consecutive points in the `arr` array is greater than the maximum distance possible (i.e., `high`), the function can immediately return `high` as the minimum distance, since no additional gas stations are required.
+
+Overall, the provided code is an efficient solution to the problem, achieving the optimal time complexity for the given problem statement.
