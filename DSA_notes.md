@@ -12246,3 +12246,284 @@ The code is already optimal in terms of time complexity, as it uses a binary sea
 3. **Early Termination:** If the distance between any two consecutive points in the `arr` array is greater than the maximum distance possible (i.e., `high`), the function can immediately return `high` as the minimum distance, since no additional gas stations are required.
 
 Overall, the provided code is an efficient solution to the problem, achieving the optimal time complexity for the given problem statement.
+
+## 23-06-2024
+
+Shiftting my focus to Leetcode 75 for a while. 
+
+**62. Merge Strings Alternately**
+
+You are given two strings word1 and word2. Merge the strings by adding letters in alternating order, starting with word1. If a string is longer than the other, append the additional letters onto the end of the merged string.
+
+Return the merged string.
+
+Example 1:
+
+Input: word1 = "abc", word2 = "pqr"
+
+Output: "apbqcr"
+
+Explanation: The merged string will be merged as so:
+
+word1:  a   b   c
+
+word2:    p   q   r
+
+merged: a p b q c r
+
+Example 2:
+
+Input: word1 = "ab", word2 = "pqrs"
+
+Output: "apbqrs"
+
+Explanation: Notice that as word2 is longer, "rs" is appended to the end.
+
+word1:  a   b 
+
+word2:    p   q   r   s
+
+merged: a p b q   r   s
+
+Example 3:
+
+Input: word1 = "abcd", word2 = "pq"
+
+Output: "apbqcd"
+
+Explanation: Notice that as word1 is longer, "cd" is appended to the end.
+
+word1:  a   b   c   d
+
+word2:    p   q 
+
+merged: a p b q c   d
+
+Certainly! Let's break down this code.
+
+**Pseudo Code:**
+```
+function mergeAlternately(word1, word2):
+    sol = empty string
+    i = 0
+    while i < length of word1 OR i < length of word2:
+        if i < length of word1:
+            append character at index i of word1 to sol
+        if i < length of word2:
+            append character at index i of word2 to sol
+        i = i + 1
+    return sol
+```
+
+**Explanation:**
+
+This function, `mergeAlternately`, takes two strings `word1` and `word2` as input and merges them alternately, character by character. If one string is longer than the other, the remaining characters of the longer string are appended at the end of the result.
+
+**Time Complexity:** 
+O(n), where n is the length of the longer string among word1 and word2. The function iterates once through the characters of both strings.
+
+**Space Complexity:** 
+O(n), where n is the sum of the lengths of word1 and word2. This space is used to store the result string.
+
+**Example with Iterations:**
+
+Let's take an example where `word1 = "abc"` and `word2 = "pqr"`:
+
+1. Initialize: `sol = ""`, `i = 0`
+2. Iteration 1 (i = 0):
+   - Append 'a' from word1: `sol = "a"`
+   - Append 'p' from word2: `sol = "ap"`
+3. Iteration 2 (i = 1):
+   - Append 'b' from word1: `sol = "apb"`
+   - Append 'q' from word2: `sol = "apbq"`
+4. Iteration 3 (i = 2):
+   - Append 'c' from word1: `sol = "apbqc"`
+   - Append 'r' from word2: `sol = "apbqcr"`
+5. Iteration 4 (i = 3):
+   - Both i >= word1.length() and i >= word2.length(), so the loop ends
+6. Return `"apbqcr"`
+
+Java Code:
+
+```java
+class Solution {
+    public String mergeAlternately(String word1, String word2) {
+        String sol = "";
+        int i = 0;
+        while(i < word1.length()  || i < word2.length())
+        {
+            if(i < word1.length())
+            {
+                sol += word1.charAt(i);
+            }
+            if(i < word2.length())
+            {
+                sol += word2.charAt(i);
+            }
+            i++;
+        }
+        return sol;
+    }
+}
+```
+
+**Possible Optimizations:**
+
+1. **Use StringBuilder:** Instead of concatenating strings with `+=`, which creates a new string object each time, use a StringBuilder for better performance, especially with longer strings.
+
+2. **Preallocate StringBuilder capacity:** If you know the final length of the merged string (word1.length() + word2.length()), you can preallocate the capacity of the StringBuilder to avoid resizing.
+
+3. **Avoid redundant length checks:** You can restructure the loop to avoid checking the lengths in every iteration.
+
+Here's an optimized version:
+
+```java
+class Solution {
+    public String mergeAlternately(String word1, String word2) {
+        StringBuilder sol = new StringBuilder(word1.length() + word2.length());
+        int i = 0, j = 0;
+        while (i < word1.length() && j < word2.length()) {
+            sol.append(word1.charAt(i++));
+            sol.append(word2.charAt(j++));
+        }
+        sol.append(word1.substring(i));
+        sol.append(word2.substring(j));
+        return sol.toString();
+    }
+}
+```
+
+This optimized version uses StringBuilder, preallocates its capacity, and reduces the number of length checks. It also uses substring to append any remaining characters from the longer string, which is more efficient than appending them one by one.
+
+**63. Greatest Common Divisor of Strings**
+
+For two strings s and t, we say "t divides s" if and only if s = t + t + t + ... + t + t (i.e., t is concatenated with itself one or more times).
+
+Given two strings str1 and str2, return the largest string x such that x divides both str1 and str2.
+
+Example 1:
+
+Input: str1 = "ABCABC", str2 = "ABC"
+
+Output: "ABC"
+
+Example 2:
+
+Input: str1 = "ABABAB", str2 = "ABAB"
+
+Output: "AB"
+
+Example 3:
+
+Input: str1 = "LEET", str2 = "CODE"
+
+Output: ""
+
+Certainly! Let's break down this code.
+
+**Pseudo Code:**
+```
+function gcdOfStrings(str1, str2):
+    if (str1 + str2) is not equal to (str2 + str1):
+        return ""
+    gcd_length = gcd(length of str1, length of str2)
+    return substring of str1 from index 0 to gcd_length
+
+function gcd(a, b):
+    if b is 0:
+        return a
+    else:
+        return gcd(b, a % b)
+```
+
+**Explanation:**
+
+This code finds the greatest common divisor (GCD) of two strings. The GCD of two strings is defined as the largest string that divides both strings without remainder.
+
+The `gcdOfStrings` function first checks if the concatenation of `str1` and `str2` is equal to the concatenation of `str2` and `str1`. If they're not equal, it means there's no common divisor, so it returns an empty string.
+
+If they are equal, it calculates the GCD of the lengths of `str1` and `str2` using the Euclidean algorithm (implemented in the `gcd` function). The GCD of the lengths will be the length of the GCD string. Finally, it returns the substring of `str1` from index 0 to this GCD length.
+
+**Time Complexity:** 
+- O(n) for the string concatenation and comparison, where n is the total length of str1 and str2.
+- O(log(min(m,n))) for the GCD calculation, where m and n are the lengths of str1 and str2.
+- Overall: O(n + log(min(m,n)))
+
+**Space Complexity:** 
+O(n) for the concatenated strings in the equality check.
+
+**Example with Iterations:**
+
+Let's take an example where `str1 = "ABCABC"` and `str2 = "ABC"`:
+
+1. Check if "ABCABCABC" equals "ABCABCABC" - it does, so continue.
+2. Calculate GCD of lengths:
+   - gcd(6, 3)
+   - 6 % 3 = 0, so return 3
+3. Return substring of "ABCABC" from 0 to 3, which is "ABC"
+
+For the GCD calculation:
+1. gcd(6, 3)
+   - a = 6, b = 3
+   - 6 % 3 = 0
+   - b is 0, so return 3
+
+Java Code:
+
+```java
+class Solution {
+    public String gcdOfStrings(String str1, String str2) 
+    {
+        if(!(str1 + str2).equals(str2+str1))
+        return "";
+        int gcd = gcd(str1.length(), str2.length());
+        return str1.substring(0,gcd);
+    }
+
+    private int gcd(int a, int b)
+    {
+        return b ==0 ? a : gcd(b, a%b);
+    } 
+}```
+
+**Possible Optimizations:**
+
+1. **Avoid string concatenation:** Instead of concatenating strings, you could iterate through the strings to check if they have the same pattern. This would reduce space complexity to O(1).
+
+2. **Use iterative GCD:** While the recursive GCD is elegant, an iterative version might be slightly more efficient:
+
+```java
+private int gcd(int a, int b) {
+    while (b != 0) {
+        int temp = b;
+        b = a % b;
+        a = temp;
+    }
+    return a;
+}
+```
+
+3. **Early return:** If the lengths of the strings are equal and the strings are equal, you can return the entire string immediately.
+
+Here's an optimized version:
+
+```java
+class Solution {
+    public String gcdOfStrings(String str1, String str2) {
+        if (str1.equals(str2)) return str1;
+        
+        if (str1.length() < str2.length()) {
+            return gcdOfStrings(str2, str1);
+        }
+        
+        if (str1.startsWith(str2)) {
+            return gcdOfStrings(str1.substring(str2.length()), str2);
+        }
+        
+        return "";
+    }
+}
+```
+
+This version avoids string concatenation, uses recursion to implement the GCD concept directly on strings, and has early returns for common cases. It's more efficient in both time and space complexity.
+
