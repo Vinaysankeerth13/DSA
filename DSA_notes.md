@@ -12077,6 +12077,8 @@ Overall, the provided code is an efficient solution to the problem, achieving th
 
 **61. Minimize Max Distance to Gas Station**
 
+[Minimize Max Distance to Gas Station]()
+
 You are given a sorted array ‘arr’ of length ‘n’, which contains positive integer positions of ‘n’ gas stations on the X-axis. You are also given an integer ‘k’. You have to place 'k' new gas stations on the X-axis. You can place them anywhere on the non-negative side of the X-axis, even on non-integer positions. Let 'dist' be the maximum value of the distance between adjacent gas stations after adding k new gas stations.
 Find the minimum value of ‘dist’.
 
@@ -12253,6 +12255,8 @@ Shiftting my focus to Leetcode 75 for a while.
 
 **62. Merge Strings Alternately**
 
+[Merge Strings Alternately](https://leetcode.com/problems/merge-strings-alternately/?envType=study-plan-v2&envId=leetcode-75)
+
 You are given two strings word1 and word2. Merge the strings by adding letters in alternating order, starting with word1. If a string is longer than the other, append the additional letters onto the end of the merged string.
 
 Return the merged string.
@@ -12397,6 +12401,8 @@ This optimized version uses StringBuilder, preallocates its capacity, and reduce
 
 **63. Greatest Common Divisor of Strings**
 
+[Greatest Common Divisor of Strings](https://leetcode.com/problems/greatest-common-divisor-of-strings/?envType=study-plan-v2&envId=leetcode-75)
+
 For two strings s and t, we say "t divides s" if and only if s = t + t + t + ... + t + t (i.e., t is concatenated with itself one or more times).
 
 Given two strings str1 and str2, return the largest string x such that x divides both str1 and str2.
@@ -12527,3 +12533,273 @@ class Solution {
 
 This version avoids string concatenation, uses recursion to implement the GCD concept directly on strings, and has early returns for common cases. It's more efficient in both time and space complexity.
 
+## 30-07-2024
+
+**64. Kids With the Greatest Number of Candies**
+
+[Kids With the Greatest Number of Candies](https://leetcode.com/problems/kids-with-the-greatest-number-of-candies/description/?envType=study-plan-v2&envId=leetcode-75)
+
+There are n kids with candies. You are given an integer array candies, where each candies[i] represents the number of candies the ith kid has, and an integer extraCandies, denoting the number of extra candies that you have.
+
+Return a boolean array result of length n, where result[i] is true if, after giving the ith kid all the extraCandies, they will have the greatest number of candies among all the kids, or false otherwise.
+
+Note that multiple kids can have the greatest number of candies.
+
+**Pseudo Code:**
+```
+function kidsWithCandies(candies, extraCandies):
+    sol = empty list of booleans
+    highestCandies = findLargest(candies)
+    
+    for each candy in candies:
+        if candy + extraCandies >= highestCandies:
+            add true to sol
+        else:
+            add false to sol
+    
+    return sol
+
+function findLargest(array):
+    max = first element of array
+    for each element in array (starting from second element):
+        if element > max:
+            max = element
+    return max
+```
+
+**Explanation:**
+
+This code solves the problem of determining whether each kid will have the greatest number of candies after receiving extra candies.
+
+The `kidsWithCandies` function first finds the highest number of candies any kid currently has using the `findLargest` function. Then, it iterates through the `candies` array, checking for each kid if their current number of candies plus the extra candies is greater than or equal to the highest number of candies. It adds `true` to the result list if so, and `false` otherwise.
+
+The `findLargest` function simply iterates through the array to find the maximum value.
+
+**Time Complexity:** 
+O(n), where n is the number of kids (length of the candies array). We iterate through the array twice: once to find the maximum and once to check each kid's candy count.
+
+**Space Complexity:** 
+O(n) to store the result list.
+
+**Example with Iterations:**
+
+Let's take an example where `candies = [2,3,5,1,3]` and `extraCandies = 3`:
+
+1. `findLargest` function:
+   - Initialize max = 2
+   - Check 3 > 2, update max to 3
+   - Check 5 > 3, update max to 5
+   - Check 1 > 5, no update
+   - Check 3 > 5, no update
+   - Return 5
+
+2. `kidsWithCandies` function:
+   - Initialize `sol` as empty list
+   - `highestCandies = 5`
+   - Iterate through candies:
+     - 2 + 3 = 5, 5 >= 5, add true
+     - 3 + 3 = 6, 6 >= 5, add true
+     - 5 + 3 = 8, 8 >= 5, add true
+     - 1 + 3 = 4, 4 < 5, add false
+     - 3 + 3 = 6, 6 >= 5, add true
+   - Return [true, true, true, false, true]
+
+Java Code -
+
+```java
+class Solution {
+    public List<Boolean> kidsWithCandies(int[] candies, int extraCandies) 
+    {
+        List<Boolean> sol = new ArrayList<>();
+        int highestCandies = findLargest(candies);
+
+        for(int i=0; i < candies.length; i++)
+        {
+            if(candies[i] + extraCandies >= highestCandies)
+            {
+                sol.add(true);
+            }
+            else 
+            {
+                sol.add(false);
+            }
+        }
+        return sol;
+    }
+
+    private static int findLargest(int[] array)
+    {
+        int max = array[0];
+        for(int i = 1; i<array.length; i++)
+        {
+            if(array[i] > max)
+            {
+                max = array[i];
+            }
+        }
+        return max;
+    }
+}
+```
+
+**Possible Optimizations:**
+
+1. **Combine loops:** We can find the maximum and check each kid's candy count in a single pass through the array:
+
+```java
+class Solution {
+    public List<Boolean> kidsWithCandies(int[] candies, int extraCandies) {
+        List<Boolean> sol = new ArrayList<>();
+        int max = candies[0];
+        
+        for (int candy : candies) {
+            max = Math.max(max, candy);
+        }
+        
+        for (int candy : candies) {
+            sol.add(candy + extraCandies >= max);
+        }
+        
+        return sol;
+    }
+}
+```
+
+2. **Use boolean array:** If we know the size of the input array in advance, we can use a boolean array instead of an ArrayList for slightly better performance:
+
+```java
+class Solution {
+    public List<Boolean> kidsWithCandies(int[] candies, int extraCandies) {
+        boolean[] result = new boolean[candies.length];
+        int max = candies[0];
+        
+        for (int candy : candies) {
+            max = Math.max(max, candy);
+        }
+        
+        for (int i = 0; i < candies.length; i++) {
+            result[i] = candies[i] + extraCandies >= max;
+        }
+        
+        return Arrays.asList(result);
+    }
+}
+```
+
+These optimizations improve the readability of the code and potentially its performance, especially for larger inputs.
+
+**65. Can Place Flowers**
+
+[Can Place Flowers](https://leetcode.com/problems/can-place-flowers/?envType=study-plan-v2&envId=leetcode-75)
+
+You have a long flowerbed in which some of the plots are planted, and some are not. However, flowers cannot be planted in adjacent plots.
+
+Given an integer array flowerbed containing 0's and 1's, where 0 means empty and 1 means not empty, and an integer n, return true if n new flowers can be planted in the flowerbed without violating the no-adjacent-flowers rule and false otherwise.
+
+Example 1:
+
+Input: flowerbed = [1,0,0,0,1], n = 1
+
+Output: true
+
+Example 2:
+
+Input: flowerbed = [1,0,0,0,1], n = 2
+
+Output: false
+
+Certainly! Let's break down this code.
+
+**Pseudo Code:**
+```
+function canPlaceFlowers(flowerbed, n):
+    i = 0
+    if n == 0:
+        return true
+    while i < length of flowerbed:
+        if flowerbed[i] is 0 AND
+           (i is 0 OR flowerbed[i-1] is 0) AND
+           (i is last index OR flowerbed[i+1] is 0):
+            flowerbed[i] = 1
+            n = n - 1
+        if n is 0:
+            return true
+        i = i + 1
+    return false
+```
+
+**Explanation:**
+
+This function determines if it's possible to plant `n` new flowers in the `flowerbed` without violating the no-adjacent-flowers rule.
+
+It iterates through the `flowerbed` array, checking each position. If a position is empty (0) and has no adjacent flowers (either it's at the edge of the bed or the adjacent positions are also 0), it plants a flower there (sets the position to 1) and decrements `n`. If `n` reaches 0, it means all required flowers have been planted, so it returns true. If the loop completes without `n` reaching 0, it returns false.
+
+**Time Complexity:** 
+O(m), where m is the length of the flowerbed array. In the worst case, we might need to check every position in the flowerbed.
+
+**Space Complexity:** 
+O(1), as we're only using a constant amount of extra space regardless of the input size.
+
+**Example with Iterations:**
+
+Let's take an example where `flowerbed = [1,0,0,0,1]` and `n = 1`:
+
+1. i = 0: flowerbed[0] is 1, skip
+2. i = 1: flowerbed[1] is 0, but flowerbed[0] is 1, skip
+3. i = 2: flowerbed[2] is 0, flowerbed[1] is 0, flowerbed[3] is 0
+   - Plant a flower: flowerbed becomes [1,0,1,0,1]
+   - n becomes 0
+   - Return true
+
+```java
+class Solution {
+    public boolean canPlaceFlowers(int[] flowerbed, int n) {
+        int i = 0;
+        if(n == 0) return true;
+        while (i < flowerbed.length) {
+            if (flowerbed[i] == 0 && 
+                (i == 0 || flowerbed[i - 1] == 0) && 
+                (i == flowerbed.length - 1 || flowerbed[i + 1] == 0)) {
+                flowerbed[i] = 1;
+                n--;
+            }
+            if (n == 0) return true;
+            i++;
+        }
+        return false;
+    }
+}
+```
+
+**Possible Optimizations:**
+
+1. **Early return for impossible cases:** We can add a check at the beginning to return false if n is greater than half the length of the flowerbed (rounded down), as this is the maximum number of flowers that can be planted.
+
+2. **Skip iterations:** After planting a flower, we can skip the next position as it can't be used.
+
+3. **Avoid modifying input:** If we're not allowed to modify the input array, we can use a variable to keep track of the last planted position instead of actually changing the array.
+
+Here's an optimized version:
+
+```java
+class Solution {
+    public boolean canPlaceFlowers(int[] flowerbed, int n) {
+        if (n == 0) return true;
+        if (n > (flowerbed.length + 1) / 2) return false;
+
+        int count = 0;
+        for (int i = 0; i < flowerbed.length; i++) {
+            if (flowerbed[i] == 0 && 
+                (i == 0 || flowerbed[i - 1] == 0) && 
+                (i == flowerbed.length - 1 || flowerbed[i + 1] == 0)) {
+                count++;
+                if (count >= n) return true;
+                i++; // skip the next plot
+            }
+        }
+        return false;
+    }
+}
+```
+
+This optimized version adds an early return for impossible cases, skips the next position after planting a flower, and avoids modifying the input array. It also stops as soon as the required number of flowers have been planted, potentially saving unnecessary iterations.
