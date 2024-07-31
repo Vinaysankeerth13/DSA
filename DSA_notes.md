@@ -12803,3 +12803,146 @@ class Solution {
 ```
 
 This optimized version adds an early return for impossible cases, skips the next position after planting a flower, and avoids modifying the input array. It also stops as soon as the required number of flowers have been planted, potentially saving unnecessary iterations.
+
+##31-07-2024
+
+**66. Reverse Vowels of a String**
+
+[Reverse Vowels of a String](https://leetcode.com/problems/reverse-vowels-of-a-string/description/?envType=study-plan-v2&envId=leetcode-75)
+
+Given a string s, reverse only all the vowels in the string and return it.
+
+The vowels are 'a', 'e', 'i', 'o', and 'u', and they can appear in both lower and upper cases, more than once.
+
+Example 1:
+
+Input: s = "hello"
+
+Output: "holle"
+
+Example 2:
+
+Input: s = "leetcode"
+
+Output: "leotcede"
+
+Certainly! Let's break down this code.
+
+**Pseudo Code:**
+```
+function reverseVowels(s):
+    i = 0
+    j = length of s - 1
+    sol = convert s to character array
+    
+    while i < j:
+        while i < j and sol[i] is not a vowel:
+            i++
+        while i < j and sol[j] is not a vowel:
+            j--
+        if i < j:
+            swap sol[i] and sol[j]
+            i++
+            j--
+    
+    return sol converted back to string
+
+function isVowel(c):
+    return true if c is 'a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', or 'U'
+    return false otherwise
+```
+
+**Explanation:**
+
+This function reverses the vowels in a given string. It uses two pointers, `i` and `j`, starting from the beginning and end of the string respectively. It moves these pointers towards each other, swapping vowels when both pointers are on vowels.
+
+**Time Complexity:** 
+O(n), where n is the length of the string. In the worst case, we might need to check every character in the string once.
+
+**Space Complexity:** 
+O(n) to create the character array. If we consider the input string as part of the space complexity, it's O(n), otherwise it's O(1) as we're modifying the array in-place.
+
+**Example with Iterations:**
+
+Let's take an example where `s = "hello"`:
+
+1. Initialize: i = 0, j = 4, sol = ['h','e','l','l','o']
+2. i = 0 ('h' is not a vowel), i++
+3. i = 1, j = 4 ('e' and 'o' are vowels), swap them: ['h','o','l','l','e'], i++, j--
+4. i = 2, j = 3 ('l' is not a vowel), i++
+5. i = 3, j = 3 (loop ends)
+6. Return "holle"
+
+Java Code:
+
+```java
+class Solution {
+    public String reverseVowels(String s) {
+        int i = 0;
+        int j = s.length() - 1;
+        char[] sol = s.toCharArray();
+        while (i < j) {
+            while (i < j && !isVowel(sol[i])) {
+                i++;
+            }
+            while (i < j && !isVowel(sol[j])) {
+                j--;
+            }
+            if (i < j) {
+                char temp = sol[i];
+                sol[i] = sol[j];
+                sol[j] = temp;
+                i++;
+                j--;
+            }
+        }
+        return new String(sol);
+    }
+
+    private static boolean isVowel(char c) {
+        return c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u' || c == 'A' || c == 'E' || c == 'I' || c == 'O'
+                || c == 'U';
+    }
+}
+```
+
+**Possible Optimizations:**
+
+1. **Use a Set for vowel checking:** Instead of multiple comparisons in the `isVowel` function, we could use a HashSet for potentially faster lookups, especially if we expect to check many non-vowel characters:
+
+```java
+private static final Set<Character> vowels = new HashSet<>(Arrays.asList('a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U'));
+
+private static boolean isVowel(char c) {
+    return vowels.contains(c);
+}
+```
+
+2. **Avoid creating a new String object:** We can use StringBuilder to avoid creating a new String object at the end:
+
+```java
+public String reverseVowels(String s) {
+    StringBuilder sb = new StringBuilder(s);
+    int i = 0, j = s.length() - 1;
+    while (i < j) {
+        while (i < j && !isVowel(sb.charAt(i))) i++;
+        while (i < j && !isVowel(sb.charAt(j))) j--;
+        if (i < j) {
+            char temp = sb.charAt(i);
+            sb.setCharAt(i, sb.charAt(j));
+            sb.setCharAt(j, temp);
+            i++;
+            j--;
+        }
+    }
+    return sb.toString();
+}
+```
+
+3. **Early termination:** We can add a check to return early if the string has 0 or 1 character:
+
+```java
+if (s.length() <= 1) return s;
+```
+
+These optimizations can potentially improve performance, especially for larger inputs or when the function is called frequently.
