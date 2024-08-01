@@ -157,7 +157,6 @@ Given a signed 32-bit integer x, return x with its digits reversed. If reversing
 
 Assume the environment does not allow you to store 64-bit integers (signed or unsigned).
 
-
 Example 1:
 
 Input: x = 123
@@ -204,14 +203,14 @@ Java Code:
 
 ```java
 class Solution {
-    public int reverse(int x) 
+    public int reverse(int x)
     {
         int reversed = 0;
         while (x!=0)
         {
             int lastDigit = x % 10;
             if (reversed > Integer.MAX_VALUE / 10 || (reversed == Integer.MAX_VALUE / 10 && lastDigit > 7)) {
-    return 0; 
+    return 0;
 }
 if (reversed < Integer.MIN_VALUE / 10 || (reversed == Integer.MIN_VALUE / 10 && lastDigit < -8)) {
     return 0;
@@ -228,6 +227,7 @@ if (reversed < Integer.MIN_VALUE / 10 || (reversed == Integer.MIN_VALUE / 10 && 
 Let's consider the input `x = 123`.
 
 The iterations are as follows:
+
 1. `reversed = 0`, `x = 123`
 2. `last_digit = 123 % 10 = 3`
    - Since `0 <= 2147483647 / 10` and `0 == 2147483647 / 10`, the overflow condition is not met.
@@ -281,9 +281,8 @@ The time complexity and space complexity remain the same as the original impleme
 
 [Palindrome](https://leetcode.com/problems/palindrome-number/description/)
 
-Given an integer x, return true if x is a 
+Given an integer x, return true if x is a
 palindrome, and false otherwise.
-
 
 Example 1:
 
@@ -337,7 +336,7 @@ The space complexity is O(1) since the solution uses only a few constant-size va
 
 ```java
 class Solution {
-    public boolean isPalindrome(int x) 
+    public boolean isPalindrome(int x)
     {
         int reversed = 0;
         int original = x;
@@ -358,6 +357,7 @@ class Solution {
 Let's consider the input `x = 12321`.
 
 The iterations are as follows:
+
 1. `reversed = 0`, `original = 12321`, `x = 12321`
 2. `last_digit = 12321 % 10 = 1`
    - `reversed = 0 * 10 + 1 = 1`, `x = 12321 // 10 = 1232`
@@ -412,7 +412,6 @@ This optimized version handles negative numbers and numbers ending with 0 (excep
 
 Given two numbers A and B. The task is to find out their LCM and GCD.
 
- 
 Example 1:
 
 Input:
@@ -470,7 +469,7 @@ Java Code:
 
 ```java
 class Solution {
-    static Long[] lcmAndGcd(Long A , Long B) 
+    static Long[] lcmAndGcd(Long A , Long B)
     {
         long gcd = 1;
         long a = A;
@@ -481,10 +480,10 @@ class Solution {
             b = a % b;
             a = temp;
         }
-        
+
         gcd = a;
         long lcm = (A*B)/gcd;
-        
+
         Long[] sol = {lcm,gcd};
         return sol;
     }
@@ -496,6 +495,7 @@ class Solution {
 Let's consider the input `A = 12` and `B = 18`.
 
 The iterations are as follows:
+
 1. `gcd = 1`, `a = 12`, `b = 18`
 2. `temp = 18`, `b = 12 % 18 = 12`, `a = 18`
 3. `temp = 12`, `b = 18 % 12 = 6`, `a = 12`
@@ -624,6 +624,7 @@ else return "No";
 Let's consider the input `n = 153`.
 
 The iterations are as follows:
+
 1. `original = 153`, `armstrong_num = 0`, `n = 153`
 2. `last_digit = 153 % 10 = 3`
    - `armstrong_num = 0 + 3^3 = 0 + 27 = 27`, `n = 153 // 10 = 15`
@@ -707,8 +708,8 @@ F(3) = 1 + 3 = 4
 F(4) = 1 + 2 + 4 = 7
 
 ans = F(1) + F(2) + F(3) + F(4)
-    = 1 + 3 + 4 + 7
-    = 15
+= 1 + 3 + 4 + 7
+= 15
 
 Example 2:
 
@@ -731,8 +732,8 @@ F(4) = 1 + 2 + 4 = 7
 F(5) = 1 + 5 = 6
 
 ans = F(1) + F(2) + F(3) + F(4) + F(5)
-    = 1 + 3 + 4 + 7 + 6
-    = 21
+= 1 + 3 + 4 + 7 + 6
+= 21
 
 The provided code is a Java implementation of a function `sumOfDivisors` that takes an integer `N` as input and calculates the sum of all divisors of `N`.
 
@@ -774,6 +775,7 @@ class Solution{
 Let's consider the input `N = 6`.
 
 The iterations are as follows:
+
 1. `sum = 0`, `i = 1`
    - `sum = 0 + (6 / 1) * 1 = 0 + 6 = 6`
 2. `i = 2`
@@ -824,13 +826,11 @@ The time complexity of this optimized solution is O(sqrt(N)), and the space comp
 
 This optimization significantly improves the performance for large values of `N`, as the number of iterations is reduced from `N` to approximately `sqrt(N)`.
 
-
 **7. Prime number**
 
 [Prime Number](https://www.geeksforgeeks.org/problems/prime-number2314/1)
 
 For a given number N check if it is prime or not. A prime number is a number which is only divisible by 1 and itself.
- 
 
 Example 1:
 
@@ -901,6 +901,7 @@ class Solution{
 Let's consider the input `N = 17`.
 
 The iterations are as follows:
+
 1. `N = 17` is not equal to 1, so the execution continues.
 2. `n = sqrt(17) = 4.12` (the integer part is 4).
 3. `i = 2`
@@ -1002,7 +1003,7 @@ Java Code:
 ```java
 class Solution
 {
-    
+
   public void printNos(int N)
     {
         if(N ==0)return;
@@ -1017,6 +1018,7 @@ class Solution
 Let's consider the input `N = 5`.
 
 The function calls are as follows:
+
 1. `printNos(5)` is called.
 2. Since `N` is not 0, the function calls `printNos(4)`.
 3. `printNos(4)` calls `printNos(3)`.
@@ -1052,7 +1054,6 @@ In this optimized version, the function uses a simple `for` loop to iterate from
 The time complexity of this optimized solution remains O(N), as it still needs to perform N iterations to print all the numbers. However, the space complexity is now O(1) since it does not use recursion and does not create any additional data structures that grow with the input size.
 
 This optimization is more efficient for large values of `N`, as it avoids the overhead of creating and maintaining multiple stack frames during recursion.
-
 
 **9. Print GFG n times**
 
@@ -1092,7 +1093,7 @@ Java code:
 ```java
 class Solution {
 
-    void printGfg(int N) 
+    void printGfg(int N)
     {
         if(N==0)
         {
@@ -1111,6 +1112,7 @@ class Solution {
 Let's consider the input `N = 3`.
 
 The function calls are as follows:
+
 1. `printGfg(3)` is called.
 2. Since `N` is not 0, the function prints `"GFG "` and calls `printGfg(2)`.
 3. `printGfg(2)` prints `"GFG "` and calls `printGfg(1)`.
@@ -1177,7 +1179,7 @@ Java code:
 ```java
 class Solution {
 
-    void printNos(int N) 
+    void printNos(int N)
     {
         if(N==1)
         {
@@ -1196,6 +1198,7 @@ class Solution {
 Let's consider the input `N = 5`.
 
 The function calls are as follows:
+
 1. `printNos(5)` is called.
 2. Since `N` is not 1, the function prints `5 ` and calls `printNos(4)`.
 3. `printNos(4)` prints `4 ` and calls `printNos(3)`.
@@ -1268,9 +1271,9 @@ The space complexity is O(n) due to the recursive nature of the function. Each r
 Java Code:
 
 ```java
-class Solution 
+class Solution
 {
-    long sumOfSeries(long n) 
+    long sumOfSeries(long n)
     {
         if(n==0)
         {
@@ -1281,7 +1284,7 @@ class Solution
             return (n*n*n)+sumOfSeries(n-1);
         }
     }
-    
+
 }
 ```
 
@@ -1289,6 +1292,7 @@ class Solution
 Let's consider the input `n = 3`.
 
 The function calls are as follows:
+
 1. `sumOfSeries(3)` is called.
 2. Since `n` is not 0, the function calculates `3^3 = 27` and calls `sumOfSeries(2)`.
 3. `sumOfSeries(2)` calculates `2^3 = 8` and calls `sumOfSeries(1)`.
@@ -1342,7 +1346,7 @@ Input: N = 6
 
 Output: 1 2 6
 
-Explanation: The first three factorial numbers are less than equal to N but the fourth factorial number 24 is 
+Explanation: The first three factorial numbers are less than equal to N but the fourth factorial number 24 is
 greater than N. So we print only first three factorial numbers.
 
 Here's the pseudocode with an explanation:
@@ -1365,7 +1369,7 @@ function factorial(n, res, i, fact):
 ```
 
 **Time Complexity:**
-The time complexity of this solution is O(n * k), where n is the input number `N`, and k is the number of factorial numbers generated. This is because the `factorial` function is called recursively for each factorial number, and each recursive call performs a constant-time operation (addition and multiplication).
+The time complexity of this solution is O(n \* k), where n is the input number `N`, and k is the number of factorial numbers generated. This is because the `factorial` function is called recursively for each factorial number, and each recursive call performs a constant-time operation (addition and multiplication).
 
 **Space Complexity:**
 The space complexity is O(k), where k is the number of factorial numbers generated. This is because the ArrayList `res` stores all the factorial numbers, and its size grows linearly with the number of factorial numbers generated.
@@ -1380,7 +1384,7 @@ class Solution{
         long fact=1;
         factorial(N,res,2,1);
         return res;
-        
+
     }
     static void factorial(long n,ArrayList<Long> res,long i,long fact){
         if(fact>n)
@@ -1397,6 +1401,7 @@ class Solution{
 Let's consider the input `N = 10`.
 
 The function calls are as follows:
+
 1. `factorialNumbers(10)` is called.
 2. `res` is initialized as an empty ArrayList.
 3. `fact` is initialized to 1.
@@ -1529,7 +1534,7 @@ class Solution {
             st++;
             e--;
         }
-        return true; 
+        return true;
     }
 }
 ```
@@ -1615,7 +1620,6 @@ F(0) = 0, F(1) = 1
 F(n) = F(n - 1) + F(n - 2), for n > 1.
 Given n, calculate F(n).
 
-
 Example 1:
 
 Input: n = 2
@@ -1668,19 +1672,24 @@ class Solution {
 **Input:** `n = 4` (calculate the 4th Fibonacci number)
 
 1. **Initial Call:** `fib(4)`
+
    - `n` is not 0, 1, or 2, so the recursive case applies.
    - Calls `fib(3)` and `fib(2)`.
 
 2. **fib(3) Call:**
+
    - `n` is not 0, 1, or 2, so calls `fib(2)` and `fib(1)`.
 
 3. **fib(2) Call (1st):** from `fib(3)`
+
    - `n` is 2, so the base case returns 1.
 
 4. **fib(2) Call (2nd):** from `fib(4)`
+
    - This is a redundant call because `fib(2)` was already calculated in step 3. This highlights the inefficiency of recursion for Fibonacci numbers.
 
 5. **fib(1) Call:** from `fib(3)`
+
    - `n` is 1, so the base case returns 1.
 
 6. **Stack Unwinding:**
@@ -1747,7 +1756,7 @@ class Solution {
 **15. Frequencies of Limited Range Array Elements**
 
 Given an array arr[] of N positive integers which can contain integers from 1 to P where elements can be repeated or can be absent from the array. Your task is to count the frequency of all numbers from 1 to N. Make in-place changes in arr[], such that arr[i] = frequency(i). Assume 1-based indexing.
-Note: The elements greater than N in the array can be ignored for counting and do modify the array in-place. 
+Note: The elements greater than N in the array can be ignored for counting and do modify the array in-place.
 
 Example 1:
 
@@ -1762,7 +1771,7 @@ Output:
 
 0 2 2 0 1
 
-Explanation: 
+Explanation:
 
 Counting frequencies of each array element
 We have:
@@ -1811,7 +1820,7 @@ class Solution{
     public static void frequencyCount(int arr[], int N, int P)
     {
         Map<Integer, Integer> mp = new HashMap<>();
-        
+
         for(int i = 0; i < arr.length; i++){
             if(mp.containsKey(arr[i])){
                 mp.put(arr[i], mp.get(arr[i])+1);
@@ -1820,11 +1829,11 @@ class Solution{
                 mp.put(arr[i], 1);
             }
         }
-        
+
         for(int i = 0; i < arr.length; i++){
             arr[i] = mp.getOrDefault(i+1, 0);
         }
-        
+
     }
 }
 ```
@@ -1834,9 +1843,11 @@ Let's consider the input array `arr = [1, 2, 3, 2, 1, 4, 3]` and `N = 7`.
 
 1. Initially, the map `mp` is empty.
 2. After the first loop:
+
    - `mp = {1: 2, 2: 2, 3: 2, 4: 1}`
 
 3. In the second loop:
+
    - `arr[0]` is replaced with the frequency of 1, which is 2 (from `mp.get(1)`).
    - `arr[1]` is replaced with the frequency of 2, which is 2 (from `mp.get(2)`).
    - `arr[2]` is replaced with the frequency of 3, which is 2 (from `mp.get(3)`).
@@ -1858,7 +1869,6 @@ You are given an integer array nums and an integer k. In one operation, you can 
 
 Return the maximum possible frequency of an element after performing at most k operations.
 
-
 Example 1:
 
 Input: nums = [1,2,4], k = 5
@@ -1875,10 +1885,11 @@ Input: nums = [1,4,8,13], k = 5
 Output: 2
 
 Explanation: There are multiple optimal solutions:
+
 - Increment the first element three times to make nums = [4,4,8,13]. 4 has a frequency of 2.
 - Increment the second element four times to make nums = [1,8,8,13]. 8 has a frequency of 2.
 - Increment the third element five times to make nums = [1,4,13,13]. 13 has a frequency of 2.
-Example 3:
+  Example 3:
 
 Input: nums = [3,9,6], k = 2
 
@@ -1966,6 +1977,7 @@ Let's consider the input array `nums = [1, 2, 3, 4]` and `k = 5`.
    - `res = max(res, 2 - 0 + 1) = 3`.
    - `right = 3`.
 6. Iteration 4:
+
    - `total += nums[3] = 10`, `total = 10`.
    - The inner loop condition is satisfied since `4 * (3 - 0 + 1) > 10 + 5`.
    - The inner loop runs:
@@ -1993,7 +2005,6 @@ while ((right - left + 1L) > (total + k) / nums[right]) {
 ```
 
 This optimization does not change the time or space complexity of the solution but provides a safer way to handle large values in the input.
-
 
 ## Sorting
 
@@ -11430,7 +11441,7 @@ The second line contains n space-separated integers denoting the position of the
 Example 1:
 
 Input:
-n=5 
+n=5
 
 k=3
 
@@ -11442,17 +11453,17 @@ Output:
 
 Explanation:
 
-The first cow can be placed at stalls[0], 
-the second cow can be placed at stalls[2] and 
-the third cow can be placed at stalls[3]. 
-The minimum distance between cows, in this case, is 3, 
+The first cow can be placed at stalls[0],
+the second cow can be placed at stalls[2] and
+the third cow can be placed at stalls[3].
+The minimum distance between cows, in this case, is 3,
 which also is the largest among all possible ways.
 
 Example 2:
 
 Input:
 
-n=5 
+n=5
 
 k=3
 
@@ -11469,6 +11480,7 @@ The minimum distance between cows, in this case, is 4,
 which also is the largest among all possible ways.
 
 ### Pseudo Code
+
 ```
 1. **isvalid Function:**
    - Input: `st`, `n`, `k`, `mid`
@@ -11493,12 +11505,14 @@ which also is the largest among all possible ways.
 ### Explanation
 
 #### Time Complexity
+
 - **Sorting:** `O(n log n)` - Sorting the stalls array.
 - **Binary Search:** `O(log(max_distance))` - The binary search runs on the range of possible distances, where `max_distance` is the difference between the highest and lowest stall positions.
 - **isvalid Function:** `O(n)` - Checking the validity for each middle distance during the binary search.
 - **Overall Complexity:** `O(n log n + n log(max_distance))`
 
 #### Space Complexity
+
 - **Space Complexity:** `O(1)` - No additional space other than input storage.
 
 Java Code:
@@ -11514,22 +11528,22 @@ class Solution {
                 last=st[i];
             }
         }
-        
+
         if(cow>=k){
             return true;
         }
-        
+
         return false;
-        
+
     }
     public static int solve(int n, int k, int[] stalls) {
         Arrays.sort(stalls);
         int low=1;
         int high=stalls[n-1];
-        
+
         while(low<=high){
             int mid=(low+high)/2;
-            
+
             if(isvalid(stalls,n,k,mid)==true){
                 low=mid+1;
             }
@@ -11545,6 +11559,7 @@ class Solution {
 ### Explanation with Example
 
 Given:
+
 - `n = 5` (number of stalls)
 - `k = 3` (number of cows)
 - `stalls = [1, 2, 8, 4, 9]`
@@ -11552,27 +11567,32 @@ Given:
 **Step-by-Step Execution:**
 
 1. **Sort the `stalls` array:**
+
    - Sorted stalls: `[1, 2, 4, 8, 9]`
 
 2. **Binary Search Initialization:**
+
    - `low = 1`
    - `high = 9`
 
 3. **Iterations of Binary Search:**
 
    - **Iteration 1:**
+
      - `mid = (1 + 9) / 2 = 5`
      - Call `isvalid([1, 2, 4, 8, 9], 5, 3, 5)`
      - Place cows at stalls: 1, 8 -> Only 2 cows placed (not valid)
      - `high = mid - 1 = 4`
 
    - **Iteration 2:**
+
      - `mid = (1 + 4) / 2 = 2`
      - Call `isvalid([1, 2, 4, 8, 9], 5, 3, 2)`
      - Place cows at stalls: 1, 4, 8 -> 3 cows placed (valid)
      - `low = mid + 1 = 3`
 
    - **Iteration 3:**
+
      - `mid = (3 + 4) / 2 = 3`
      - Call `isvalid([1, 2, 4, 8, 9], 5, 3, 3)`
      - Place cows at stalls: 1, 4, 8 -> 3 cows placed (valid)
@@ -11602,11 +11622,7 @@ Given:
 
 Given an array ‘arr’ of integer numbers, ‘arr[i]’ represents the number of pages in the ‘i-th’ book.
 
-
-
 There are ‘m’ number of students, and the task is to allocate all the books to the students.
-
-
 
 Allocate books in such a way that:
 
@@ -11614,17 +11630,12 @@ Allocate books in such a way that:
 2. Each book should be allocated to only one student.
 3. Book allocation should be in a contiguous manner.
 
-
 You have to allocate the book to ‘m’ students such that the maximum number of pages assigned to a student is minimum.
-
-
 
 If the allocation of books is not possible, return -1.
 
-
-
 Example:
-Input: ‘n’ = 4 ‘m’ = 2 
+Input: ‘n’ = 4 ‘m’ = 2
 ‘arr’ = [12, 34, 67, 90]
 
 Output: 113
@@ -11689,10 +11700,12 @@ The binary search loop continues until `low` is greater than `high`. In each ite
 The `countStudents` function takes the `arr` array and the target number of pages `pages`. It initializes a variable `students` to 1 and `current_pages` to 0. It iterates through the `arr` array, and for each book, it checks if adding the book's pages to `current_pages` exceeds the target `pages`. If it does, it increments `students` (assigns a new student) and sets `current_pages` to the current book's pages. Otherwise, it adds the current book's pages to `current_pages`.
 
 **Time Complexity:**
-- `findPages` function: O(n * log(sum(arr))), where n is the size of the `arr` array. The binary search takes O(log(sum(arr))) time, and the `countStudents` function takes O(n) time.
+
+- `findPages` function: O(n \* log(sum(arr))), where n is the size of the `arr` array. The binary search takes O(log(sum(arr))) time, and the `countStudents` function takes O(n) time.
 - `countStudents` function: O(n), where n is the size of the `arr` array, as it iterates through the array once.
 
 **Space Complexity:**
+
 - O(1), as the functions use a constant amount of extra space regardless of the input size.
 
 Java Code:
@@ -11701,7 +11714,7 @@ Java Code:
 import java.util.ArrayList;
 import java.util.Collections;
 public class Solution {
-    public static int findPages(ArrayList<Integer> arr, int n, int m) 
+    public static int findPages(ArrayList<Integer> arr, int n, int m)
     {
         if(m>n) return -1;
         int low = Collections.max(arr);
@@ -11714,7 +11727,7 @@ public class Solution {
             {
                 high = mid-1;
             }
-            else 
+            else
             {
                 low = mid+1;
             }
@@ -11737,7 +11750,7 @@ public class Solution {
                 s++;
                 page = arr.get(i);
             }
-        } 
+        }
         return s;
     }
 }
@@ -11748,11 +11761,13 @@ public class Solution {
 Let's consider the example where `arr = [12, 34, 67, 90]`, `n = 4`, and `m = 2`.
 
 In the `findPages` function:
+
 1. `m` (2) is not greater than `n` (4), so the function proceeds.
 2. `low` is initialized to `max(arr)` = 90.
 3. `high` is initialized to `sum(arr)` = 12 + 34 + 67 + 90 = 203.
 
 Binary Search iterations:
+
 1. `mid = (90 + 203) / 2 = 146`.
 2. `countStudents(arr, 146)` returns 2 (student 1: 12 + 34 = 46, student 2: 67 + 90 = 157).
 3. Since 2 <= 2, `high` is updated to 146 - 1 = 145.
@@ -11769,7 +11784,7 @@ Binary Search iterations:
 
 **Optimizations:**
 
-The code is already optimal in terms of time complexity, as it uses a binary search approach, which has a time complexity of O(n * log(sum(arr))). However, there are a few potential optimizations:
+The code is already optimal in terms of time complexity, as it uses a binary search approach, which has a time complexity of O(n \* log(sum(arr))). However, there are a few potential optimizations:
 
 1. **Early Termination:** In the `countStudents` function, if the current book's pages exceed the target `pages`, the function can immediately return the number of students required so far plus 1 (to account for the current book). This optimization can potentially save some iterations in certain cases.
 
@@ -11786,7 +11801,6 @@ Given an integer array nums and an integer k, split nums into k non-empty subarr
 Return the minimized largest sum of the split.
 
 A subarray is a contiguous part of the array.
-
 
 Example 1:
 
@@ -11849,10 +11863,12 @@ The binary search loop continues until `start` is greater than `end`. In each it
 After the loop terminates, the function returns `start`, which represents the minimum possible maximum subarray sum that can be achieved by splitting the array into at most `k` non-empty subarrays.
 
 **Time Complexity:**
+
 - `cntNoOfSplits` function: O(n), where n is the size of the `nums` array, as it iterates through the array once.
-- `splitArray` function: O(n * log(sum(nums))), where n is the size of the `nums` array. The binary search takes O(log(sum(nums))) time, and the `cntNoOfSplits` function takes O(n) time.
+- `splitArray` function: O(n \* log(sum(nums))), where n is the size of the `nums` array. The binary search takes O(log(sum(nums))) time, and the `cntNoOfSplits` function takes O(n) time.
 
 **Space Complexity:**
+
 - O(1), as the functions use a constant amount of extra space regardless of the input size.
 
 Java code:
@@ -11892,10 +11908,12 @@ class Solution {
 Let's consider the example where `nums = [7, 2, 5, 10, 8]` and `k = 2`.
 
 In the `splitArray` function:
+
 1. `start` is initialized to `min(nums)` = 2.
 2. `end` is initialized to `sum(nums)` = 7 + 2 + 5 + 10 + 8 = 32.
 
 Binary Search iterations:
+
 1. `mid = (2 + 32) / 2 = 17`.
 2. `cntNoOfSplits(nums, 17)` returns 2 (subarray 1: 7 + 2 + 5 = 14, subarray 2: 10 + 8 = 18).
 3. Since 2 <= 2, `end` is updated to 17 - 1 = 16.
@@ -11912,7 +11930,7 @@ Binary Search iterations:
 
 **Optimizations:**
 
-The code is already optimal in terms of time complexity, as it uses a binary search approach, which has a time complexity of O(n * log(sum(nums))). However, there are a few potential optimizations:
+The code is already optimal in terms of time complexity, as it uses a binary search approach, which has a time complexity of O(n \* log(sum(nums))). However, there are a few potential optimizations:
 
 1. **Early Termination:** In the `cntNoOfSplits` function, if the sum of all remaining elements in the array is less than or equal to `maxSum`, the function can immediately return `noOfSplits + 1` (to account for the remaining subarray). This optimization can potentially save some iterations in certain cases.
 
@@ -11941,7 +11959,6 @@ Output: 11
 Explanation:
 
 First painter can paint boards 1 to 3 in 8 units of time and the second painter can paint boards 4-6 in 11 units of time. Thus both painters will paint all the boards in max(8,11) = 11 units of time. It can be shown that all the boards can't be painted in less than 11 units of time.
-
 
 Sure, let's break it down.
 
@@ -11985,10 +12002,12 @@ The binary search loop continues until `low` is greater than `high`. In each ite
 After the loop terminates, the function returns `low`, which represents the minimum time required to paint all boards using at most `k` painters.
 
 **Time Complexity:**
+
 - `countPainters` function: O(n), where n is the size of the `arr` array, as it iterates through the array once.
-- `findLargestMinDistance` function: O(n * log(sum(boards))), where n is the size of the `boards` array. The binary search takes O(log(sum(boards))) time, and the `countPainters` function takes O(n) time.
+- `findLargestMinDistance` function: O(n \* log(sum(boards))), where n is the size of the `boards` array. The binary search takes O(log(sum(boards))) time, and the `countPainters` function takes O(n) time.
 
 **Space Complexity:**
+
 - O(1), as the functions use a constant amount of extra space regardless of the input size.
 
 Java Code :
@@ -11996,7 +12015,7 @@ Java Code :
 ```java
 import java.util.ArrayList;
 
-public class Solution 
+public class Solution
 {
     static long countPainters( ArrayList<Integer> arr, long max ){
         long currBoards = 0;
@@ -12034,22 +12053,25 @@ public class Solution
             }
             else
             {
-                high = mid - 1;               
+                high = mid - 1;
             }
         }
         return (int)low;
     }
 }
 ```
+
 **Example with Iterations:**
 
 Let's consider the example where `boards = [5, 5, 5, 5]` and `k = 3`.
 
 In the `findLargestMinDistance` function:
+
 1. `low` is initialized to `min(boards)` = 5.
 2. `high` is initialized to `sum(boards)` = 5 + 5 + 5 + 5 = 20.
 
 Binary Search iterations:
+
 1. `mid = (5 + 20) / 2 = 12`.
 2. `countPainters(boards, 12)` returns 2 (painter 1: 5 + 5 = 10, painter 2: 5 + 5 = 10).
 3. Since 2 < 3, `high` is updated to 12 - 1 = 11.
@@ -12063,7 +12085,7 @@ Binary Search iterations:
 
 **Optimizations:**
 
-The code is already optimal in terms of time complexity, as it uses a binary search approach, which has a time complexity of O(n * log(sum(boards))). However, there are a few potential optimizations:
+The code is already optimal in terms of time complexity, as it uses a binary search approach, which has a time complexity of O(n \* log(sum(boards))). However, there are a few potential optimizations:
 
 1. **Early Termination:** In the `countPainters` function, if the sum of all remaining boards in the array is less than or equal to `max`, the function can immediately return `painterCount + 1` (to account for the remaining boards). This optimization can potentially save some iterations in certain cases.
 
@@ -12087,26 +12109,25 @@ Note: Answers within 10^-6 of the actual answer will be accepted. For example, i
 Example 1:
 
 Input Format:
- N = 5, 
- 
-arr[] = {1,2,3,4,5}, 
+N = 5,
+
+arr[] = {1,2,3,4,5},
 
 k = 4
 
 Result:
- 0.5
+0.5
 
 Explanation:
- One of the possible ways to place 4 gas stations is {1,1.5,2,2.5,3,3.5,4,4.5,5}. Thus the maximum difference between adjacent gas stations is 0.5. Hence, the value of ‘dist’ is 0.5. It can be shown that there is no possible way to add 4 gas stations in such a way that the value of ‘dist’ is lower than this. 
-
+One of the possible ways to place 4 gas stations is {1,1.5,2,2.5,3,3.5,4,4.5,5}. Thus the maximum difference between adjacent gas stations is 0.5. Hence, the value of ‘dist’ is 0.5. It can be shown that there is no possible way to add 4 gas stations in such a way that the value of ‘dist’ is lower than this.
 
 Example 2:
 
 Input Format:
 
- N = 10,
+N = 10,
 
-arr[] = {1,2,3,4,5,6,7,8,9,10}, 
+arr[] = {1,2,3,4,5,6,7,8,9,10},
 
 k = 1
 
@@ -12114,7 +12135,7 @@ Result: 1
 
 Explanation:
 
- One of the possible ways to place 1 gas station is {1,1.5,2,3,4,5,6,7,8,9,10}. Thus the maximum difference between adjacent gas stations is still 1. Hence, the value of ‘dist’ is 1. It can be shown that there is no possible way to add 1 gas station in such a way that the value of ‘dist’ is lower than this. 
+One of the possible ways to place 1 gas station is {1,1.5,2,3,4,5,6,7,8,9,10}. Thus the maximum difference between adjacent gas stations is still 1. Hence, the value of ‘dist’ is 1. It can be shown that there is no possible way to add 1 gas station in such a way that the value of ‘dist’ is lower than this.
 
 Sure, let's break it down.
 
@@ -12159,10 +12180,12 @@ In each iteration, it calculates the midpoint `mid` and calls the `numberOfGasSt
 After the loop terminates, the function returns `high`, which represents the minimum distance between gas stations that satisfies the constraint of at most `k` additional gas stations.
 
 **Time Complexity:**
+
 - `numberOfGasStationsRequired` function: O(n), where n is the size of the `arr` array, as it iterates through the array once.
-- `minimiseMaxDistance` function: O(n * log(max_distance)), where n is the size of the `arr` array, and `max_distance` is the maximum distance between any two consecutive points in the array. The binary search takes O(log(max_distance)) time, and the `numberOfGasStationsRequired` function takes O(n) time.
+- `minimiseMaxDistance` function: O(n \* log(max_distance)), where n is the size of the `arr` array, and `max_distance` is the maximum distance between any two consecutive points in the array. The binary search takes O(log(max_distance)) time, and the `numberOfGasStationsRequired` function takes O(n) time.
 
 **Space Complexity:**
+
 - O(1), as the functions use a constant amount of extra space regardless of the input size.
 
 Java Code:
@@ -12221,11 +12244,13 @@ public class tUf {
 Let's consider the example where `arr = [1, 2, 3, 4, 5]` and `k = 4`.
 
 In the `minimiseMaxDistance` function:
+
 1. `n` is 5.
 2. `low` is initialized to 0.
 3. `high` is initialized to the maximum distance between any two consecutive points, which is 4 - 1 = 3.
 
 Binary Search iterations:
+
 1. `mid = (0 + 3) / 2 = 1.5`.
 2. `numberOfGasStationsRequired(1.5, arr)` returns 3 (between 1 and 2: 1 station, between 2 and 3: 1 station, between 3 and 4: 1 station).
 3. Since 3 <= 4, `high` is updated to 1.5.
@@ -12239,7 +12264,7 @@ Binary Search iterations:
 
 **Optimizations:**
 
-The code is already optimal in terms of time complexity, as it uses a binary search approach, which has a time complexity of O(n * log(max_distance)). However, there are a few potential optimizations:
+The code is already optimal in terms of time complexity, as it uses a binary search approach, which has a time complexity of O(n \* log(max_distance)). However, there are a few potential optimizations:
 
 1. **Parallel Processing:** If multiple processors are available, the `numberOfGasStationsRequired` function can be parallelized to distribute the workload across multiple threads or processes. This can potentially improve performance, especially for large input sizes.
 
@@ -12251,7 +12276,7 @@ Overall, the provided code is an efficient solution to the problem, achieving th
 
 ## 23-06-2024
 
-Shiftting my focus to Leetcode 75 for a while. 
+Shiftting my focus to Leetcode 75 for a while.
 
 **62. Merge Strings Alternately**
 
@@ -12269,9 +12294,9 @@ Output: "apbqcr"
 
 Explanation: The merged string will be merged as so:
 
-word1:  a   b   c
+word1: a b c
 
-word2:    p   q   r
+word2: p q r
 
 merged: a p b q c r
 
@@ -12283,11 +12308,11 @@ Output: "apbqrs"
 
 Explanation: Notice that as word2 is longer, "rs" is appended to the end.
 
-word1:  a   b 
+word1: a b
 
-word2:    p   q   r   s
+word2: p q r s
 
-merged: a p b q   r   s
+merged: a p b q r s
 
 Example 3:
 
@@ -12297,15 +12322,16 @@ Output: "apbqcd"
 
 Explanation: Notice that as word1 is longer, "cd" is appended to the end.
 
-word1:  a   b   c   d
+word1: a b c d
 
-word2:    p   q 
+word2: p q
 
-merged: a p b q c   d
+merged: a p b q c d
 
 Certainly! Let's break down this code.
 
 **Pseudo Code:**
+
 ```
 function mergeAlternately(word1, word2):
     sol = empty string
@@ -12323,10 +12349,10 @@ function mergeAlternately(word1, word2):
 
 This function, `mergeAlternately`, takes two strings `word1` and `word2` as input and merges them alternately, character by character. If one string is longer than the other, the remaining characters of the longer string are appended at the end of the result.
 
-**Time Complexity:** 
+**Time Complexity:**
 O(n), where n is the length of the longer string among word1 and word2. The function iterates once through the characters of both strings.
 
-**Space Complexity:** 
+**Space Complexity:**
 O(n), where n is the sum of the lengths of word1 and word2. This space is used to store the result string.
 
 **Example with Iterations:**
@@ -12428,6 +12454,7 @@ Output: ""
 Certainly! Let's break down this code.
 
 **Pseudo Code:**
+
 ```
 function gcdOfStrings(str1, str2):
     if (str1 + str2) is not equal to (str2 + str1):
@@ -12450,12 +12477,13 @@ The `gcdOfStrings` function first checks if the concatenation of `str1` and `str
 
 If they are equal, it calculates the GCD of the lengths of `str1` and `str2` using the Euclidean algorithm (implemented in the `gcd` function). The GCD of the lengths will be the length of the GCD string. Finally, it returns the substring of `str1` from index 0 to this GCD length.
 
-**Time Complexity:** 
+**Time Complexity:**
+
 - O(n) for the string concatenation and comparison, where n is the total length of str1 and str2.
 - O(log(min(m,n))) for the GCD calculation, where m and n are the lengths of str1 and str2.
 - Overall: O(n + log(min(m,n)))
 
-**Space Complexity:** 
+**Space Complexity:**
 O(n) for the concatenated strings in the equality check.
 
 **Example with Iterations:**
@@ -12469,6 +12497,7 @@ Let's take an example where `str1 = "ABCABC"` and `str2 = "ABC"`:
 3. Return substring of "ABCABC" from 0 to 3, which is "ABC"
 
 For the GCD calculation:
+
 1. gcd(6, 3)
    - a = 6, b = 3
    - 6 % 3 = 0
@@ -12476,9 +12505,9 @@ For the GCD calculation:
 
 Java Code:
 
-```java
+````java
 class Solution {
-    public String gcdOfStrings(String str1, String str2) 
+    public String gcdOfStrings(String str1, String str2)
     {
         if(!(str1 + str2).equals(str2+str1))
         return "";
@@ -12489,7 +12518,7 @@ class Solution {
     private int gcd(int a, int b)
     {
         return b ==0 ? a : gcd(b, a%b);
-    } 
+    }
 }```
 
 **Possible Optimizations:**
@@ -12507,7 +12536,7 @@ private int gcd(int a, int b) {
     }
     return a;
 }
-```
+````
 
 3. **Early return:** If the lengths of the strings are equal and the strings are equal, you can return the entire string immediately.
 
@@ -12517,15 +12546,15 @@ Here's an optimized version:
 class Solution {
     public String gcdOfStrings(String str1, String str2) {
         if (str1.equals(str2)) return str1;
-        
+
         if (str1.length() < str2.length()) {
             return gcdOfStrings(str2, str1);
         }
-        
+
         if (str1.startsWith(str2)) {
             return gcdOfStrings(str1.substring(str2.length()), str2);
         }
-        
+
         return "";
     }
 }
@@ -12546,17 +12575,18 @@ Return a boolean array result of length n, where result[i] is true if, after giv
 Note that multiple kids can have the greatest number of candies.
 
 **Pseudo Code:**
+
 ```
 function kidsWithCandies(candies, extraCandies):
     sol = empty list of booleans
     highestCandies = findLargest(candies)
-    
+
     for each candy in candies:
         if candy + extraCandies >= highestCandies:
             add true to sol
         else:
             add false to sol
-    
+
     return sol
 
 function findLargest(array):
@@ -12575,10 +12605,10 @@ The `kidsWithCandies` function first finds the highest number of candies any kid
 
 The `findLargest` function simply iterates through the array to find the maximum value.
 
-**Time Complexity:** 
+**Time Complexity:**
 O(n), where n is the number of kids (length of the candies array). We iterate through the array twice: once to find the maximum and once to check each kid's candy count.
 
-**Space Complexity:** 
+**Space Complexity:**
 O(n) to store the result list.
 
 **Example with Iterations:**
@@ -12586,6 +12616,7 @@ O(n) to store the result list.
 Let's take an example where `candies = [2,3,5,1,3]` and `extraCandies = 3`:
 
 1. `findLargest` function:
+
    - Initialize max = 2
    - Check 3 > 2, update max to 3
    - Check 5 > 3, update max to 5
@@ -12608,7 +12639,7 @@ Java Code -
 
 ```java
 class Solution {
-    public List<Boolean> kidsWithCandies(int[] candies, int extraCandies) 
+    public List<Boolean> kidsWithCandies(int[] candies, int extraCandies)
     {
         List<Boolean> sol = new ArrayList<>();
         int highestCandies = findLargest(candies);
@@ -12619,7 +12650,7 @@ class Solution {
             {
                 sol.add(true);
             }
-            else 
+            else
             {
                 sol.add(false);
             }
@@ -12651,15 +12682,15 @@ class Solution {
     public List<Boolean> kidsWithCandies(int[] candies, int extraCandies) {
         List<Boolean> sol = new ArrayList<>();
         int max = candies[0];
-        
+
         for (int candy : candies) {
             max = Math.max(max, candy);
         }
-        
+
         for (int candy : candies) {
             sol.add(candy + extraCandies >= max);
         }
-        
+
         return sol;
     }
 }
@@ -12672,15 +12703,15 @@ class Solution {
     public List<Boolean> kidsWithCandies(int[] candies, int extraCandies) {
         boolean[] result = new boolean[candies.length];
         int max = candies[0];
-        
+
         for (int candy : candies) {
             max = Math.max(max, candy);
         }
-        
+
         for (int i = 0; i < candies.length; i++) {
             result[i] = candies[i] + extraCandies >= max;
         }
-        
+
         return Arrays.asList(result);
     }
 }
@@ -12711,6 +12742,7 @@ Output: false
 Certainly! Let's break down this code.
 
 **Pseudo Code:**
+
 ```
 function canPlaceFlowers(flowerbed, n):
     i = 0
@@ -12734,10 +12766,10 @@ This function determines if it's possible to plant `n` new flowers in the `flowe
 
 It iterates through the `flowerbed` array, checking each position. If a position is empty (0) and has no adjacent flowers (either it's at the edge of the bed or the adjacent positions are also 0), it plants a flower there (sets the position to 1) and decrements `n`. If `n` reaches 0, it means all required flowers have been planted, so it returns true. If the loop completes without `n` reaching 0, it returns false.
 
-**Time Complexity:** 
+**Time Complexity:**
 O(m), where m is the length of the flowerbed array. In the worst case, we might need to check every position in the flowerbed.
 
-**Space Complexity:** 
+**Space Complexity:**
 O(1), as we're only using a constant amount of extra space regardless of the input size.
 
 **Example with Iterations:**
@@ -12757,8 +12789,8 @@ class Solution {
         int i = 0;
         if(n == 0) return true;
         while (i < flowerbed.length) {
-            if (flowerbed[i] == 0 && 
-                (i == 0 || flowerbed[i - 1] == 0) && 
+            if (flowerbed[i] == 0 &&
+                (i == 0 || flowerbed[i - 1] == 0) &&
                 (i == flowerbed.length - 1 || flowerbed[i + 1] == 0)) {
                 flowerbed[i] = 1;
                 n--;
@@ -12789,8 +12821,8 @@ class Solution {
 
         int count = 0;
         for (int i = 0; i < flowerbed.length; i++) {
-            if (flowerbed[i] == 0 && 
-                (i == 0 || flowerbed[i - 1] == 0) && 
+            if (flowerbed[i] == 0 &&
+                (i == 0 || flowerbed[i - 1] == 0) &&
                 (i == flowerbed.length - 1 || flowerbed[i + 1] == 0)) {
                 count++;
                 if (count >= n) return true;
@@ -12804,7 +12836,7 @@ class Solution {
 
 This optimized version adds an early return for impossible cases, skips the next position after planting a flower, and avoids modifying the input array. It also stops as soon as the required number of flowers have been planted, potentially saving unnecessary iterations.
 
-##31-07-2024
+## 31-07-2024
 
 **66. Reverse Vowels of a String**
 
@@ -12829,12 +12861,13 @@ Output: "leotcede"
 Certainly! Let's break down this code.
 
 **Pseudo Code:**
+
 ```
 function reverseVowels(s):
     i = 0
     j = length of s - 1
     sol = convert s to character array
-    
+
     while i < j:
         while i < j and sol[i] is not a vowel:
             i++
@@ -12844,7 +12877,7 @@ function reverseVowels(s):
             swap sol[i] and sol[j]
             i++
             j--
-    
+
     return sol converted back to string
 
 function isVowel(c):
@@ -12856,10 +12889,10 @@ function isVowel(c):
 
 This function reverses the vowels in a given string. It uses two pointers, `i` and `j`, starting from the beginning and end of the string respectively. It moves these pointers towards each other, swapping vowels when both pointers are on vowels.
 
-**Time Complexity:** 
+**Time Complexity:**
 O(n), where n is the length of the string. In the worst case, we might need to check every character in the string once.
 
-**Space Complexity:** 
+**Space Complexity:**
 O(n) to create the character array. If we consider the input string as part of the space complexity, it's O(n), otherwise it's O(1) as we're modifying the array in-place.
 
 **Example with Iterations:**
@@ -12946,3 +12979,203 @@ if (s.length() <= 1) return s;
 ```
 
 These optimizations can potentially improve performance, especially for larger inputs or when the function is called frequently.
+
+## 1-08-2001
+
+**67. Reverse Words in a String**
+
+[Reverse Words in a String](https://leetcode.com/problems/reverse-words-in-a-string/description/?envType=study-plan-v2&envId=leetcode-75)
+
+Given an input string s, reverse the order of the words.
+
+A word is defined as a sequence of non-space characters. The words in s will be separated by at least one space.
+
+Return a string of the words in reverse order concatenated by a single space.
+
+Note that s may contain leading or trailing spaces or multiple spaces between two words. The returned string should only have a single space separating the words. Do not include any extra spaces.
+
+Example 1:
+
+Input: s = "the sky is blue"
+
+Output: "blue is sky the"
+
+Example 2:
+
+Input: s = " hello world "
+
+Output: "world hello"
+
+Explanation: Your reversed string should not contain leading or trailing spaces.
+Example 3:
+
+Input: s = "a good example"
+Output: "example good a"
+Explanation: You need to reduce multiple spaces between two words to a single space in the reversed string.
+
+Certainly! Let's break down this code.
+
+**Pseudo Code:**
+
+```
+function reverseWords(s):
+    oneSpace = remove extra spaces and trim s
+    arr = split oneSpace into array of words
+    reversedArr = reverseArray(arr)
+    sol = join reversedArr with space delimiter
+    return sol
+
+function reverseArray(arr):
+    left = 0
+    right = length of arr - 1
+    while right > left:
+        swap arr[left] and arr[right]
+        left++
+        right--
+    return arr
+```
+
+**Explanation:**
+
+This function reverses the order of words in a given string. It first removes extra spaces and trims the string, then splits it into an array of words. It reverses this array and joins the words back together with a single space between them.
+
+**Time Complexity:**
+
+- Removing extra spaces and trimming: O(n)
+- Splitting into array: O(n)
+- Reversing array: O(m), where m is the number of words
+- Joining array: O(n)
+  Overall: O(n), where n is the length of the input string
+
+**Space Complexity:**
+O(n) to store the array of words and the final result string.
+
+**Example with Iterations:**
+
+Let's take an example where `s = "  the sky is blue  "`:
+
+1. Remove extra spaces and trim: `oneSpace = "the sky is blue"`
+2. Split into array: `arr = ["the", "sky", "is", "blue"]`
+3. Reverse array:
+   - Initialize: left = 0, right = 3
+   - Swap "the" and "blue": ["blue", "sky", "is", "the"]
+   - left = 1, right = 2
+   - Swap "sky" and "is": ["blue", "is", "sky", "the"]
+   - left = 2, right = 1, loop ends
+4. Join array: `sol = "blue is sky the"`
+5. Return `"blue is sky the"`
+
+```java
+class Solution {
+    public String reverseWords(String s)
+    {
+        String oneSpace = (s.replaceAll("\\s+"," ")).trim();
+        String[] arr = oneSpace.split(" ");
+        String sol = String.join(" ", reverseArray(arr));
+        return sol;
+    }
+
+    private static String[] reverseArray(String[] arr){
+       int left = 0;
+       int right = arr.length - 1;
+
+        while(right > left)
+        {
+            String temp = arr[left];
+            arr[left] = arr[right];
+            arr[right] = temp;
+            left++;
+            right--;
+        }
+        return arr;
+    }
+}
+```
+
+**Possible Optimizations:**
+
+1. **Use StringBuilder:** Instead of using String concatenation, we can use StringBuilder for potentially better performance:
+
+```java
+public String reverseWords(String s) {
+    String[] words = s.trim().split("\\s+");
+    StringBuilder result = new StringBuilder();
+    for (int i = words.length - 1; i >= 0; i--) {
+        result.append(words[i]);
+        if (i > 0) result.append(" ");
+    }
+    return result.toString();
+}
+```
+
+2. **In-place reversal:** If we're allowed to modify the input string, we can do an in-place reversal to save space:
+
+```java
+public String reverseWords(String s) {
+    char[] chars = s.toCharArray();
+    reverse(chars, 0, chars.length - 1);
+    reverseWords(chars);
+    return cleanSpaces(chars);
+}
+
+private void reverse(char[] chars, int start, int end) {
+    while (start < end) {
+        char temp = chars[start];
+        chars[start++] = chars[end];
+        chars[end--] = temp;
+    }
+}
+
+private void reverseWords(char[] chars) {
+    int i = 0, j = 0;
+    while (i < chars.length) {
+        while (i < j || i < chars.length && chars[i] == ' ') i++;
+        while (j < i || j < chars.length && chars[j] != ' ') j++;
+        reverse(chars, i, j - 1);
+    }
+}
+
+private String cleanSpaces(char[] chars) {
+    int i = 0, j = 0;
+    while (j < chars.length) {
+        while (j < chars.length && chars[j] == ' ') j++;
+        while (j < chars.length && chars[j] != ' ') chars[i++] = chars[j++];
+        while (j < chars.length && chars[j] == ' ') j++;
+        if (j < chars.length) chars[i++] = ' ';
+    }
+    return new String(chars).substring(0, i);
+}
+```
+
+This in-place reversal method has O(1) space complexity, but it's more complex and might be slower for shorter strings due to the overhead of multiple passes through the array.
+
+3. **Use regular expressions more efficiently:** Instead of using `replaceAll` and `trim`, we can use a single regular expression to split the string:
+
+```java
+String[] words = s.trim().split("\\s+");
+```
+
+These optimizations can potentially improve performance, especially for larger inputs or when the function is called frequently.
+
+**68. Product of Array Except Self**
+
+[Product of Array Except Self](https://leetcode.com/problems/product-of-array-except-self/description/?envType=study-plan-v2&envId=leetcode-75)
+
+Given an integer array nums, return an array answer such that answer[i] is equal to the product of all the elements of nums except nums[i].
+
+The product of any prefix or suffix of nums is guaranteed to fit in a 32-bit integer.
+
+You must write an algorithm that runs in O(n) time and without using the division operation.
+
+Example 1:
+
+Input: nums = [1,2,3,4]
+
+Output: [24,12,8,6]
+
+Example 2:
+
+Input: nums = [-1,1,0,-3,3]
+
+Output: [0,0,9,0,0]
+
