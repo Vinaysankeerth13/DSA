@@ -13179,3 +13179,162 @@ Input: nums = [-1,1,0,-3,3]
 
 Output: [0,0,9,0,0]
 
+Certainly! Let's break down this code.
+
+**Pseudo Code:**
+
+```
+function productExceptSelf(nums):
+    n = length of nums
+    pre = new array of size n initialized with 1s
+    suff = new array of size n initialized with 1s
+
+    for i from 1 to n-1:
+        pre[i] = pre[i-1] * nums[i-1]
+
+    for i from n-2 to 0:
+        suff[i] = suff[i+1] * nums[i+1]
+
+    ans = new array of size n
+    for i from 0 to n-1:
+        ans[i] = pre[i] * suff[i]
+
+    return ans
+```
+
+**Explanation:**
+
+This function calculates the product of all elements in the array except the element at each index, without using division. It uses two auxiliary arrays: `pre` for prefix products and `suff` for suffix products.
+
+**Time Complexity:**
+O(n), where n is the length of the input array. We have three separate loops, each iterating through the array once.
+
+**Space Complexity:**
+O(n) to store the prefix, suffix, and answer arrays.
+
+**Example with Iterations:**
+
+Let's take an example where `nums = [1, 2, 3, 4]`:
+
+1. Initialize:
+
+   - pre = [1, 1, 1, 1]
+   - suff = [1, 1, 1, 1]
+
+2. Calculate prefix products:
+
+   - i = 1: pre[1] = pre[0] _ nums[0] = 1 _ 1 = 1
+   - i = 2: pre[2] = pre[1] _ nums[1] = 1 _ 2 = 2
+   - i = 3: pre[3] = pre[2] _ nums[2] = 2 _ 3 = 6
+     Now, pre = [1, 1, 2, 6]
+
+3. Calculate suffix products:
+
+   - i = 2: suff[2] = suff[3] _ nums[3] = 1 _ 4 = 4
+   - i = 1: suff[1] = suff[2] _ nums[2] = 4 _ 3 = 12
+   - i = 0: suff[0] = suff[1] _ nums[1] = 12 _ 2 = 24
+     Now, suff = [24, 12, 4, 1]
+
+4. Calculate final answer:
+
+   - ans[0] = pre[0] _ suff[0] = 1 _ 24 = 24
+   - ans[1] = pre[1] _ suff[1] = 1 _ 12 = 12
+   - ans[2] = pre[2] _ suff[2] = 2 _ 4 = 8
+   - ans[3] = pre[3] _ suff[3] = 6 _ 1 = 6
+
+5. Return [24, 12, 8, 6]
+
+```java
+class Solution {
+    public int[] productExceptSelf(int[] nums) {
+        int n = nums.length;
+        int pre[] = new int[n];
+        int suff[] = new int[n];
+        pre[0] = 1;
+        suff[n - 1] = 1;
+
+        for(int i = 1; i < n; i++) {
+            pre[i] = pre[i - 1] * nums[i - 1];
+        }
+        for(int i = n - 2; i >= 0; i--) {
+            suff[i] = suff[i + 1] * nums[i + 1];
+        }
+
+        int ans[] = new int[n];
+        for(int i = 0; i < n; i++) {
+            ans[i] = pre[i] * suff[i];
+        }
+        return ans;
+    }
+}
+```
+
+**Possible Optimizations:**
+
+1. **Use only one extra array:** We can optimize space complexity by using only the output array instead of maintaining separate prefix and suffix arrays:
+
+```java
+class Solution {
+    public int[] productExceptSelf(int[] nums) {
+        int n = nums.length;
+        int[] output = new int[n];
+
+        // Calculate prefix products
+        output[0] = 1;
+        for (int i = 1; i < n; i++) {
+            output[i] = output[i-1] * nums[i-1];
+        }
+
+        // Calculate suffix products and final result
+        int suffixProduct = 1;
+        for (int i = n - 1; i >= 0; i--) {
+            output[i] *= suffixProduct;
+            suffixProduct *= nums[i];
+        }
+
+        return output;
+    }
+}
+```
+
+This optimization reduces the space complexity to O(1) (not counting the output array).
+
+2. **Early termination for zero:** If we encounter a zero in the input array, we know that all elements except that one will be zero in the output. We can optimize for this case:
+
+```java
+class Solution {
+    public int[] productExceptSelf(int[] nums) {
+        int n = nums.length;
+        int[] output = new int[n];
+        int zeroCount = 0;
+        int product = 1;
+
+        for (int num : nums) {
+            if (num == 0) {
+                zeroCount++;
+            } else {
+                product *= num;
+            }
+            if (zeroCount > 1) break;
+        }
+
+        if (zeroCount > 1) {
+            return output; // All elements will be zero
+        }
+
+        for (int i = 0; i < n; i++) {
+            if (zeroCount == 1) {
+                output[i] = nums[i] == 0 ? product : 0;
+            } else {
+                output[i] = product / nums[i];
+            }
+        }
+
+        return output;
+    }
+}
+```
+
+This optimization can be faster for arrays with zeros, but it uses division which might not be allowed in some cases.
+
+These optimizations can potentially improve performance and space usage, especially for larger inputs or when the function is called frequently.
