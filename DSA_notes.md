@@ -12980,7 +12980,7 @@ if (s.length() <= 1) return s;
 
 These optimizations can potentially improve performance, especially for larger inputs or when the function is called frequently.
 
-## 1-08-2001
+## 1-08-2024
 
 **67. Reverse Words in a String**
 
@@ -13338,3 +13338,434 @@ class Solution {
 This optimization can be faster for arrays with zeros, but it uses division which might not be allowed in some cases.
 
 These optimizations can potentially improve performance and space usage, especially for larger inputs or when the function is called frequently.
+
+## 2-08-2024
+
+**69. Increasing Triplet Subsequence**
+
+Given an integer array nums, return true if there exists a triple of indices (i, j, k) such that i < j < k and nums[i] < nums[j] < nums[k]. If no such indices exists, return false.
+
+Example 1:
+
+Input: nums = [1,2,3,4,5]
+
+Output: true
+
+Explanation: Any triplet where i < j < k is valid.
+
+Example 2:
+
+Input: nums = [5,4,3,2,1]
+
+Output: false
+
+Explanation: No triplet exists.
+
+Example 3:
+
+Input: nums = [2,1,5,0,4,6]
+
+Output: true
+
+Explanation: The triplet (3, 4, 5) is valid because nums[3] == 0 < nums[4] == 4 < nums[5] == 6.
+
+Certainly! Let's break down this code.
+
+**Pseudo Code:**
+```
+function increasingTriplet(nums):
+    if length of nums < 3:
+        return false
+    
+    first = MAX_INTEGER
+    second = MAX_INTEGER
+    
+    for each num in nums:
+        if num <= first:
+            first = num
+        else if num <= second:
+            second = num
+        else:
+            return true
+    
+    return false
+```
+
+**Explanation:**
+
+This function checks if there exists an increasing subsequence of length 3 in the given array. It maintains two variables, `first` and `second`, which keep track of the smallest and second smallest elements encountered so far that could form part of an increasing triplet.
+
+**Time Complexity:** 
+O(n), where n is the length of the input array. We iterate through the array once.
+
+**Space Complexity:** 
+O(1), as we only use two additional variables regardless of the input size.
+
+**Example with Iterations:**
+
+Let's take an example where `nums = [1,2,0,4,3,5]`:
+
+1. Initialize: first = MAX_INTEGER, second = MAX_INTEGER
+2. i = 0: nums[0] = 1
+   - 1 <= first, so first = 1
+3. i = 1: nums[1] = 2
+   - 2 > first, but 2 <= second, so second = 2
+4. i = 2: nums[2] = 0
+   - 0 <= first, so first = 0
+5. i = 3: nums[3] = 4
+   - 4 > first and 4 > second, so return true
+
+The function returns true because we found an increasing triplet (0, 2, 4).
+
+```java
+class Solution {
+    public boolean increasingTriplet(int[] nums) 
+    {
+        if(nums.length < 3){
+            return false;
+        }
+
+        int first = Integer.MAX_VALUE;
+        int second = Integer.MAX_VALUE;
+
+        for(int i=0; i<nums.length; i++){
+            if(nums[i] <= first){
+                first = nums[i];
+            }
+            else if(nums[i] <= second){
+                second = nums[i];
+            }
+            else return true;
+        }
+        return false;
+    }
+}
+```
+
+**Possible Optimizations:**
+
+1. **Early return for short arrays:** We already have this optimization in place, returning false if the array length is less than 3.
+
+2. **Check for strictly increasing sequence:** If we need to find a strictly increasing sequence (no equal elements allowed), we can modify the conditions slightly:
+
+```java
+if (nums[i] < first) {
+    first = nums[i];
+} else if (nums[i] > first && nums[i] < second) {
+    second = nums[i];
+} else if (nums[i] > second) {
+    return true;
+}
+```
+
+3. **Use bit manipulation:** If we know the range of numbers in the array, we could potentially use bit manipulation to track the presence of numbers, which might be faster for certain input distributions. However, this would increase space complexity.
+
+4. **Parallel processing:** For very large arrays, we could potentially split the array into chunks and process them in parallel, combining the results at the end. This would require multi-threading and would only be beneficial for extremely large inputs.
+
+The current implementation is already quite efficient in terms of both time and space complexity. The main optimization would be to ensure that the method is tailored to the specific requirements of the problem (e.g., strictly increasing vs. non-decreasing).
+
+##14-08-2024
+
+**70. Move Zeroes**
+
+[Move Zeroes](https://leetcode.com/problems/move-zeroes/description/?envType=study-plan-v2&envId=leetcode-75)
+
+Given an integer array nums, move all 0's to the end of it while maintaining the relative order of the non-zero elements.
+
+Note that you must do this in-place without making a copy of the array.
+
+Example 1:
+
+Input: nums = [0,1,0,3,12]
+
+Output: [1,3,12,0,0]
+
+Example 2:
+
+Input: nums = [0]
+
+Output: [0]
+
+**Pseudo Code:**
+```
+function moveZeroes(nums):
+    i = 0
+    
+    for j from 0 to length of nums - 1:
+        if nums[j] is not 0:
+            nums[i] = nums[j]
+            i = i + 1
+    
+    for k from i to length of nums - 1:
+        nums[k] = 0
+```
+
+**Explanation:**
+
+This function moves all non-zero elements to the front of the array while maintaining their relative order, and then fills the remaining elements with zeros. It uses two pointers: `i` keeps track of where the next non-zero element should be placed, and `j` iterates through the array.
+
+**Time Complexity:** 
+O(n), where n is the length of the input array. We iterate through the array twice: once to move non-zero elements and once to fill the remaining elements with zeros.
+
+**Space Complexity:** 
+O(1), as we modify the array in-place and only use a constant amount of extra space.
+
+**Example with Iterations:**
+
+Let's take an example where `nums = [0,1,0,3,12]`:
+
+1. Initialize: i = 0
+2. First loop:
+   - j = 0: nums[0] = 0, do nothing
+   - j = 1: nums[1] = 1, nums[0] = 1, i = 1
+   - j = 2: nums[2] = 0, do nothing
+   - j = 3: nums[3] = 3, nums[1] = 3, i = 2
+   - j = 4: nums[4] = 12, nums[2] = 12, i = 3
+   After this loop: nums = [1,3,12,3,12]
+3. Second loop:
+   - k = 3: nums[3] = 0
+   - k = 4: nums[4] = 0
+   Final result: nums = [1,3,12,0,0]
+
+Java Code:
+
+```java
+class Solution {
+    public void moveZeroes(int[] nums) {
+        int i = 0;
+        
+        for(int j=0; j < nums.length; j++){
+            if(nums[j] != 0){
+                nums[i++] = nums[j]; 
+            }
+        }
+
+        for(int k = i; k < nums.length; k++){
+             nums[k] = 0;
+        }
+
+    }
+}
+```
+
+**Possible Optimizations:**
+
+1. **Single-pass solution:** We can optimize this to a single-pass solution by swapping non-zero elements with zeros:
+
+```java
+class Solution {
+    public void moveZeroes(int[] nums) {
+        int nonZeroIndex = 0;
+        for (int i = 0; i < nums.length; i++) {
+            if (nums[i] != 0) {
+                int temp = nums[nonZeroIndex];
+                nums[nonZeroIndex] = nums[i];
+                nums[i] = temp;
+                nonZeroIndex++;
+            }
+        }
+    }
+}
+```
+
+This approach reduces the number of writes to the array, which can be beneficial especially for larger arrays.
+
+2. **Early termination:** If we encounter a sequence of non-zero numbers at the end of the array, we can stop early:
+
+```java
+class Solution {
+    public void moveZeroes(int[] nums) {
+        int i = 0;
+        for (int j = 0; j < nums.length; j++) {
+            if (nums[j] != 0) {
+                if (i != j) {
+                    nums[i] = nums[j];
+                    nums[j] = 0;
+                }
+                i++;
+            }
+        }
+    }
+}
+```
+
+This approach avoids unnecessary operations when there are no zeros at the end of the array.
+
+3. **Handling arrays with few zeros:** If the array contains very few zeros, we can optimize by only moving the zeros:
+
+```java
+class Solution {
+    public void moveZeroes(int[] nums) {
+        for (int lastNonZeroFoundAt = 0, cur = 0; cur < nums.length; cur++) {
+            if (nums[cur] != 0) {
+                swap(nums, lastNonZeroFoundAt++, cur);
+            }
+        }
+    }
+
+    private void swap(int[] nums, int i, int j) {
+        int temp = nums[i];
+        nums[i] = nums[j];
+        nums[j] = temp;
+    }
+}
+```
+
+This approach is more efficient when there are few zeros in the array, as it minimizes the number of swaps.
+
+The current implementation is already quite efficient for most cases. The main optimization would be to choose the appropriate method based on the expected characteristics of the input array (e.g., number of zeros, distribution of zeros).
+
+
+**71. Is Subsequence**
+
+[Is Subsequence](https://leetcode.com/problems/is-subsequence/description/?envType=study-plan-v2&envId=leetcode-75)
+
+Given two strings s and t, return true if s is a subsequence of t, or false otherwise.
+
+A subsequence of a string is a new string that is formed from the original string by deleting some (can be none) of the characters without disturbing the relative positions of the remaining characters. (i.e., "ace" is a subsequence of "abcde" while "aec" is not).
+
+
+Example 1:
+
+Input: s = "abc", t = "ahbgdc"
+
+Output: true
+
+Example 2:
+
+Input: s = "axc", t = "ahbgdc"
+
+Output: false
+
+Certainly! Let's break down this code.
+
+**Pseudo Code:**
+```
+function isSubsequence(s, t):
+    i = 0
+    j = 0
+    
+    while i < length of s AND j < length of t:
+        if s[i] equals t[j]:
+            i++
+        j++
+    
+    if i equals length of s:
+        return true
+    else:
+        return false
+```
+
+**Explanation:**
+
+This function checks if string `s` is a subsequence of string `t`. It uses two pointers, `i` for `s` and `j` for `t`, and iterates through both strings. If a character match is found, it moves the pointer for `s`. The pointer for `t` always moves forward. If all characters in `s` are found (in order) in `t`, it returns true.
+
+**Time Complexity:** 
+O(n), where n is the length of string `t`. In the worst case, we might need to iterate through all characters of `t`.
+
+**Space Complexity:** 
+O(1), as we only use two integer variables regardless of the input size.
+
+**Example with Iterations:**
+
+Let's take an example where `s = "abc"` and `t = "ahbgdc"`:
+
+1. Initialize: i = 0, j = 0
+2. i = 0, j = 0: 'a' == 'a', i++ (i = 1), j++ (j = 1)
+3. i = 1, j = 1: 'b' != 'h', j++ (j = 2)
+4. i = 1, j = 2: 'b' == 'b', i++ (i = 2), j++ (j = 3)
+5. i = 2, j = 3: 'c' != 'g', j++ (j = 4)
+6. i = 2, j = 4: 'c' != 'd', j++ (j = 5)
+7. i = 2, j = 5: 'c' == 'c', i++ (i = 3), j++ (j = 6)
+8. i = 3 (which equals length of s), so return true
+
+Java Code:
+
+```java
+class Solution {
+    public boolean isSubsequence(String s, String t) {
+        int i = 0;
+        int j = 0;
+
+        while(i < s.length() && j < t.length()){
+            if(s.charAt(i) == t.charAt(j)){
+                i++;
+            }
+            j++;
+        }
+
+        if(i == s.length()) return true;
+        else return false;
+        
+    }
+}
+```
+
+**Possible Optimizations:**
+
+1. **Early return:** We can return false as soon as we reach the end of `t` without finding all characters of `s`:
+
+```java
+class Solution {
+    public boolean isSubsequence(String s, String t) {
+        int i = 0;
+        for (char c : t.toCharArray()) {
+            if (i < s.length() && c == s.charAt(i)) {
+                i++;
+            }
+        }
+        return i == s.length();
+    }
+}
+```
+
+2. **Use indexOf for longer strings:** For very long strings, using String's indexOf method might be more efficient:
+
+```java
+class Solution {
+    public boolean isSubsequence(String s, String t) {
+        int prevIndex = -1;
+        for (char c : s.toCharArray()) {
+            prevIndex = t.indexOf(c, prevIndex + 1);
+            if (prevIndex == -1) {
+                return false;
+            }
+        }
+        return true;
+    }
+}
+```
+
+3. **Binary search for multiple queries:** If we need to check many strings `s` against the same string `t`, we can preprocess `t` to create a map of character indices and use binary search:
+
+```java
+class Solution {
+    public boolean isSubsequence(String s, String t) {
+        Map<Character, List<Integer>> charIndices = new HashMap<>();
+        for (int i = 0; i < t.length(); i++) {
+            charIndices.computeIfAbsent(t.charAt(i), k -> new ArrayList<>()).add(i);
+        }
+        
+        int prevIndex = -1;
+        for (char c : s.toCharArray()) {
+            List<Integer> indices = charIndices.get(c);
+            if (indices == null) {
+                return false;
+            }
+            int j = Collections.binarySearch(indices, prevIndex + 1);
+            if (j < 0) {
+                j = -j - 1;
+            }
+            if (j == indices.size()) {
+                return false;
+            }
+            prevIndex = indices.get(j);
+        }
+        return true;
+    }
+}
+```
+
+This last optimization has O(m + n log n) time complexity for preprocessing and each query, where m is the length of s and n is the length of t. It's more efficient when we need to check many strings s against the same string t.
+
+The current implementation is already quite efficient for a single query. The main optimization would be to choose the appropriate method based on the specific use case and input characteristics.
