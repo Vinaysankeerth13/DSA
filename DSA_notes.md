@@ -13769,3 +13769,133 @@ class Solution {
 This last optimization has O(m + n log n) time complexity for preprocessing and each query, where m is the length of s and n is the length of t. It's more efficient when we need to check many strings s against the same string t.
 
 The current implementation is already quite efficient for a single query. The main optimization would be to choose the appropriate method based on the specific use case and input characteristics.
+
+## 19-08-2024
+
+**72. Container With Most Water**
+
+You are given an integer array height of length n. There are n vertical lines drawn such that the two endpoints of the ith line are (i, 0) and (i, height[i]).
+
+Find two lines that together with the x-axis form a container, such that the container contains the most water.
+
+Return the maximum amount of water a container can store.
+
+Notice that you may not slant the container.
+
+
+Example 1:
+
+
+Input: height = [1,8,6,2,5,4,8,3,7]
+
+Output: 49
+
+Explanation: The above vertical lines are represented by array [1,8,6,2,5,4,8,3,7]. In this case, the max area of water (blue section) the container can contain is 49.
+
+Example 2:
+
+Input: height = [1,1]
+
+Output: 1
+
+### Pseudocode
+```
+function maxArea(height):
+    left = 0
+    right = length of height - 1
+    maxArea = 0
+    
+    while left < right:
+        width = right - left
+        currentHeight = min(height[left], height[right])
+        currentArea = width * currentHeight
+        maxArea = max(maxArea, currentArea)
+        
+        if height[left] < height[right]:
+            left += 1
+        else:
+            right -= 1
+            
+    return maxArea
+```
+
+### Explanation of the Code
+
+1. **Initialization**: 
+   - Two pointers `left` and `right` are initialized at the start and end of the `height` array, respectively.
+   - `maxArea` is initialized to 0 to store the maximum area found.
+
+2. **Loop**:
+   - The loop continues as long as `left` is less than `right`.
+   - In each iteration, calculate:
+     - `width` between the two pointers.
+     - `currentHeight` as the minimum of the heights at `left` and `right` indices.
+     - `currentArea` as the product of `width` and `currentHeight`.
+     - Update `maxArea` if `currentArea` is larger than the current `maxArea`.
+   - Move the pointer pointing to the shorter height inward, as moving the larger one won't help in finding a larger area.
+
+3. **Return**: After the loop ends, the function returns `maxArea`, which is the largest possible area between two lines.
+
+### Time and Space Complexity
+
+- **Time Complexity**: \(O(n)\)
+  - The algorithm only makes one pass through the array, with each element being processed once by the `left` or `right` pointer.
+  
+- **Space Complexity**: \(O(1)\)
+  - The algorithm uses a constant amount of extra space, as it only requires a few integer variables.
+
+### Example with Iterations
+
+Consider the array `height = [1, 8, 6, 2, 5, 4, 8, 3, 7]`.
+
+- **Iteration 1**:
+  - `left = 0`, `right = 8`
+  - `width = 8`, `currentHeight = min(1, 7) = 1`
+  - `currentArea = 8 * 1 = 8`
+  - Move `left` to 1 since `height[left] < height[right]`
+
+- **Iteration 2**:
+  - `left = 1`, `right = 8`
+  - `width = 7`, `currentHeight = min(8, 7) = 7`
+  - `currentArea = 7 * 7 = 49`
+  - Move `right` to 7 since `height[left] > height[right]`
+
+- **Iteration 3**:
+  - `left = 1`, `right = 7`
+  - `width = 6`, `currentHeight = min(8, 3) = 3`
+  - `currentArea = 6 * 3 = 18`
+  - Move `right` to 6 since `height[left] > height[right]`
+
+- **...and so on until left meets right**.
+
+The maximum area found is 49, which is returned.
+
+Java Code:
+
+```java
+class Solution {
+    public int maxArea(int[] height) {
+        int left = 0;
+        int right = height.length - 1;
+        int maxArea = 0;
+
+        while (left < right) {
+            int width = right - left;
+            int currentHeight = Math.min(height[left], height[right]);
+            int currentArea = width * currentHeight;
+            maxArea = Math.max(maxArea, currentArea);
+            if (height[left] < height[right]) {
+                left++;
+            } else {
+                right--;
+            }
+        }
+
+        return maxArea;
+    }
+}
+```
+
+### Optimization Possibilities
+
+The two-pointer approach is already optimized for this problem with \(O(n)\) time complexity. There is no further optimization in terms of algorithmic complexity, but small code improvements like early loop termination if a maximum possible area is reached can be considered. However, such a case is rare and does not generally improve performance in a meaningful way.
