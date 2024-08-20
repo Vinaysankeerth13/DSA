@@ -13798,7 +13798,7 @@ Input: height = [1,1]
 
 Output: 1
 
-### Pseudocode
+**Pseudocode**
 ```
 function maxArea(height):
     left = 0
@@ -13819,7 +13819,7 @@ function maxArea(height):
     return maxArea
 ```
 
-### Explanation of the Code
+**Explanation of the Code**
 
 1. **Initialization**: 
    - Two pointers `left` and `right` are initialized at the start and end of the `height` array, respectively.
@@ -13836,7 +13836,7 @@ function maxArea(height):
 
 3. **Return**: After the loop ends, the function returns `maxArea`, which is the largest possible area between two lines.
 
-### Time and Space Complexity
+**Time and Space Complexity**
 
 - **Time Complexity**: \(O(n)\)
   - The algorithm only makes one pass through the array, with each element being processed once by the `left` or `right` pointer.
@@ -13844,7 +13844,7 @@ function maxArea(height):
 - **Space Complexity**: \(O(1)\)
   - The algorithm uses a constant amount of extra space, as it only requires a few integer variables.
 
-### Example with Iterations
+**Example with Iterations**
 
 Consider the array `height = [1, 8, 6, 2, 5, 4, 8, 3, 7]`.
 
@@ -13896,6 +13896,155 @@ class Solution {
 }
 ```
 
-### Optimization Possibilities
+**Optimization Possibilities**
 
 The two-pointer approach is already optimized for this problem with \(O(n)\) time complexity. There is no further optimization in terms of algorithmic complexity, but small code improvements like early loop termination if a maximum possible area is reached can be considered. However, such a case is rare and does not generally improve performance in a meaningful way.
+
+## 2-08-2024
+
+**73. Max Number of K-Sum Pairs**
+
+You are given an integer array nums and an integer k.
+
+In one operation, you can pick two numbers from the array whose sum equals k and remove them from the array.
+
+Return the maximum number of operations you can perform on the array.
+
+
+Example 1:
+
+Input: nums = [1,2,3,4], k = 5
+
+Output: 2
+
+Explanation: Starting with nums = [1,2,3,4]:
+
+- Remove numbers 1 and 4, then nums = [2,3]
+
+- Remove numbers 2 and 3, then nums = []
+
+There are no more pairs that sum up to 5, hence a total of 2 operations.
+
+Example 2:
+
+Input: nums = [3,1,3,4,3], k = 6
+
+Output: 1
+
+Explanation: Starting with nums = [3,1,3,4,3]:
+
+- Remove the first two 3's, then nums = [1,4,3]
+
+There are no more pairs that sum up to 6, hence a total of 1 operation.
+
+**Pseudocode**
+```
+function maxOperations(nums, k):
+    sort(nums)
+    left = 0
+    right = length of nums - 1
+    operation = 0
+    
+    while left < right:
+        if nums[left] + nums[right] == k:
+            operation += 1
+            left += 1
+            right -= 1
+        else if nums[left] + nums[right] > k:
+            right -= 1
+        else:
+            left += 1
+    
+    return operation
+```
+
+**Explanation of the Code**
+
+1. **Sorting**:
+   - The array `nums` is sorted in ascending order. This allows us to use the two-pointer technique effectively.
+
+2. **Two-Pointer Technique**:
+   - Two pointers, `left` (starting at the beginning) and `right` (starting at the end), are used to find pairs that sum up to `k`.
+   - **Case 1**: If `nums[left] + nums[right] == k`, a valid pair is found:
+     - Increment `operation` by 1.
+     - Move both pointers inward (`left++` and `right--`).
+   - **Case 2**: If `nums[left] + nums[right] > k`, the sum is too large:
+     - Move the `right` pointer inward (`right--`).
+   - **Case 3**: If `nums[left] + nums[right] < k`, the sum is too small:
+     - Move the `left` pointer inward (`left++`).
+
+3. **Return**:
+   - The function returns `operation`, which represents the number of valid pairs found.
+
+**Time and Space Complexity**
+
+- **Time Complexity**: \(O(n \log n)\)
+  - Sorting the array takes \(O(n \log n)\) time.
+  - The while loop runs in \(O(n)\) time since each element is processed once by either the `left` or `right` pointer.
+  - Therefore, the overall time complexity is dominated by the sorting step, making it \(O(n \log n)\).
+
+- **Space Complexity**: \(O(1)\)
+  - The algorithm uses a constant amount of extra space, aside from the input array.
+
+**Example with Iterations**
+
+Consider the array `nums = [3, 1, 3, 4, 2]` and `k = 6`.
+
+1. **After Sorting**:
+   - `nums = [1, 2, 3, 3, 4]`
+   - `left = 0`, `right = 4`, `operation = 0`
+
+2. **Iteration 1**:
+   - `nums[left] + nums[right] = 1 + 4 = 5` (less than `k`)
+   - Move `left` to 1
+
+3. **Iteration 2**:
+   - `nums[left] + nums[right] = 2 + 4 = 6` (equal to `k`)
+   - Found a valid pair, so:
+     - `operation = 1`
+     - Move `left` to 2 and `right` to 3
+
+4. **Iteration 3**:
+   - `nums[left] + nums[right] = 3 + 3 = 6` (equal to `k`)
+   - Found another valid pair, so:
+     - `operation = 2`
+     - Move `left` to 3 and `right` to 2 (end of loop)
+
+5. **Result**:
+   - The loop exits, and the function returns `operation = 2`, meaning there are two valid pairs that sum to `k`.
+
+Java Code : 
+
+```java
+class Solution {
+    public int maxOperations(int[] nums, int k) 
+    {
+        int left = 0;
+        int right = nums.length - 1;
+        int operation = 0;
+        Arrays.sort(nums);
+        while(right > left){
+            if(nums[left]+nums[right] == k){
+                operation++;
+                left = left+1;
+                right = right - 1;
+            }
+            else if(nums[left]+nums[right] > k) right = right - 1;
+            else left = left+1;
+        }
+        return operation;
+    }
+}
+```
+
+**Optimizations**
+
+- **Using a Hash Map**:
+  - An alternative approach involves using a hash map to track the frequencies of elements as you iterate through the array. For each element, you check if the complement (`k - currentElement`) exists in the map.
+  - This approach avoids sorting and operates in \(O(n)\) time complexity with \(O(n)\) space complexity due to the hash map.
+  
+Here's the basic idea:
+  - For each element, check if `k - element` is in the map and reduce the count if a valid pair is found.
+  - Otherwise, add the current element to the map. 
+
+This optimization can be more efficient for large arrays where sorting could be expensive.
